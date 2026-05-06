@@ -246,6 +246,87 @@
 
     .reset-row { display: flex; justify-content: flex-end; margin-bottom: 16px; }
 
+    /* ── Sentences Module ── */
+    .pattern-grid { display: flex; flex-direction: column; gap: 16px; }
+    .pattern-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: border-color .2s;
+    }
+    .pattern-card:hover { border-color: var(--accent); }
+    .pattern-card.open { border-color: var(--accent); }
+    .pattern-header {
+      display: flex; align-items: center; gap: 12px; padding: 18px 20px;
+    }
+    .pattern-badge {
+      font-size: .7rem; font-weight: 700; padding: 3px 10px; border-radius: 12px;
+      text-transform: uppercase; letter-spacing: .06em; color: #fff; white-space: nowrap;
+    }
+    .pattern-title { font-size: 1rem; font-weight: 600; flex: 1; }
+    .pattern-summary { font-size: .82rem; color: var(--muted); margin-left: auto; max-width: 340px; text-align: right; }
+    .pattern-chevron { color: var(--muted); font-size: .8rem; transition: transform .3s; }
+    .pattern-card.open .pattern-chevron { transform: rotate(180deg); }
+    .pattern-body { display: none; padding: 0 20px 20px; }
+    .pattern-card.open .pattern-body { display: block; }
+    .pattern-explanation {
+      font-size: .875rem; color: var(--muted); line-height: 1.7;
+      padding: 14px; background: var(--surface2); border-radius: 8px; margin-bottom: 16px;
+    }
+    .examples-title { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 10px; }
+    .example-row {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 16px; margin-bottom: 10px;
+    }
+    .ex-korean { font-size: 1.5rem; margin-bottom: 4px; }
+    .ex-rom { font-size: .82rem; color: var(--muted); margin-bottom: 6px; }
+    .ex-english { font-size: .9rem; color: var(--text); margin-bottom: 10px; }
+    .ex-parts { display: flex; flex-wrap: wrap; gap: 6px; }
+    .ex-part {
+      font-size: .75rem; padding: 3px 10px; border-radius: 12px;
+      background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
+    }
+    .ex-part span { color: var(--text); font-weight: 600; }
+
+    /* Builder */
+    .builder-wrap { }
+    .builder-question {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 24px; text-align: center; margin-bottom: 20px;
+    }
+    .bq-label { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+    .bq-english { font-size: 1.4rem; font-weight: 600; margin-bottom: 6px; }
+    .bq-pattern { font-size: .78rem; color: var(--accent); }
+    .builder-answer {
+      min-height: 64px; background: var(--surface2); border: 2px dashed var(--border);
+      border-radius: var(--radius); padding: 12px 16px; display: flex;
+      flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 16px;
+      transition: border-color .2s;
+    }
+    .builder-answer.has-words { border-color: var(--accent); border-style: solid; }
+    .builder-placeholder { color: var(--muted); font-size: .875rem; margin: auto; }
+    .word-tile {
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 1rem;
+      transition: all .15s; user-select: none;
+    }
+    .word-tile:hover { border-color: var(--accent); background: var(--surface2); }
+    .word-tile.in-answer { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .word-tile.in-answer:hover { opacity: .85; }
+    .word-tile.disabled { opacity: .3; cursor: not-allowed; }
+    .builder-tiles { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .builder-actions { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; }
+    .builder-feedback {
+      padding: 14px 18px; border-radius: 10px; font-weight: 600; font-size: .95rem;
+      margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+    }
+    .builder-feedback.correct { background: #1a3a2a; color: var(--accent3); border: 1px solid var(--accent3); }
+    .builder-feedback.wrong { background: #3a1a2a; color: var(--accent2); border: 1px solid var(--accent2); }
+    .builder-correct-ans { font-size: .85rem; opacity: .85; }
+    .builder-progress { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .builder-dots { display: flex; gap: 5px; }
+    .bdot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+    .bdot.done { background: var(--accent3); }
+    .bdot.current { background: var(--accent); }
+
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -327,6 +408,13 @@ const state = {
   quizScore: 0,
   quizSelected: null,
   quizCorrect: null,
+  sentenceTab: 'patterns',   // patterns | builder
+  openPatterns: new Set(),
+  builderIndex: 0,
+  builderOrder: [],          // indices into SENTENCE_BUILDER (shuffled)
+  builderAnswer: [],         // word tiles placed so far
+  builderChecked: false,
+  builderCorrect: false,
 };
 
 /* ── Render ── */
@@ -342,6 +430,7 @@ function renderHeader() {
     { id: 'hangul', label: '가 Hangul' },
     { id: 'flashcard', label: '📇 Flashcards' },
     { id: 'quiz', label: '✏️ Quiz' },
+    { id: 'sentences', label: '📝 Sentences' },
   ];
   return el('header', {},
     el('div', { className: 'logo', onClick: () => { state.view = 'home'; render(); } },
@@ -364,6 +453,7 @@ function renderView() {
   if (state.view === 'hangul') return renderHangul();
   if (state.view === 'flashcard') return renderFlashcard();
   if (state.view === 'quiz') return renderQuiz();
+  if (state.view === 'sentences') return renderSentences();
 }
 
 /* ── Home ── */
@@ -432,6 +522,11 @@ function renderHome() {
     {
       id: 'quiz', cls: 'c3', icon: '✏️', title: 'Quiz Mode',
       desc: `10 random questions. ${history.length ? `Best: ${Math.max(...history.map(h => Math.round((h.score/h.total)*100)))}%` : 'No attempts yet.'}`,
+      prog: null,
+    },
+    {
+      id: 'sentences', cls: 'c1', icon: '📝', title: 'Sentence Structure',
+      desc: `${SENTENCE_PATTERNS.length} grammar patterns + interactive sentence builder.`,
       prog: null,
     },
   ];
@@ -721,6 +816,188 @@ function renderQuizDone() {
       el('button', { className: 'btn-secondary', onClick: () => { state.quizState = 'idle'; render(); } }, 'History'),
       el('button', { className: 'btn-secondary', onClick: () => { state.view = 'flashcard'; render(); } }, 'Study More')
     )
+  );
+}
+
+/* ── Sentences ── */
+function renderSentences() {
+  return el('div', {},
+    el('div', { className: 'section-title' }, '📝 Sentence Structure'),
+    el('div', { className: 'section-subtitle' }, 'Learn Korean grammar patterns and build sentences'),
+    el('div', { className: 'tab-bar' },
+      el('button', {
+        className: 'tab' + (state.sentenceTab === 'patterns' ? ' active' : ''),
+        onClick: () => { state.sentenceTab = 'patterns'; render(); },
+      }, `Grammar Patterns (${SENTENCE_PATTERNS.length})`),
+      el('button', {
+        className: 'tab' + (state.sentenceTab === 'builder' ? ' active' : ''),
+        onClick: () => {
+          state.sentenceTab = 'builder';
+          if (!state.builderOrder.length) initBuilder();
+          render();
+        },
+      }, `Sentence Builder (${SENTENCE_BUILDER.length})`)
+    ),
+    state.sentenceTab === 'patterns' ? renderPatterns() : renderBuilder()
+  );
+}
+
+function renderPatterns() {
+  const cards = SENTENCE_PATTERNS.map(p => {
+    const isOpen = state.openPatterns.has(p.id);
+    const examples = p.examples.map(ex =>
+      el('div', { className: 'example-row' },
+        el('div', { className: 'ex-korean' }, ex.korean),
+        el('div', { className: 'ex-rom' }, ex.romanization),
+        el('div', { className: 'ex-english' }, ex.english),
+        el('div', { className: 'ex-parts' },
+          ...ex.parts.map(part => {
+            const [kr, en] = part.split('·');
+            return el('div', { className: 'ex-part' },
+              el('span', {}, kr), en ? ` — ${en}` : ''
+            );
+          })
+        )
+      )
+    );
+
+    return el('div', {
+      className: 'pattern-card' + (isOpen ? ' open' : ''),
+      onClick: () => {
+        if (isOpen) state.openPatterns.delete(p.id);
+        else state.openPatterns.add(p.id);
+        render();
+      },
+    },
+      el('div', { className: 'pattern-header' },
+        el('span', { className: 'pattern-badge', style: `background:${p.badgeColor}` }, p.badge),
+        el('span', { className: 'pattern-title' }, p.title),
+        el('span', { className: 'pattern-summary' }, p.summary),
+        el('span', { className: 'pattern-chevron' }, '▼')
+      ),
+      el('div', { className: 'pattern-body' },
+        el('div', { className: 'pattern-explanation' }, p.explanation),
+        el('div', { className: 'examples-title' }, 'Examples'),
+        ...examples
+      )
+    );
+  });
+
+  return el('div', { className: 'pattern-grid' }, ...cards);
+}
+
+function initBuilder() {
+  const indices = SENTENCE_BUILDER.map((_, i) => i);
+  state.builderOrder = shuffle(indices);
+  state.builderIndex = 0;
+  state.builderAnswer = [];
+  state.builderChecked = false;
+  state.builderCorrect = false;
+}
+
+function renderBuilder() {
+  if (!state.builderOrder.length) initBuilder();
+
+  const ex = SENTENCE_BUILDER[state.builderOrder[state.builderIndex]];
+  const pattern = SENTENCE_PATTERNS.find(p => p.id === ex.pattern);
+  const tiles = shuffle([...ex.words]);
+  const total = SENTENCE_BUILDER.length;
+  const done = state.builderIndex;
+
+  // dots
+  const dots = Array.from({ length: total }, (_, i) =>
+    el('div', { className: 'bdot' + (i < done ? ' done' : i === done ? ' current' : '') })
+  );
+
+  // answer area
+  const answerTiles = state.builderAnswer.map((w, i) =>
+    el('div', {
+      className: 'word-tile in-answer',
+      onClick: () => {
+        if (state.builderChecked) return;
+        state.builderAnswer.splice(i, 1);
+        render();
+      },
+    }, w)
+  );
+  const answerArea = el('div', {
+    className: 'builder-answer' + (state.builderAnswer.length ? ' has-words' : ''),
+  },
+    state.builderAnswer.length
+      ? answerTiles
+      : el('div', { className: 'builder-placeholder' }, 'Tap words below to build the sentence')
+  );
+
+  // source tiles
+  const sourceTiles = tiles.map(w => {
+    const used = state.builderAnswer.filter(a => a === w).length;
+    const available = ex.words.filter(t => t === w).length;
+    const exhausted = used >= available;
+    return el('div', {
+      className: 'word-tile' + (exhausted ? ' disabled' : ''),
+      onClick: () => {
+        if (state.builderChecked || exhausted) return;
+        state.builderAnswer.push(w);
+        render();
+      },
+    }, w);
+  });
+
+  // feedback
+  let feedback = null;
+  if (state.builderChecked) {
+    feedback = el('div', { className: 'builder-feedback ' + (state.builderCorrect ? 'correct' : 'wrong') },
+      el('div', {},
+        state.builderCorrect ? '✓ Correct!' : '✗ Not quite.',
+        state.builderCorrect ? '' : el('div', { className: 'builder-correct-ans' },
+          `Correct: ${ex.words.join(' ')}`
+        )
+      )
+    );
+  }
+
+  // action buttons
+  const checkBtn = el('button', {
+    className: 'btn-primary',
+    disabled: !state.builderAnswer.length || state.builderChecked,
+    onClick: () => {
+      const correct = state.builderAnswer.join(' ') === ex.words.join(' ');
+      state.builderChecked = true;
+      state.builderCorrect = correct;
+      render();
+    },
+  }, 'Check');
+
+  const nextBtn = el('button', {
+    className: 'btn-secondary',
+    onClick: () => {
+      state.builderIndex = (state.builderIndex + 1) % total;
+      state.builderAnswer = [];
+      state.builderChecked = false;
+      state.builderCorrect = false;
+      render();
+    },
+  }, state.builderIndex + 1 >= total ? '↺ Restart' : 'Skip →');
+
+  const clearBtn = el('button', {
+    className: 'btn-danger',
+    onClick: () => { state.builderAnswer = []; state.builderChecked = false; render(); },
+  }, 'Clear');
+
+  return el('div', { className: 'builder-wrap' },
+    el('div', { className: 'builder-progress' },
+      el('span', { style: 'font-size:.82rem;color:var(--muted)' }, `${done + 1} / ${total}`),
+      el('div', { className: 'builder-dots' }, ...dots)
+    ),
+    el('div', { className: 'builder-question' },
+      el('div', { className: 'bq-label' }, 'Translate into Korean'),
+      el('div', { className: 'bq-english' }, ex.english),
+      pattern ? el('div', { className: 'bq-pattern' }, `Pattern: ${pattern.title}`) : null
+    ),
+    answerArea,
+    el('div', { className: 'builder-tiles' }, ...sourceTiles),
+    feedback,
+    el('div', { className: 'builder-actions' }, checkBtn, nextBtn, clearBtn)
   );
 }
 
