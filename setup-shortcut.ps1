@@ -3,8 +3,35 @@ Add-Type -AssemblyName System.Drawing
 $appPath  = Split-Path -Parent $MyInvocation.MyCommand.Path
 $batFile  = Join-Path $appPath "launch.bat"
 $iconFile = Join-Path $appPath "launch.ico"
+$flagPng  = Join-Path $appPath "flag.png"
 
-# ── Draw Korean flag at 256x256 ──────────────────────────────────────────────
+# ── If flag.png exists, use it directly ──────────────────────────────────────
+if (Test-Path $flagPng) {
+    Write-Host "Using flag.png for icon..." -ForegroundColor Cyan
+    $img = [System.Drawing.Image]::FromFile($flagPng)
+    $bmp = New-Object System.Drawing.Bitmap($img, 256, 256)
+    $img.Dispose()
+
+    $pngMs = New-Object System.IO.MemoryStream
+    $bmp.Save($pngMs, [System.Drawing.Imaging.ImageFormat]::Png)
+    $pngData = $pngMs.ToArray()
+    $bmp.Dispose()
+
+    $icoMs = New-Object System.IO.MemoryStream
+    $w = New-Object System.IO.BinaryWriter($icoMs)
+    $w.Write([uint16]0); $w.Write([uint16]1); $w.Write([uint16]1)
+    $w.Write([byte]0); $w.Write([byte]0)
+    $w.Write([byte]0); $w.Write([byte]0)
+    $w.Write([uint16]0); $w.Write([uint16]32)
+    $w.Write([uint32]$pngData.Length); $w.Write([uint32]22)
+    $w.Write($pngData, 0, $pngData.Length)
+    $w.Flush()
+    [IO.File]::WriteAllBytes($iconFile, $icoMs.ToArray())
+    Write-Host "Icon created from flag.png: $iconFile" -ForegroundColor Green
+}
+else {
+# ── Fallback: draw Korean flag at 256x256 ────────────────────────────────────
+Write-Host "flag.png not found — drawing flag..." -ForegroundColor Yellow
 $sz = 256
 $bmp = New-Object System.Drawing.Bitmap($sz, $sz)
 $g   = [System.Drawing.Graphics]::FromImage($bmp)
@@ -95,7 +122,8 @@ $w.Write($pngData, 0, $pngData.Length)
 $w.Flush()
 [IO.File]::WriteAllBytes($iconFile, $icoMs.ToArray())
 
-Write-Host "Icon created: $iconFile" -ForegroundColor Green
+    Write-Host "Icon created: $iconFile" -ForegroundColor Green
+} # end else (drawn fallback)
 
 # ── Create desktop shortcut ───────────────────────────────────────────────────
 $desktop  = [Environment]::GetFolderPath("Desktop")
