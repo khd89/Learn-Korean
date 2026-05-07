@@ -381,11 +381,11 @@ function setStudied(s) { store.set('hangul_studied', [...s]); }
 function getKnown() { return new Set(store.get('vocab_known', [])); }
 function setKnown(s) { store.set('vocab_known', [...s]); }
 
-function getQuizHistory() { return store.get('quiz_history', []); }
-function addQuizResult(score, total) {
-  const h = getQuizHistory();
+function getQuizHistory(type) { return store.get(`quiz_history_${type}`, []); }
+function addQuizResult(type, score, total) {
+  const h = getQuizHistory(type);
   h.unshift({ score, total, date: new Date().toLocaleDateString() });
-  store.set('quiz_history', h.slice(0, 5));
+  store.set(`quiz_history_${type}`, h.slice(0, 5));
 }
 
 function resetAll() {
@@ -402,12 +402,12 @@ const state = {
   fcCategory: 'All',
   fcIndex: 0,
   fcFlipped: false,
-  quizState: 'idle',
-  quizItems: [],
-  quizIndex: 0,
-  quizScore: 0,
-  quizSelected: null,
-  quizCorrect: null,
+  // quiz
+  quizView: 'select',     // select | vocab | grammar
+  vqState: 'idle',        // vocab quiz:   idle | active | done
+  vqItems: [], vqIndex: 0, vqScore: 0, vqSelected: null, vqCorrect: null,
+  gqState: 'idle',        // grammar quiz: idle | active | done
+  gqItems: [], gqIndex: 0, gqScore: 0, gqSelected: null, gqCorrect: null,
   sentenceTab: 'patterns',   // patterns | builder
   openPatterns: new Set(),
   builderIndex: 0,
@@ -460,10 +460,12 @@ function renderView() {
 function renderHome() {
   const studied = getStudied();
   const known = getKnown();
-  const history = getQuizHistory();
+  const vHistory = getQuizHistory('vocab');
+  const gHistory = getQuizHistory('grammar');
+  const allHistory = [...vHistory, ...gHistory].sort((a,b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
   const totalHangul = HANGUL_CONSONANTS.length + HANGUL_VOWELS.length;
-  const avgQuiz = history.length
-    ? Math.round(history.reduce((s, h) => s + (h.score / h.total) * 100, 0) / history.length)
+  const avgQuiz = allHistory.length
+    ? Math.round(allHistory.reduce((s, h) => s + (h.score / h.total) * 100, 0) / allHistory.length)
     : 0;
 
   const dashboard = el('div', { className: 'progress-dashboard' },
@@ -485,26 +487,23 @@ function renderHome() {
     makeProg('Hangul', studied.size, totalHangul, 'c1'),
     el('div', { style: 'height:10px' }),
     makeProg('Vocabulary', known.size, VOCABULARY.length, 'c2'),
-    ...(history.length ? [
+    ...[
       el('div', { style: 'height:16px' }),
       el('div', { style: 'display:flex;align-items:center;justify-content:space-between' },
-        el('div', { style: 'font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em' }, 'Recent Quizzes'),
+        el('div', { style: 'font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em' }, allHistory.length ? 'Recent Quizzes' : ''),
         el('button', { className: 'btn-danger', onClick: () => { if (confirm('Reset all progress?')) { resetAll(); render(); } } }, 'Reset Progress')
       ),
-      el('div', { style: 'height:10px' }),
-      el('div', { style: 'display:flex;gap:8px;flex-wrap:wrap;margin-top:2px' },
-        ...history.map(h =>
-          el('div', { className: 'quiz-hist-item' },
-            el('div', { className: 'h-score' }, `${h.score}/${h.total}`),
-            el('div', { className: 'h-date' }, h.date)
+      ...(allHistory.length ? [
+        el('div', { style: 'height:10px' }),
+        el('div', { style: 'display:flex;gap:8px;flex-wrap:wrap;margin-top:2px' },
+          ...allHistory.map(h =>
+            el('div', { className: 'quiz-hist-item' },
+              el('div', { className: 'h-score' }, `${h.score}/${h.total}`),
+              el('div', { className: 'h-date' }, `${h.type || ''} ${h.date}`.trim())
+            )
           )
         )
-      )
-    ] : [
-      el('div', { style: 'height:16px' }),
-      el('div', { style: 'display:flex;justify-content:flex-end' },
-        el('button', { className: 'btn-danger', onClick: () => { if (confirm('Reset all progress?')) { resetAll(); render(); } } }, 'Reset Progress')
-      )
+      ] : [])
     ])
   );
 
@@ -521,7 +520,7 @@ function renderHome() {
     },
     {
       id: 'quiz', cls: 'c3', icon: '✏️', title: 'Quiz Mode',
-      desc: `10 random questions. ${history.length ? `Best: ${Math.max(...history.map(h => Math.round((h.score/h.total)*100)))}%` : 'No attempts yet.'}`,
+      desc: `Vocab quiz + Grammar quiz. ${allHistory.length ? `Best: ${Math.max(...allHistory.map(h => Math.round((h.score/h.total)*100)))}%` : 'No attempts yet.'}`,
       prog: null,
     },
     {
@@ -680,143 +679,296 @@ function renderFlashcard() {
 }
 
 /* ── Quiz ── */
-function buildQuizItems() {
-  return shuffle(VOCABULARY).slice(0, 10).map(word => {
-    const distractors = shuffle(VOCABULARY.filter(w => w.english !== word.english)).slice(0, 3).map(w => w.english);
-    return { word, options: shuffle([word.english, ...distractors]), answer: word.english };
-  });
-}
-
 function renderQuiz() {
-  if (state.quizState === 'idle') return renderQuizStart();
-  if (state.quizState === 'active') return renderQuizActive();
-  if (state.quizState === 'done') return renderQuizDone();
+  if (state.quizView === 'select') return renderQuizSelect();
+  if (state.quizView === 'vocab')  return renderVocabQuiz();
+  if (state.quizView === 'grammar') return renderGrammarQuiz();
 }
 
-function renderQuizStart() {
-  const history = getQuizHistory();
-  const best = history.length ? Math.max(...history.map(h => Math.round((h.score / h.total) * 100))) : null;
+// ── Quiz selection screen ──────────────────────────────────────────────────
+function renderQuizSelect() {
+  const vh = getQuizHistory('vocab');
+  const gh = getQuizHistory('grammar');
+  const vBest = vh.length ? Math.max(...vh.map(h => Math.round((h.score/h.total)*100))) : null;
+  const gBest = gh.length ? Math.max(...gh.map(h => Math.round((h.score/h.total)*100))) : null;
 
-  return el('div', { className: 'quiz-start' },
-    el('div', { className: 'section-title' }, '✏️ Quiz Mode'),
-    el('p', { style: 'color:var(--muted);margin-bottom:20px' }, '10 multiple-choice questions. What does each Korean word mean?'),
-    best !== null ? el('div', { className: 'quiz-best' }, 'Best score: ', el('span', {}, `${best}%`)) : null,
-    history.length ? el('div', {},
-      el('div', { style: 'font-size:.8rem;color:var(--muted);margin-bottom:10px' }, 'Recent attempts:'),
-      el('div', { className: 'quiz-history' },
-        ...history.map(h =>
-          el('div', { className: 'quiz-hist-item' },
-            el('div', { className: 'h-score' }, `${h.score}/${h.total}`),
-            el('div', { className: 'h-date' }, h.date)
-          )
+  function historyPills(history) {
+    if (!history.length) return el('div', { style: 'font-size:.78rem;color:var(--muted)' }, 'No attempts yet');
+    return el('div', { style: 'display:flex;gap:6px;flex-wrap:wrap;margin-top:8px' },
+      ...history.slice(0, 3).map(h =>
+        el('div', { className: 'quiz-hist-item', style: 'min-width:60px' },
+          el('div', { className: 'h-score' }, `${h.score}/${h.total}`),
+          el('div', { className: 'h-date' }, h.date)
         )
       )
-    ) : null,
-    el('button', {
-      className: 'btn-primary',
-      style: 'margin-top:8px',
-      onClick: () => {
-        state.quizItems = buildQuizItems();
-        state.quizIndex = 0;
-        state.quizScore = 0;
-        state.quizSelected = null;
-        state.quizCorrect = null;
-        state.quizState = 'active';
-        render();
+    );
+  }
+
+  return el('div', {},
+    el('div', { className: 'section-title' }, '✏️ Quiz Mode'),
+    el('div', { className: 'section-subtitle' }, 'Choose a quiz — questions are fully randomised every time'),
+    el('div', { className: 'cards-grid' },
+      // Vocab quiz card
+      el('div', { className: 'module-card c2', style: 'cursor:pointer',
+        onClick: () => { state.quizView = 'vocab'; state.vqState = 'idle'; render(); }
       },
-    }, history.length ? 'Play Again' : 'Start Quiz')
+        el('div', { className: 'icon' }, '📇'),
+        el('h3', {}, 'Vocabulary Quiz'),
+        el('p', {}, '10 random questions — Korean→English AND English→Korean mixed. Tests all 9 word categories.'),
+        vBest !== null ? el('div', { className: 'quiz-best', style: 'margin-top:6px' }, 'Best: ', el('span', {}, `${vBest}%`)) : null,
+        historyPills(vh)
+      ),
+      // Grammar quiz card
+      el('div', { className: 'module-card c3', style: 'cursor:pointer',
+        onClick: () => { state.quizView = 'grammar'; state.gqState = 'idle'; render(); }
+      },
+        el('div', { className: 'icon' }, '📝'),
+        el('h3', {}, 'Grammar Quiz'),
+        el('p', {}, `10 random questions on particles, word order, verb endings, negation & more. (${GRAMMAR_QUIZ.length} question pool)`),
+        gBest !== null ? el('div', { className: 'quiz-best', style: 'margin-top:6px' }, 'Best: ', el('span', {}, `${gBest}%`)) : null,
+        historyPills(gh)
+      )
+    )
   );
 }
 
-function renderQuizActive() {
-  const item = state.quizItems[state.quizIndex];
-  const answered = state.quizSelected !== null;
-  const pct = (state.quizIndex / state.quizItems.length) * 100;
+// ── Shared quiz engine ─────────────────────────────────────────────────────
+function renderQuizEngine({ items, index, score, selected, correct, total,
+  onAnswer, onNext, onRestart, onBack, type }) {
+
+  if (index >= total) {  // done screen
+    const pct = Math.round((score / total) * 100);
+    const msg = pct === 100 ? '🎉 Perfect!' : pct >= 80 ? '🌟 Excellent!' : pct >= 60 ? '👍 Great job!' : pct >= 40 ? '📚 Keep studying!' : '💪 Don\'t give up!';
+    const history = getQuizHistory(type);
+    return el('div', { className: 'quiz-results' },
+      el('div', { className: 'score-circle' },
+        el('div', { className: 'score-num' }, `${score}/${total}`),
+        el('div', { className: 'score-label' }, `${pct}%`)
+      ),
+      el('div', { className: 'score-msg' }, msg),
+      el('div', { className: 'score-sub' }, `You got ${score} out of ${total} correct.`),
+      history.length > 1 ? el('div', { style: 'margin-bottom:20px' },
+        el('div', { style: 'font-size:.78rem;color:var(--muted);margin-bottom:8px' }, 'Your history:'),
+        el('div', { style: 'display:flex;gap:8px;flex-wrap:wrap;justify-content:center' },
+          ...history.map(h =>
+            el('div', { className: 'quiz-hist-item' },
+              el('div', { className: 'h-score' }, `${h.score}/${h.total}`),
+              el('div', { className: 'h-date' }, h.date)
+            )
+          )
+        )
+      ) : null,
+      el('div', { className: 'result-actions' },
+        el('button', { className: 'btn-primary', onClick: onRestart }, 'Try Again'),
+        el('button', { className: 'btn-secondary', onClick: onBack }, '← Quiz Menu')
+      )
+    );
+  }
+
+  const item = items[index];
+  const answered = selected !== null;
+  const pct = (index / total) * 100;
+
+  const opts = item.options.map(opt => {
+    let cls = 'opt-btn';
+    if (answered) {
+      if (opt === item.answer) cls += ' correct';
+      else if (opt === selected && opt !== item.answer) cls += ' wrong';
+    }
+    return el('button', {
+      className: cls, disabled: answered,
+      onClick: () => onAnswer(opt),
+    }, opt);
+  });
 
   return el('div', {},
-    el('div', { className: 'quiz-progress' },
-      el('div', { className: 'progress-label' },
-        el('span', {}, `Question ${state.quizIndex + 1} / ${state.quizItems.length}`),
-        el('span', {}, `Score: ${state.quizScore}`)
-      ),
-      el('div', { className: 'progress-bar' },
-        el('div', { className: 'progress-fill', style: `width:${pct}%` })
+    el('div', { style: 'display:flex;align-items:center;gap:10px;margin-bottom:16px' },
+      el('button', { className: 'btn-danger', onClick: onBack }, '← Back'),
+      el('div', { style: 'flex:1' },
+        el('div', { className: 'progress-label' },
+          el('span', {}, `Question ${index + 1} / ${total}`),
+          el('span', {}, `Score: ${score}`)
+        ),
+        el('div', { className: 'progress-bar' },
+          el('div', { className: 'progress-fill', style: `width:${pct}%` })
+        )
       )
     ),
     el('div', { className: 'quiz-question' },
-      el('div', { className: 'q-label' }, 'What does this mean?'),
-      el('div', { className: 'q-word' }, item.word.korean),
-      el('div', { className: 'q-rom' }, item.word.romanization)
+      item.label ? el('div', { className: 'q-label' }, item.label) : null,
+      el('div', { className: 'q-word' }, item.prompt),
+      item.sub ? el('div', { className: 'q-rom' }, item.sub) : null
     ),
-    el('div', { className: 'quiz-options' },
-      ...item.options.map(opt => {
-        let cls = 'opt-btn';
-        if (answered) {
-          if (opt === item.answer) cls += ' correct';
-          else if (opt === state.quizSelected) cls += ' wrong';
-        }
-        return el('button', {
-          className: cls, disabled: answered,
-          onClick: () => {
-            state.quizSelected = opt;
-            state.quizCorrect = opt === item.answer;
-            if (state.quizCorrect) state.quizScore++;
-            render();
-          },
-        }, opt);
-      })
-    ),
-    answered ? el('div', { className: `quiz-feedback ${state.quizCorrect ? 'correct' : 'wrong'}` },
-      state.quizCorrect ? '✓ Correct!' : `✗ The answer was: ${item.answer}`
+    el('div', { className: 'quiz-options' }, ...opts),
+    answered ? el('div', { className: `quiz-feedback ${correct ? 'correct' : 'wrong'}` },
+      correct ? '✓ Correct!' : `✗ Answer: ${item.answer}`,
+      item.tip && !correct ? el('div', { style: 'font-size:.82rem;font-weight:400;margin-top:6px;opacity:.9' }, item.tip) : null
     ) : null,
     answered ? el('div', { style: 'text-align:center' },
-      el('button', {
-        className: 'btn-primary',
-        onClick: () => {
-          if (state.quizIndex + 1 >= state.quizItems.length) {
-            addQuizResult(state.quizScore, state.quizItems.length);
-            state.quizState = 'done';
-          } else {
-            state.quizIndex++;
-            state.quizSelected = null;
-            state.quizCorrect = null;
-          }
-          render();
-        },
-      }, state.quizIndex + 1 >= state.quizItems.length ? 'See Results' : 'Next →')
+      el('button', { className: 'btn-primary', onClick: onNext },
+        index + 1 >= total ? 'See Results' : 'Next →')
     ) : null
   );
 }
 
-function renderQuizDone() {
-  const total = state.quizItems.length;
-  const pct = Math.round((state.quizScore / total) * 100);
-  const msg = pct === 100 ? '🎉 Perfect!' : pct >= 70 ? '👍 Great job!' : pct >= 40 ? '📚 Keep going!' : '💪 Don\'t give up!';
+// ── Vocabulary Quiz ────────────────────────────────────────────────────────
+function buildVocabItems() {
+  const pool = shuffle(VOCABULARY).slice(0, 10);
+  return pool.map((word, i) => {
+    const k2e = i % 2 === 0; // alternate Korean→English and English→Korean
+    if (k2e) {
+      const distractors = shuffle(VOCABULARY.filter(w => w.english !== word.english)).slice(0, 3).map(w => w.english);
+      return {
+        label: 'What does this mean?',
+        prompt: word.korean,
+        sub: word.romanization,
+        options: shuffle([word.english, ...distractors]),
+        answer: word.english,
+        tip: null,
+      };
+    } else {
+      const distractors = shuffle(VOCABULARY.filter(w => w.korean !== word.korean)).slice(0, 3).map(w => `${w.korean} (${w.romanization})`);
+      const answerText = `${word.korean} (${word.romanization})`;
+      return {
+        label: 'How do you say this in Korean?',
+        prompt: word.english,
+        sub: `Category: ${word.category}`,
+        options: shuffle([answerText, ...distractors]),
+        answer: answerText,
+        tip: null,
+      };
+    }
+  });
+}
 
-  return el('div', { className: 'quiz-results' },
-    el('div', { className: 'score-circle' },
-      el('div', { className: 'score-num' }, `${state.quizScore}/${total}`),
-      el('div', { className: 'score-label' }, `${pct}%`)
-    ),
-    el('div', { className: 'score-msg' }, msg),
-    el('div', { className: 'score-sub' }, `You got ${state.quizScore} out of ${total} correct.`),
-    el('div', { className: 'result-actions' },
-      el('button', {
-        className: 'btn-primary',
-        onClick: () => {
-          state.quizItems = buildQuizItems();
-          state.quizIndex = 0;
-          state.quizScore = 0;
-          state.quizSelected = null;
-          state.quizCorrect = null;
-          state.quizState = 'active';
-          render();
-        },
-      }, 'Try Again'),
-      el('button', { className: 'btn-secondary', onClick: () => { state.quizState = 'idle'; render(); } }, 'History'),
-      el('button', { className: 'btn-secondary', onClick: () => { state.view = 'flashcard'; render(); } }, 'Study More')
-    )
-  );
+function renderVocabQuiz() {
+  if (state.vqState === 'idle') {
+    const h = getQuizHistory('vocab');
+    const best = h.length ? Math.max(...h.map(x => Math.round((x.score/x.total)*100))) : null;
+    return el('div', { className: 'quiz-start' },
+      el('div', { className: 'section-title' }, '📇 Vocabulary Quiz'),
+      el('p', { style: 'color:var(--muted);margin-bottom:16px' },
+        '10 random questions — half Korean→English, half English→Korean. New random set every time!'),
+      best !== null ? el('div', { className: 'quiz-best', style: 'margin-bottom:16px' }, 'Best score: ', el('span', {}, `${best}%`)) : null,
+      h.length ? el('div', { style: 'margin-bottom:20px' },
+        el('div', { style: 'font-size:.78rem;color:var(--muted);margin-bottom:8px' }, 'Recent:'),
+        el('div', { className: 'quiz-history' },
+          ...h.map(x => el('div', { className: 'quiz-hist-item' },
+            el('div', { className: 'h-score' }, `${x.score}/${x.total}`),
+            el('div', { className: 'h-date' }, x.date)
+          ))
+        )
+      ) : null,
+      el('div', { style: 'display:flex;gap:10px;justify-content:center' },
+        el('button', { className: 'btn-secondary', onClick: () => { state.quizView = 'select'; render(); } }, '← Back'),
+        el('button', { className: 'btn-primary', onClick: () => {
+          state.vqItems = buildVocabItems();
+          state.vqIndex = 0; state.vqScore = 0;
+          state.vqSelected = null; state.vqCorrect = null;
+          state.vqState = 'active'; render();
+        }}, h.length ? 'Play Again' : 'Start Quiz')
+      )
+    );
+  }
+
+  return renderQuizEngine({
+    items: state.vqItems, index: state.vqIndex, score: state.vqScore,
+    selected: state.vqSelected, correct: state.vqCorrect, total: 10,
+    type: 'vocab',
+    onAnswer: (opt) => {
+      state.vqSelected = opt;
+      state.vqCorrect = opt === state.vqItems[state.vqIndex].answer;
+      if (state.vqCorrect) state.vqScore++;
+      render();
+    },
+    onNext: () => {
+      if (state.vqIndex + 1 >= 10) {
+        addQuizResult('vocab', state.vqScore, 10);
+        state.vqIndex = 10; // trigger done screen
+      } else {
+        state.vqIndex++; state.vqSelected = null; state.vqCorrect = null;
+      }
+      render();
+    },
+    onRestart: () => {
+      state.vqItems = buildVocabItems();
+      state.vqIndex = 0; state.vqScore = 0;
+      state.vqSelected = null; state.vqCorrect = null;
+      render();
+    },
+    onBack: () => { state.quizView = 'select'; render(); },
+  });
+}
+
+// ── Grammar Quiz ───────────────────────────────────────────────────────────
+function buildGrammarItems() {
+  return shuffle(GRAMMAR_QUIZ).slice(0, 10).map(q => ({
+    label: 'Grammar & Sentences',
+    prompt: q.q,
+    sub: null,
+    options: shuffle([...q.opts]),
+    answer: q.a,
+    tip: q.tip,
+  }));
+}
+
+function renderGrammarQuiz() {
+  if (state.gqState === 'idle') {
+    const h = getQuizHistory('grammar');
+    const best = h.length ? Math.max(...h.map(x => Math.round((x.score/x.total)*100))) : null;
+    return el('div', { className: 'quiz-start' },
+      el('div', { className: 'section-title' }, '📝 Grammar Quiz'),
+      el('p', { style: 'color:var(--muted);margin-bottom:16px' },
+        `10 random questions drawn from a pool of ${GRAMMAR_QUIZ.length}. Covers particles, word order, verb tense, negation and more.`),
+      best !== null ? el('div', { className: 'quiz-best', style: 'margin-bottom:16px' }, 'Best score: ', el('span', {}, `${best}%`)) : null,
+      h.length ? el('div', { style: 'margin-bottom:20px' },
+        el('div', { style: 'font-size:.78rem;color:var(--muted);margin-bottom:8px' }, 'Recent:'),
+        el('div', { className: 'quiz-history' },
+          ...h.map(x => el('div', { className: 'quiz-hist-item' },
+            el('div', { className: 'h-score' }, `${x.score}/${x.total}`),
+            el('div', { className: 'h-date' }, x.date)
+          ))
+        )
+      ) : null,
+      el('div', { style: 'display:flex;gap:10px;justify-content:center' },
+        el('button', { className: 'btn-secondary', onClick: () => { state.quizView = 'select'; render(); } }, '← Back'),
+        el('button', { className: 'btn-primary', onClick: () => {
+          state.gqItems = buildGrammarItems();
+          state.gqIndex = 0; state.gqScore = 0;
+          state.gqSelected = null; state.gqCorrect = null;
+          state.gqState = 'active'; render();
+        }}, h.length ? 'Play Again' : 'Start Quiz')
+      )
+    );
+  }
+
+  return renderQuizEngine({
+    items: state.gqItems, index: state.gqIndex, score: state.gqScore,
+    selected: state.gqSelected, correct: state.gqCorrect, total: 10,
+    type: 'grammar',
+    onAnswer: (opt) => {
+      state.gqSelected = opt;
+      state.gqCorrect = opt === state.gqItems[state.gqIndex].answer;
+      if (state.gqCorrect) state.gqScore++;
+      render();
+    },
+    onNext: () => {
+      if (state.gqIndex + 1 >= 10) {
+        addQuizResult('grammar', state.gqScore, 10);
+        state.gqIndex = 10;
+      } else {
+        state.gqIndex++; state.gqSelected = null; state.gqCorrect = null;
+      }
+      render();
+    },
+    onRestart: () => {
+      state.gqItems = buildGrammarItems();
+      state.gqIndex = 0; state.gqScore = 0;
+      state.gqSelected = null; state.gqCorrect = null;
+      render();
+    },
+    onBack: () => { state.quizView = 'select'; render(); },
+  });
 }
 
 /* ── Sentences ── */

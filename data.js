@@ -341,3 +341,155 @@ const SENTENCE_BUILDER = [
   { english: "I went to the hospital", words: ["저는", "병원에", "갔어요"],           pattern: "past" },
   { english: "I don't study",          words: ["공부", "안", "해요"],                 pattern: "negation" },
 ];
+
+// ── Grammar Quiz Questions ────────────────────────────────────────────────────
+const GRAMMAR_QUIZ = [
+  // ── Particles ──
+  { q: "Which particle marks the TOPIC of a sentence?",
+    opts: ["은/는", "이/가", "을/를", "에서"], a: "은/는",
+    tip: "은/는 marks the topic (what you're talking about). Use 은 after consonants, 는 after vowels." },
+
+  { q: "Which particle marks the DIRECT OBJECT?",
+    opts: ["을/를", "은/는", "이/가", "에"], a: "을/를",
+    tip: "을/를 marks the object receiving the action. Use 을 after consonants, 를 after vowels." },
+
+  { q: "Which particle marks the grammatical SUBJECT (new info)?",
+    opts: ["이/가", "은/는", "을/를", "에서"], a: "이/가",
+    tip: "이/가 marks the subject, often introducing new or emphasized information." },
+
+  { q: "Fill in the blank: 저___ 밥을 먹어요 (I eat rice)",
+    opts: ["는", "가", "를", "에"], a: "는",
+    tip: "저 ends in a vowel, so the topic particle 는 is used. (저 + 는 = 저는)" },
+
+  { q: "Fill in the blank: 친구___ 학교에 가요 (My friend goes to school)",
+    opts: ["가", "는", "를", "에서"], a: "가",
+    tip: "친구 ends in a vowel, so the subject particle 가 is used. (친구 + 가 = 친구가)" },
+
+  { q: "Fill in the blank: 저는 물___ 마셔요 (I drink water)",
+    opts: ["을", "는", "가", "에서"], a: "을",
+    tip: "물 ends in the consonant ㄹ, so the object particle 을 is used. (물 + 을 = 물을)" },
+
+  { q: "Fill in the blank: 저는 한국어___ 공부해요 (I study Korean)",
+    opts: ["를", "을", "는", "가"], a: "를",
+    tip: "한국어 ends in a vowel, so the object particle 를 is used." },
+
+  // ── Location ──
+  { q: "Which particle means 'where an ACTION takes place'?",
+    opts: ["에서", "에", "을/를", "이/가"], a: "에서",
+    tip: "에서 marks where an action happens (study, eat, work). 에 marks static location or direction." },
+
+  { q: "Fill in the blank: 학교___ 가요 (I go to school)",
+    opts: ["에", "에서", "는", "가"], a: "에",
+    tip: "에 is used with direction/movement verbs like 가다 and 오다." },
+
+  { q: "Fill in the blank: 카페___ 공부해요 (I study at the café)",
+    opts: ["에서", "에", "가", "를"], a: "에서",
+    tip: "에서 is used because studying is an action being performed at the café." },
+
+  { q: "Fill in the blank: 집___ 있어요 (I am at home)",
+    opts: ["에", "에서", "가", "를"], a: "에",
+    tip: "있다 (to exist/be) uses 에 for location, not 에서." },
+
+  // ── Negation ──
+  { q: "How do you say 'I don't eat'?",
+    opts: ["안 먹어요", "먹 안 어요", "먹어요 안", "못 있어요"], a: "안 먹어요",
+    tip: "안 goes directly in front of the verb to negate it: 안 + verb." },
+
+  { q: "How do you say 'I don't study' (공부하다)?",
+    opts: ["공부 안 해요", "안 공부해요", "공부해요 안", "안 공부 해요"], a: "공부 안 해요",
+    tip: "For 하다 compound verbs, 안 goes between the noun and 하다: noun + 안 + 해요." },
+
+  { q: "Where does 안 go in a sentence to negate a verb?",
+    opts: ["Directly before the verb", "At the very start", "After the verb", "After the subject"], a: "Directly before the verb",
+    tip: "안 always sits right before the verb (or 하다 in compound verbs)." },
+
+  // ── To Be ──
+  { q: "Which ending means 'am/is/are' after a noun ending in a CONSONANT?",
+    opts: ["이에요", "예요", "있어요", "해요"], a: "이에요",
+    tip: "이에요 follows nouns ending in a consonant. 예요 follows nouns ending in a vowel." },
+
+  { q: "Which ending means 'am/is/are' after a noun ending in a VOWEL?",
+    opts: ["예요", "이에요", "있어요", "가요"], a: "예요",
+    tip: "예요 follows nouns ending in a vowel. 이에요 follows consonant-ending nouns." },
+
+  { q: "How do you say 'I am a student'? (저, 학생)",
+    opts: ["저는 학생이에요", "저는 학생예요", "저가 학생이에요", "저는 학생있어요"], a: "저는 학생이에요",
+    tip: "학생 ends in ㅇ (a consonant), so 이에요 is used. Topic particle 는 after 저." },
+
+  { q: "What is 'I am not a teacher'? (저, 선생님)",
+    opts: ["저는 선생님이 아니에요", "저는 선생님 없어요", "저는 안 선생님이에요", "저는 선생님이에요 안"], a: "저는 선생님이 아니에요",
+    tip: "Negative of 이에요/예요 is 이/가 아니에요. The subject particle 이 attaches to 선생님." },
+
+  // ── Word Order ──
+  { q: "What is the correct word order in Korean?",
+    opts: ["Subject + Object + Verb", "Subject + Verb + Object", "Verb + Subject + Object", "Object + Subject + Verb"], a: "Subject + Object + Verb",
+    tip: "Korean is an SOV language. The verb ALWAYS comes at the very end of the sentence." },
+
+  { q: "Which sentence has the correct Korean word order?",
+    opts: ["저는 밥을 먹어요", "저는 먹어요 밥을", "먹어요 저는 밥을", "밥을 먹어요 저는"], a: "저는 밥을 먹어요",
+    tip: "Correct: Subject (저는) → Object (밥을) → Verb (먹어요). Verb always last!" },
+
+  { q: "In Korean, where does the verb always go?",
+    opts: ["At the end of the sentence", "At the beginning", "After the subject", "Before the object"], a: "At the end of the sentence",
+    tip: "This is the most important rule of Korean grammar — the verb is always the final word." },
+
+  // ── Verb Endings ──
+  { q: "What is the polite present tense ending for most verbs?",
+    opts: ["아요/어요", "았어요/었어요", "겠어요", "이에요"], a: "아요/어요",
+    tip: "아요 follows ㅏ or ㅗ vowel stems. 어요 follows all other stems. 하다 → 해요." },
+
+  { q: "What is the polite PAST tense ending?",
+    opts: ["았어요/었어요", "아요/어요", "겠어요", "이에요"], a: "았어요/었어요",
+    tip: "았어요 follows ㅏ/ㅗ stems. 었어요 follows all others. 하다 → 했어요." },
+
+  { q: "What is the past tense of 가다 (to go)?",
+    opts: ["갔어요", "가었어요", "가요", "갔요"], a: "갔어요",
+    tip: "가 + 았어요 contracts: 가았어요 → 갔어요. ㅏ vowels contract with 았." },
+
+  { q: "What is the past tense of 먹다 (to eat)?",
+    opts: ["먹었어요", "먹았어요", "먹어요", "먹겠어요"], a: "먹었어요",
+    tip: "먹 has the vowel ㅓ, which is not ㅏ or ㅗ, so 었어요 is used: 먹 + 었어요." },
+
+  { q: "What is the polite form of 공부하다 (to study)?",
+    opts: ["공부해요", "공부하요", "공부어요", "공부았어요"], a: "공부해요",
+    tip: "All 하다 verbs follow the same pattern: 하다 → 해요 in polite speech." },
+
+  { q: "What is the past tense of 공부하다 (to study)?",
+    opts: ["공부했어요", "공부하었어요", "공부해어요", "공부았어요"], a: "공부했어요",
+    tip: "하다 past tense: 하 + 였어요 → 했어요. So 공부하다 → 공부했어요." },
+
+  // ── Questions ──
+  { q: "How do you form a yes/no question in Korean?",
+    opts: ["Same word order as a statement, raise intonation", "Move the verb to the front", "Add 까 to the start", "Add 요? before the subject"], a: "Same word order as a statement, raise intonation",
+    tip: "Korean yes/no questions keep the exact same word order. Just raise your intonation at the end." },
+
+  { q: "Where do question words (뭐, 어디, 언제, 누구) go?",
+    opts: ["Where the answer would go", "Always at the very start", "Always just before the verb", "After the topic particle"], a: "Where the answer would go",
+    tip: "Question words slot in where their answer belongs. The verb still comes last." },
+
+  { q: "How do you say 'Where are you going?'",
+    opts: ["어디에 가요?", "가요 어디에?", "어디에요 가?", "가요? 어디에"], a: "어디에 가요?",
+    tip: "어디 (where) + 에 (direction) comes before the verb 가요. The verb stays at the end even in questions." },
+
+  // ── 있다/없다 ──
+  { q: "What does 있어요 mean?",
+    opts: ["There is / I have", "There isn't / I don't have", "I am", "I go"], a: "There is / I have",
+    tip: "있다 means to exist or to have. Its opposite is 없다 (없어요) — to not exist / not have." },
+
+  { q: "How do you say 'I don't have time'? (시간)",
+    opts: ["시간이 없어요", "시간이 있어요", "시간은 안 있어요", "시간가 없어요"], a: "시간이 없어요",
+    tip: "시간 (time) + 이 (subject particle, after consonant) + 없어요 (don't have)." },
+
+  // ── Mixed application ──
+  { q: "Which sentence correctly means 'I like Korean food'?",
+    opts: ["저는 한국 음식을 좋아해요", "저는 한국 음식이 좋아해요", "저는 좋아해요 한국 음식을", "한국 음식은 저를 좋아해요"], a: "저는 한국 음식을 좋아해요",
+    tip: "좋아하다 (to like) takes an object with 을/를. Word order: Subject + Object + Verb." },
+
+  { q: "Which sentence correctly means 'It is raining'?",
+    opts: ["비가 와요", "비는 와요", "비를 와요", "비에서 와요"], a: "비가 와요",
+    tip: "비 (rain) is the subject performing 와요 (comes/falls), so the subject particle 가 is used." },
+
+  { q: "Which is the correct way to say 'I went to school'?",
+    opts: ["저는 학교에 갔어요", "저는 학교에서 갔어요", "저는 학교가 갔어요", "저는 학교를 갔어요"], a: "저는 학교에 갔어요",
+    tip: "에 marks direction/destination with movement verbs. Past tense: 가다 → 갔어요." },
+];
