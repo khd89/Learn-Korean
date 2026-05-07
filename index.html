@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>í•œêµ­ì–´ ë°°ìš°ê¸° Â· Learn Korean</title>
+  <title>한국어 배우기 · Learn Korean</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -24,7 +24,7 @@
     body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
     #app { display: flex; flex-direction: column; min-height: 100vh; }
 
-    /* â”€â”€ Header â”€â”€ */
+    /* ── Header ── */
     header {
       display: flex; align-items: center; justify-content: space-between;
       padding: 14px 28px; background: var(--surface);
@@ -42,7 +42,7 @@
 
     main { flex: 1; padding: 32px 24px; max-width: 920px; margin: 0 auto; width: 100%; }
 
-    /* â”€â”€ Shared â”€â”€ */
+    /* ── Shared ── */
     .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
     .section-subtitle { color: var(--muted); margin-bottom: 24px; font-size: .9rem; }
 
@@ -62,7 +62,7 @@
     }
     .btn-danger:hover { color: var(--accent2); border-color: var(--accent2); }
 
-    /* â”€â”€ Progress bar â”€â”€ */
+    /* ── Progress bar ── */
     .prog-bar-wrap { margin-bottom: 6px; }
     .prog-bar-top { display: flex; justify-content: space-between; font-size: .78rem; color: var(--muted); margin-bottom: 5px; }
     .prog-bar { height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
@@ -71,7 +71,7 @@
     .prog-fill.c2 { background: var(--accent2); }
     .prog-fill.c3 { background: var(--accent3); }
 
-    /* â”€â”€ Home â”€â”€ */
+    /* ── Home ── */
     .home-hero { margin-bottom: 36px; }
     .home-hero h1 { font-size: 2.6rem; font-weight: 800; margin-bottom: 6px; }
     .home-hero h1 span { color: var(--accent); }
@@ -105,7 +105,7 @@
     .module-card p { color: var(--muted); font-size: .82rem; line-height: 1.5; margin-bottom: 12px; }
     .module-card .card-prog { }
 
-    /* â”€â”€ Hangul â”€â”€ */
+    /* ── Hangul ── */
     .tab-bar { display: flex; gap: 8px; margin-bottom: 22px; }
     .tab {
       background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
@@ -133,7 +133,7 @@
     .hangul-card.flipped .hangul-sound { max-height: 60px; }
     .hangul-prog-row { margin-bottom: 20px; }
 
-    /* â”€â”€ Flashcards â”€â”€ */
+    /* ── Flashcards ── */
     .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
     .filter-btn {
       background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
@@ -190,7 +190,7 @@
     .btn-unlearn:hover { border-color: var(--accent2); color: var(--accent2); }
     .card-flip-hint { text-align: center; color: var(--muted); font-size: .78rem; }
 
-    /* â”€â”€ Quiz â”€â”€ */
+    /* ── Quiz ── */
     .quiz-start { text-align: center; padding: 32px 0; }
     .quiz-history {
       display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px;
@@ -246,7 +246,7 @@
 
     .reset-row { display: flex; justify-content: flex-end; margin-bottom: 16px; }
 
-    /* â”€â”€ Sentences Module â”€â”€ */
+    /* ── Sentences Module ── */
     .pattern-grid { display: flex; flex-direction: column; gap: 16px; }
     .pattern-card {
       background: var(--surface); border: 1px solid var(--border);
@@ -336,297 +336,297 @@
 <div id="app"></div>
 <script>
 const HANGUL_CONSONANTS = [
-  { char: "ã„±", romanization: "g/k", sound: "like 'g' in go" },
-  { char: "ã„´", romanization: "n",   sound: "like 'n' in no" },
-  { char: "ã„·", romanization: "d/t", sound: "like 'd' in do" },
-  { char: "ã„¹", romanization: "r/l", sound: "between 'r' and 'l'" },
-  { char: "ã…", romanization: "m",   sound: "like 'm' in me" },
-  { char: "ã…‚", romanization: "b/p", sound: "like 'b' in boy" },
-  { char: "ã……", romanization: "s",   sound: "like 's' in sun" },
-  { char: "ã…‡", romanization: "ng/silent", sound: "silent at start, 'ng' at end" },
-  { char: "ã…ˆ", romanization: "j",   sound: "like 'j' in joy" },
-  { char: "ã…Š", romanization: "ch",  sound: "like 'ch' in chair" },
-  { char: "ã…‹", romanization: "k",   sound: "aspirated 'k'" },
-  { char: "ã…Œ", romanization: "t",   sound: "aspirated 't'" },
-  { char: "ã…", romanization: "p",   sound: "aspirated 'p'" },
-  { char: "ã…Ž", romanization: "h",   sound: "like 'h' in hat" },
+  { char: "ㄱ", romanization: "g/k", sound: "like 'g' in go" },
+  { char: "ㄴ", romanization: "n",   sound: "like 'n' in no" },
+  { char: "ㄷ", romanization: "d/t", sound: "like 'd' in do" },
+  { char: "ㄹ", romanization: "r/l", sound: "between 'r' and 'l'" },
+  { char: "ㅁ", romanization: "m",   sound: "like 'm' in me" },
+  { char: "ㅂ", romanization: "b/p", sound: "like 'b' in boy" },
+  { char: "ㅅ", romanization: "s",   sound: "like 's' in sun" },
+  { char: "ㅇ", romanization: "ng/silent", sound: "silent at start, 'ng' at end" },
+  { char: "ㅈ", romanization: "j",   sound: "like 'j' in joy" },
+  { char: "ㅊ", romanization: "ch",  sound: "like 'ch' in chair" },
+  { char: "ㅋ", romanization: "k",   sound: "aspirated 'k'" },
+  { char: "ㅌ", romanization: "t",   sound: "aspirated 't'" },
+  { char: "ㅍ", romanization: "p",   sound: "aspirated 'p'" },
+  { char: "ㅎ", romanization: "h",   sound: "like 'h' in hat" },
 ];
 
 const HANGUL_VOWELS = [
-  { char: "ã…", romanization: "a",   sound: "like 'a' in father" },
-  { char: "ã…‘", romanization: "ya",  sound: "like 'ya' in yard" },
-  { char: "ã…“", romanization: "eo",  sound: "like 'u' in fun" },
-  { char: "ã…•", romanization: "yeo", sound: "like 'yuh'" },
-  { char: "ã…—", romanization: "o",   sound: "like 'o' in old" },
-  { char: "ã…›", romanization: "yo",  sound: "like 'yo' in yoga" },
-  { char: "ã…œ", romanization: "u",   sound: "like 'oo' in food" },
-  { char: "ã… ", romanization: "yu",  sound: "like 'yu' in you" },
-  { char: "ã…¡", romanization: "eu",  sound: "no English equivalent" },
-  { char: "ã…£", romanization: "i",   sound: "like 'ee' in see" },
+  { char: "ㅏ", romanization: "a",   sound: "like 'a' in father" },
+  { char: "ㅑ", romanization: "ya",  sound: "like 'ya' in yard" },
+  { char: "ㅓ", romanization: "eo",  sound: "like 'u' in fun" },
+  { char: "ㅕ", romanization: "yeo", sound: "like 'yuh'" },
+  { char: "ㅗ", romanization: "o",   sound: "like 'o' in old" },
+  { char: "ㅛ", romanization: "yo",  sound: "like 'yo' in yoga" },
+  { char: "ㅜ", romanization: "u",   sound: "like 'oo' in food" },
+  { char: "ㅠ", romanization: "yu",  sound: "like 'yu' in you" },
+  { char: "ㅡ", romanization: "eu",  sound: "no English equivalent" },
+  { char: "ㅣ", romanization: "i",   sound: "like 'ee' in see" },
 ];
 
 const VOCABULARY = [
-  // â”€â”€ Greetings â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  { korean: "ì•ˆë…•í•˜ì„¸ìš”",  romanization: "annyeonghaseyo",  english: "Hello (formal)",        category: "Greetings" },
-  { korean: "ì•ˆë…•",       romanization: "annyeong",        english: "Hi / Bye (informal)",   category: "Greetings" },
-  { korean: "ê°ì‚¬í•©ë‹ˆë‹¤", romanization: "gamsahamnida",    english: "Thank you (formal)",     category: "Greetings" },
-  { korean: "ê³ ë§ˆì›Œìš”",   romanization: "gomawoyo",        english: "Thank you (casual)",     category: "Greetings" },
-  { korean: "ì£„ì†¡í•©ë‹ˆë‹¤", romanization: "joesonghamnida",  english: "I'm sorry (formal)",     category: "Greetings" },
-  { korean: "ê´œì°®ì•„ìš”",   romanization: "gwaenchanayo",    english: "It's okay / I'm fine",   category: "Greetings" },
-  { korean: "ë„¤",         romanization: "ne",              english: "Yes",                    category: "Greetings" },
-  { korean: "ì•„ë‹ˆìš”",     romanization: "aniyo",           english: "No",                     category: "Greetings" },
-  { korean: "ì•ˆë…•ížˆ ê°€ì„¸ìš”", romanization: "annyeonghi gaseyo", english: "Goodbye (to one leaving)", category: "Greetings" },
-  { korean: "ë§Œë‚˜ì„œ ë°˜ê°€ì›Œìš”", romanization: "mannaseo bangawoyo", english: "Nice to meet you", category: "Greetings" },
-  { korean: "ìž˜ ì§€ë‚´ìš”?", romanization: "jal jinaeyo",    english: "How are you?",            category: "Greetings" },
-  { korean: "ìž˜ ì§€ë‚´ìš”",  romanization: "jal jinaeyo",    english: "I'm doing well",          category: "Greetings" },
+  // ── Greetings ──────────────────────────────────────────────────────────────
+  { korean: "안녕하세요",  romanization: "annyeonghaseyo",  english: "Hello (formal)",        category: "Greetings" },
+  { korean: "안녕",       romanization: "annyeong",        english: "Hi / Bye (informal)",   category: "Greetings" },
+  { korean: "감사합니다", romanization: "gamsahamnida",    english: "Thank you (formal)",     category: "Greetings" },
+  { korean: "고마워요",   romanization: "gomawoyo",        english: "Thank you (casual)",     category: "Greetings" },
+  { korean: "죄송합니다", romanization: "joesonghamnida",  english: "I'm sorry (formal)",     category: "Greetings" },
+  { korean: "괜찮아요",   romanization: "gwaenchanayo",    english: "It's okay / I'm fine",   category: "Greetings" },
+  { korean: "네",         romanization: "ne",              english: "Yes",                    category: "Greetings" },
+  { korean: "아니요",     romanization: "aniyo",           english: "No",                     category: "Greetings" },
+  { korean: "안녕히 가세요", romanization: "annyeonghi gaseyo", english: "Goodbye (to one leaving)", category: "Greetings" },
+  { korean: "만나서 반가워요", romanization: "mannaseo bangawoyo", english: "Nice to meet you", category: "Greetings" },
+  { korean: "잘 지내요?", romanization: "jal jinaeyo",    english: "How are you?",            category: "Greetings" },
+  { korean: "잘 지내요",  romanization: "jal jinaeyo",    english: "I'm doing well",          category: "Greetings" },
 
-  // â”€â”€ People â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  { korean: "ë‚˜",    romanization: "na",       english: "I / Me (informal)", category: "People" },
-  { korean: "ì €",    romanization: "jeo",      english: "I / Me (formal)",   category: "People" },
-  { korean: "ìš°ë¦¬",  romanization: "uri",      english: "We / Our",          category: "People" },
-  { korean: "ì¹œêµ¬",  romanization: "chingu",   english: "Friend",            category: "People" },
-  { korean: "ê°€ì¡±",  romanization: "gajok",    english: "Family",            category: "People" },
-  { korean: "ì—„ë§ˆ",  romanization: "eomma",    english: "Mom",               category: "People" },
-  { korean: "ì•„ë¹ ",  romanization: "appa",     english: "Dad",               category: "People" },
-  { korean: "ì˜¤ë¹ ",  romanization: "oppa",     english: "Older brother (female speaker)", category: "People" },
-  { korean: "ì–¸ë‹ˆ",  romanization: "eonni",    english: "Older sister (female speaker)",  category: "People" },
-  { korean: "í˜•",    romanization: "hyeong",   english: "Older brother (male speaker)",   category: "People" },
-  { korean: "ëˆ„ë‚˜",  romanization: "nuna",     english: "Older sister (male speaker)",    category: "People" },
-  { korean: "ì„ ìƒë‹˜", romanization: "seonsaengnim", english: "Teacher",       category: "People" },
-  { korean: "í•™ìƒ",  romanization: "haksaeng", english: "Student",           category: "People" },
+  // ── People ─────────────────────────────────────────────────────────────────
+  { korean: "나",    romanization: "na",       english: "I / Me (informal)", category: "People" },
+  { korean: "저",    romanization: "jeo",      english: "I / Me (formal)",   category: "People" },
+  { korean: "우리",  romanization: "uri",      english: "We / Our",          category: "People" },
+  { korean: "친구",  romanization: "chingu",   english: "Friend",            category: "People" },
+  { korean: "가족",  romanization: "gajok",    english: "Family",            category: "People" },
+  { korean: "엄마",  romanization: "eomma",    english: "Mom",               category: "People" },
+  { korean: "아빠",  romanization: "appa",     english: "Dad",               category: "People" },
+  { korean: "오빠",  romanization: "oppa",     english: "Older brother (female speaker)", category: "People" },
+  { korean: "언니",  romanization: "eonni",    english: "Older sister (female speaker)",  category: "People" },
+  { korean: "형",    romanization: "hyeong",   english: "Older brother (male speaker)",   category: "People" },
+  { korean: "누나",  romanization: "nuna",     english: "Older sister (male speaker)",    category: "People" },
+  { korean: "선생님", romanization: "seonsaengnim", english: "Teacher",       category: "People" },
+  { korean: "학생",  romanization: "haksaeng", english: "Student",           category: "People" },
 
-  // â”€â”€ Numbers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  { korean: "ì¼",   romanization: "il",    english: "1 (Sino-Korean)",    category: "Numbers" },
-  { korean: "ì´",   romanization: "i",     english: "2 (Sino-Korean)",    category: "Numbers" },
-  { korean: "ì‚¼",   romanization: "sam",   english: "3 (Sino-Korean)",    category: "Numbers" },
-  { korean: "ì‚¬",   romanization: "sa",    english: "4 (Sino-Korean)",    category: "Numbers" },
-  { korean: "ì˜¤",   romanization: "o",     english: "5 (Sino-Korean)",    category: "Numbers" },
-  { korean: "ìœ¡",   romanization: "yuk",   english: "6 (Sino-Korean)",    category: "Numbers" },
-  { korean: "ì¹ ",   romanization: "chil",  english: "7 (Sino-Korean)",    category: "Numbers" },
-  { korean: "íŒ”",   romanization: "pal",   english: "8 (Sino-Korean)",    category: "Numbers" },
-  { korean: "êµ¬",   romanization: "gu",    english: "9 (Sino-Korean)",    category: "Numbers" },
-  { korean: "ì‹­",   romanization: "sip",   english: "10 (Sino-Korean)",   category: "Numbers" },
-  { korean: "í•˜ë‚˜", romanization: "hana",  english: "1 (Native Korean)",  category: "Numbers" },
-  { korean: "ë‘˜",   romanization: "dul",   english: "2 (Native Korean)",  category: "Numbers" },
-  { korean: "ì…‹",   romanization: "set",   english: "3 (Native Korean)",  category: "Numbers" },
-  { korean: "ë„·",   romanization: "net",   english: "4 (Native Korean)",  category: "Numbers" },
-  { korean: "ë‹¤ì„¯", romanization: "daseot", english: "5 (Native Korean)", category: "Numbers" },
+  // ── Numbers ────────────────────────────────────────────────────────────────
+  { korean: "일",   romanization: "il",    english: "1 (Sino-Korean)",    category: "Numbers" },
+  { korean: "이",   romanization: "i",     english: "2 (Sino-Korean)",    category: "Numbers" },
+  { korean: "삼",   romanization: "sam",   english: "3 (Sino-Korean)",    category: "Numbers" },
+  { korean: "사",   romanization: "sa",    english: "4 (Sino-Korean)",    category: "Numbers" },
+  { korean: "오",   romanization: "o",     english: "5 (Sino-Korean)",    category: "Numbers" },
+  { korean: "육",   romanization: "yuk",   english: "6 (Sino-Korean)",    category: "Numbers" },
+  { korean: "칠",   romanization: "chil",  english: "7 (Sino-Korean)",    category: "Numbers" },
+  { korean: "팔",   romanization: "pal",   english: "8 (Sino-Korean)",    category: "Numbers" },
+  { korean: "구",   romanization: "gu",    english: "9 (Sino-Korean)",    category: "Numbers" },
+  { korean: "십",   romanization: "sip",   english: "10 (Sino-Korean)",   category: "Numbers" },
+  { korean: "하나", romanization: "hana",  english: "1 (Native Korean)",  category: "Numbers" },
+  { korean: "둘",   romanization: "dul",   english: "2 (Native Korean)",  category: "Numbers" },
+  { korean: "셋",   romanization: "set",   english: "3 (Native Korean)",  category: "Numbers" },
+  { korean: "넷",   romanization: "net",   english: "4 (Native Korean)",  category: "Numbers" },
+  { korean: "다섯", romanization: "daseot", english: "5 (Native Korean)", category: "Numbers" },
 
-  // â”€â”€ Food & Drink â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  { korean: "ë¬¼",     romanization: "mul",       english: "Water",               category: "Food" },
-  { korean: "ë°¥",     romanization: "bap",       english: "Rice / Meal",         category: "Food" },
-  { korean: "ë¹µ",     romanization: "ppang",     english: "Bread",               category: "Food" },
-  { korean: "ê³ ê¸°",   romanization: "gogi",      english: "Meat",                category: "Food" },
-  { korean: "ìƒì„ ",   romanization: "saengseon", english: "Fish",                category: "Food" },
-  { korean: "ì±„ì†Œ",   romanization: "chaeso",    english: "Vegetables",          category: "Food" },
-  { korean: "ê³¼ì¼",   romanization: "gwail",     english: "Fruit",               category: "Food" },
-  { korean: "ê¹€ì¹˜",   romanization: "gimchi",    english: "Kimchi",              category: "Food" },
-  { korean: "ë¶ˆê³ ê¸°", romanization: "bulgogi",   english: "Bulgogi",             category: "Food" },
-  { korean: "ë¹„ë¹”ë°¥", romanization: "bibimbap",  english: "Bibimbap",            category: "Food" },
-  { korean: "ë–¡ë³¶ì´", romanization: "tteokbokki", english: "Spicy rice cakes",  category: "Food" },
-  { korean: "ì»¤í”¼",   romanization: "keopi",     english: "Coffee",              category: "Food" },
-  { korean: "ì°¨",     romanization: "cha",       english: "Tea",                 category: "Food" },
-  { korean: "ì£¼ìŠ¤",   romanization: "juseu",     english: "Juice",               category: "Food" },
-  { korean: "ë§›ìžˆì–´ìš”", romanization: "massisseoyo", english: "It's delicious",  category: "Food" },
-  { korean: "ë§›ì—†ì–´ìš”", romanization: "maseopseoyo", english: "It's not tasty",  category: "Food" },
+  // ── Food & Drink ───────────────────────────────────────────────────────────
+  { korean: "물",     romanization: "mul",       english: "Water",               category: "Food" },
+  { korean: "밥",     romanization: "bap",       english: "Rice / Meal",         category: "Food" },
+  { korean: "빵",     romanization: "ppang",     english: "Bread",               category: "Food" },
+  { korean: "고기",   romanization: "gogi",      english: "Meat",                category: "Food" },
+  { korean: "생선",   romanization: "saengseon", english: "Fish",                category: "Food" },
+  { korean: "채소",   romanization: "chaeso",    english: "Vegetables",          category: "Food" },
+  { korean: "과일",   romanization: "gwail",     english: "Fruit",               category: "Food" },
+  { korean: "김치",   romanization: "gimchi",    english: "Kimchi",              category: "Food" },
+  { korean: "불고기", romanization: "bulgogi",   english: "Bulgogi",             category: "Food" },
+  { korean: "비빔밥", romanization: "bibimbap",  english: "Bibimbap",            category: "Food" },
+  { korean: "떡볶이", romanization: "tteokbokki", english: "Spicy rice cakes",  category: "Food" },
+  { korean: "커피",   romanization: "keopi",     english: "Coffee",              category: "Food" },
+  { korean: "차",     romanization: "cha",       english: "Tea",                 category: "Food" },
+  { korean: "주스",   romanization: "juseu",     english: "Juice",               category: "Food" },
+  { korean: "맛있어요", romanization: "massisseoyo", english: "It's delicious",  category: "Food" },
+  { korean: "맛없어요", romanization: "maseopseoyo", english: "It's not tasty",  category: "Food" },
 
-  // â”€â”€ Places â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  { korean: "í•™êµ",   romanization: "hakgyo",     english: "School",       category: "Places" },
-  { korean: "ì§‘",     romanization: "jip",        english: "House / Home", category: "Places" },
-  { korean: "ì‹ë‹¹",   romanization: "sikdang",    english: "Restaurant",   category: "Places" },
-  { korean: "ë³‘ì›",   romanization: "byeongwon",  english: "Hospital",     category: "Places" },
-  { korean: "ì€í–‰",   romanization: "eunhaeng",   english: "Bank",         category: "Places" },
-  { korean: "íŽ¸ì˜ì ", romanization: "pyeonuijeom", english: "Convenience store", category: "Places" },
-  { korean: "ê³µí•­",   romanization: "gonghang",   english: "Airport",      category: "Places" },
-  { korean: "ì§€í•˜ì² ì—­", romanization: "jihacheol yeok", english: "Subway station", category: "Places" },
-  { korean: "ê³µì›",   romanization: "gongwon",    english: "Park",         category: "Places" },
-  { korean: "ì„œìš¸",   romanization: "seoul",      english: "Seoul",        category: "Places" },
+  // ── Places ─────────────────────────────────────────────────────────────────
+  { korean: "학교",   romanization: "hakgyo",     english: "School",       category: "Places" },
+  { korean: "집",     romanization: "jip",        english: "House / Home", category: "Places" },
+  { korean: "식당",   romanization: "sikdang",    english: "Restaurant",   category: "Places" },
+  { korean: "병원",   romanization: "byeongwon",  english: "Hospital",     category: "Places" },
+  { korean: "은행",   romanization: "eunhaeng",   english: "Bank",         category: "Places" },
+  { korean: "편의점", romanization: "pyeonuijeom", english: "Convenience store", category: "Places" },
+  { korean: "공항",   romanization: "gonghang",   english: "Airport",      category: "Places" },
+  { korean: "지하철역", romanization: "jihacheol yeok", english: "Subway station", category: "Places" },
+  { korean: "공원",   romanization: "gongwon",    english: "Park",         category: "Places" },
+  { korean: "서울",   romanization: "seoul",      english: "Seoul",        category: "Places" },
 
-  // â”€â”€ Verbs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  { korean: "ê°€ë‹¤",    romanization: "gada",      english: "To go",         category: "Verbs" },
-  { korean: "ì˜¤ë‹¤",    romanization: "oda",       english: "To come",       category: "Verbs" },
-  { korean: "ë¨¹ë‹¤",    romanization: "meokda",    english: "To eat",        category: "Verbs" },
-  { korean: "ë§ˆì‹œë‹¤",  romanization: "masida",    english: "To drink",      category: "Verbs" },
-  { korean: "ìžë‹¤",    romanization: "jada",      english: "To sleep",      category: "Verbs" },
-  { korean: "ì¼ì–´ë‚˜ë‹¤", romanization: "ireonada", english: "To wake up",    category: "Verbs" },
-  { korean: "ê³µë¶€í•˜ë‹¤", romanization: "gongbuhada", english: "To study",    category: "Verbs" },
-  { korean: "ì¼í•˜ë‹¤",  romanization: "ilhada",    english: "To work",       category: "Verbs" },
-  { korean: "ë³´ë‹¤",    romanization: "boda",      english: "To see / watch", category: "Verbs" },
-  { korean: "ë“£ë‹¤",    romanization: "deutda",    english: "To listen",     category: "Verbs" },
-  { korean: "ë§í•˜ë‹¤",  romanization: "malhada",   english: "To speak",      category: "Verbs" },
-  { korean: "ì½ë‹¤",    romanization: "ikda",      english: "To read",       category: "Verbs" },
-  { korean: "ì“°ë‹¤",    romanization: "sseuda",    english: "To write",      category: "Verbs" },
-  { korean: "ì‚¬ë‹¤",    romanization: "sada",      english: "To buy",        category: "Verbs" },
-  { korean: "ë§Œë‚˜ë‹¤",  romanization: "mannada",   english: "To meet",       category: "Verbs" },
-  { korean: "ì•Œë‹¤",    romanization: "alda",      english: "To know",       category: "Verbs" },
-  { korean: "ì¢‹ì•„í•˜ë‹¤", romanization: "joahada",  english: "To like",       category: "Verbs" },
-  { korean: "ì‚¬ëž‘í•˜ë‹¤", romanization: "saranghada", english: "To love",     category: "Verbs" },
-  { korean: "ìžˆë‹¤",    romanization: "itda",      english: "To have / exist", category: "Verbs" },
-  { korean: "ì—†ë‹¤",    romanization: "eopda",     english: "To not have / not exist", category: "Verbs" },
+  // ── Verbs ──────────────────────────────────────────────────────────────────
+  { korean: "가다",    romanization: "gada",      english: "To go",         category: "Verbs" },
+  { korean: "오다",    romanization: "oda",       english: "To come",       category: "Verbs" },
+  { korean: "먹다",    romanization: "meokda",    english: "To eat",        category: "Verbs" },
+  { korean: "마시다",  romanization: "masida",    english: "To drink",      category: "Verbs" },
+  { korean: "자다",    romanization: "jada",      english: "To sleep",      category: "Verbs" },
+  { korean: "일어나다", romanization: "ireonada", english: "To wake up",    category: "Verbs" },
+  { korean: "공부하다", romanization: "gongbuhada", english: "To study",    category: "Verbs" },
+  { korean: "일하다",  romanization: "ilhada",    english: "To work",       category: "Verbs" },
+  { korean: "보다",    romanization: "boda",      english: "To see / watch", category: "Verbs" },
+  { korean: "듣다",    romanization: "deutda",    english: "To listen",     category: "Verbs" },
+  { korean: "말하다",  romanization: "malhada",   english: "To speak",      category: "Verbs" },
+  { korean: "읽다",    romanization: "ikda",      english: "To read",       category: "Verbs" },
+  { korean: "쓰다",    romanization: "sseuda",    english: "To write",      category: "Verbs" },
+  { korean: "사다",    romanization: "sada",      english: "To buy",        category: "Verbs" },
+  { korean: "만나다",  romanization: "mannada",   english: "To meet",       category: "Verbs" },
+  { korean: "알다",    romanization: "alda",      english: "To know",       category: "Verbs" },
+  { korean: "좋아하다", romanization: "joahada",  english: "To like",       category: "Verbs" },
+  { korean: "사랑하다", romanization: "saranghada", english: "To love",     category: "Verbs" },
+  { korean: "있다",    romanization: "itda",      english: "To have / exist", category: "Verbs" },
+  { korean: "없다",    romanization: "eopda",     english: "To not have / not exist", category: "Verbs" },
 
-  // â”€â”€ Adjectives â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  { korean: "í¬ë‹¤",     romanization: "keuda",      english: "Big / Large",      category: "Adjectives" },
-  { korean: "ìž‘ë‹¤",     romanization: "jakda",      english: "Small / Little",   category: "Adjectives" },
-  { korean: "ë§Žë‹¤",     romanization: "manta",      english: "Many / A lot",     category: "Adjectives" },
-  { korean: "ì ë‹¤",     romanization: "jeokda",     english: "Few / Little",     category: "Adjectives" },
-  { korean: "ì¢‹ë‹¤",     romanization: "jota",       english: "Good",             category: "Adjectives" },
-  { korean: "ë‚˜ì˜ë‹¤",   romanization: "nappeuda",   english: "Bad",              category: "Adjectives" },
-  { korean: "ë¹ ë¥´ë‹¤",   romanization: "ppareuda",   english: "Fast",             category: "Adjectives" },
-  { korean: "ëŠë¦¬ë‹¤",   romanization: "neurida",    english: "Slow",             category: "Adjectives" },
-  { korean: "ì˜ˆì˜ë‹¤",   romanization: "yeppeuda",   english: "Pretty / Beautiful", category: "Adjectives" },
-  { korean: "ë©‹ìžˆë‹¤",   romanization: "meositda",   english: "Cool / Stylish",   category: "Adjectives" },
-  { korean: "ìž¬ë¯¸ìžˆë‹¤", romanization: "jaemiitda",  english: "Interesting / Fun", category: "Adjectives" },
-  { korean: "ì–´ë µë‹¤",   romanization: "eoryeopda",  english: "Difficult",        category: "Adjectives" },
-  { korean: "ì‰½ë‹¤",     romanization: "swipda",     english: "Easy",             category: "Adjectives" },
-  { korean: "ë¥ë‹¤",     romanization: "deobda",     english: "Hot (weather)",    category: "Adjectives" },
-  { korean: "ì¶¥ë‹¤",     romanization: "chupda",     english: "Cold (weather)",   category: "Adjectives" },
+  // ── Adjectives ─────────────────────────────────────────────────────────────
+  { korean: "크다",     romanization: "keuda",      english: "Big / Large",      category: "Adjectives" },
+  { korean: "작다",     romanization: "jakda",      english: "Small / Little",   category: "Adjectives" },
+  { korean: "많다",     romanization: "manta",      english: "Many / A lot",     category: "Adjectives" },
+  { korean: "적다",     romanization: "jeokda",     english: "Few / Little",     category: "Adjectives" },
+  { korean: "좋다",     romanization: "jota",       english: "Good",             category: "Adjectives" },
+  { korean: "나쁘다",   romanization: "nappeuda",   english: "Bad",              category: "Adjectives" },
+  { korean: "빠르다",   romanization: "ppareuda",   english: "Fast",             category: "Adjectives" },
+  { korean: "느리다",   romanization: "neurida",    english: "Slow",             category: "Adjectives" },
+  { korean: "예쁘다",   romanization: "yeppeuda",   english: "Pretty / Beautiful", category: "Adjectives" },
+  { korean: "멋있다",   romanization: "meositda",   english: "Cool / Stylish",   category: "Adjectives" },
+  { korean: "재미있다", romanization: "jaemiitda",  english: "Interesting / Fun", category: "Adjectives" },
+  { korean: "어렵다",   romanization: "eoryeopda",  english: "Difficult",        category: "Adjectives" },
+  { korean: "쉽다",     romanization: "swipda",     english: "Easy",             category: "Adjectives" },
+  { korean: "덥다",     romanization: "deobda",     english: "Hot (weather)",    category: "Adjectives" },
+  { korean: "춥다",     romanization: "chupda",     english: "Cold (weather)",   category: "Adjectives" },
 
-  // â”€â”€ Time â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  { korean: "ì˜¤ëŠ˜",  romanization: "oneul",   english: "Today",      category: "Time" },
-  { korean: "ë‚´ì¼",  romanization: "naeil",   english: "Tomorrow",   category: "Time" },
-  { korean: "ì–´ì œ",  romanization: "eoje",    english: "Yesterday",  category: "Time" },
-  { korean: "ì§€ê¸ˆ",  romanization: "jigeum",  english: "Now",        category: "Time" },
-  { korean: "ì•„ì¹¨",  romanization: "achim",   english: "Morning",    category: "Time" },
-  { korean: "ì ì‹¬",  romanization: "jeomsim", english: "Lunch / Noon", category: "Time" },
-  { korean: "ì €ë…",  romanization: "jeonyeok", english: "Evening",   category: "Time" },
-  { korean: "ë°¤",    romanization: "bam",     english: "Night",      category: "Time" },
-  { korean: "ì›”ìš”ì¼", romanization: "woryoil", english: "Monday",    category: "Time" },
-  { korean: "í™”ìš”ì¼", romanization: "hwayoil", english: "Tuesday",   category: "Time" },
-  { korean: "ìˆ˜ìš”ì¼", romanization: "suyoil",  english: "Wednesday", category: "Time" },
-  { korean: "ëª©ìš”ì¼", romanization: "mogyoil", english: "Thursday",  category: "Time" },
-  { korean: "ê¸ˆìš”ì¼", romanization: "geumyoil", english: "Friday",   category: "Time" },
-  { korean: "í† ìš”ì¼", romanization: "toyoil",  english: "Saturday",  category: "Time" },
-  { korean: "ì¼ìš”ì¼", romanization: "iryoil",  english: "Sunday",    category: "Time" },
+  // ── Time ───────────────────────────────────────────────────────────────────
+  { korean: "오늘",  romanization: "oneul",   english: "Today",      category: "Time" },
+  { korean: "내일",  romanization: "naeil",   english: "Tomorrow",   category: "Time" },
+  { korean: "어제",  romanization: "eoje",    english: "Yesterday",  category: "Time" },
+  { korean: "지금",  romanization: "jigeum",  english: "Now",        category: "Time" },
+  { korean: "아침",  romanization: "achim",   english: "Morning",    category: "Time" },
+  { korean: "점심",  romanization: "jeomsim", english: "Lunch / Noon", category: "Time" },
+  { korean: "저녁",  romanization: "jeonyeok", english: "Evening",   category: "Time" },
+  { korean: "밤",    romanization: "bam",     english: "Night",      category: "Time" },
+  { korean: "월요일", romanization: "woryoil", english: "Monday",    category: "Time" },
+  { korean: "화요일", romanization: "hwayoil", english: "Tuesday",   category: "Time" },
+  { korean: "수요일", romanization: "suyoil",  english: "Wednesday", category: "Time" },
+  { korean: "목요일", romanization: "mogyoil", english: "Thursday",  category: "Time" },
+  { korean: "금요일", romanization: "geumyoil", english: "Friday",   category: "Time" },
+  { korean: "토요일", romanization: "toyoil",  english: "Saturday",  category: "Time" },
+  { korean: "일요일", romanization: "iryoil",  english: "Sunday",    category: "Time" },
 
-  // â”€â”€ Colors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  { korean: "ë¹¨ê°„ìƒ‰", romanization: "ppalgansaek", english: "Red",    category: "Colors" },
-  { korean: "íŒŒëž€ìƒ‰", romanization: "paransaek",   english: "Blue",   category: "Colors" },
-  { korean: "ì´ˆë¡ìƒ‰", romanization: "choroksaek",  english: "Green",  category: "Colors" },
-  { korean: "ë…¸ëž€ìƒ‰", romanization: "noransaek",   english: "Yellow", category: "Colors" },
-  { korean: "í°ìƒ‰",   romanization: "huinsaek",    english: "White",  category: "Colors" },
-  { korean: "ê²€ì€ìƒ‰", romanization: "geomeunsaek", english: "Black",  category: "Colors" },
-  { korean: "ë³´ë¼ìƒ‰", romanization: "borasaek",    english: "Purple", category: "Colors" },
-  { korean: "ì£¼í™©ìƒ‰", romanization: "juhwangsaek", english: "Orange", category: "Colors" },
-  { korean: "ë¶„í™ìƒ‰", romanization: "bunhongsaek", english: "Pink",   category: "Colors" },
-  { korean: "ê°ˆìƒ‰",   romanization: "galsaek",     english: "Brown",  category: "Colors" },
+  // ── Colors ─────────────────────────────────────────────────────────────────
+  { korean: "빨간색", romanization: "ppalgansaek", english: "Red",    category: "Colors" },
+  { korean: "파란색", romanization: "paransaek",   english: "Blue",   category: "Colors" },
+  { korean: "초록색", romanization: "choroksaek",  english: "Green",  category: "Colors" },
+  { korean: "노란색", romanization: "noransaek",   english: "Yellow", category: "Colors" },
+  { korean: "흰색",   romanization: "huinsaek",    english: "White",  category: "Colors" },
+  { korean: "검은색", romanization: "geomeunsaek", english: "Black",  category: "Colors" },
+  { korean: "보라색", romanization: "borasaek",    english: "Purple", category: "Colors" },
+  { korean: "주황색", romanization: "juhwangsaek", english: "Orange", category: "Colors" },
+  { korean: "분홍색", romanization: "bunhongsaek", english: "Pink",   category: "Colors" },
+  { korean: "갈색",   romanization: "galsaek",     english: "Brown",  category: "Colors" },
 
-  // â”€â”€ Emotions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  { korean: "í–‰ë³µí•´ìš”",  romanization: "haengbokhaeyo", english: "Happy",     category: "Emotions" },
-  { korean: "ìŠ¬í¼ìš”",   romanization: "seulpeoyo",     english: "Sad",       category: "Emotions" },
-  { korean: "í™”ë‚˜ìš”",   romanization: "hwanayo",       english: "Angry",     category: "Emotions" },
-  { korean: "ë¬´ì„œì›Œìš”", romanization: "museowoyo",     english: "Scared",    category: "Emotions" },
-  { korean: "í”¼ê³¤í•´ìš”", romanization: "pigonhaeyo",    english: "Tired",     category: "Emotions" },
-  { korean: "ë°°ê³ íŒŒìš”", romanization: "baegopayo",     english: "Hungry",    category: "Emotions" },
-  { korean: "ë°°ë¶ˆëŸ¬ìš”", romanization: "baebulleoyo",   english: "Full (after eating)", category: "Emotions" },
-  { korean: "ì‹¬ì‹¬í•´ìš”", romanization: "simsimhaeyo",   english: "Bored",     category: "Emotions" },
-  { korean: "ì‹ ë‚˜ìš”",   romanization: "sinnayo",       english: "Excited",   category: "Emotions" },
-  { korean: "ê±±ì •ë¼ìš”", romanization: "geokjeongdwaeyo", english: "Worried", category: "Emotions" },
+  // ── Emotions ───────────────────────────────────────────────────────────────
+  { korean: "행복해요",  romanization: "haengbokhaeyo", english: "Happy",     category: "Emotions" },
+  { korean: "슬퍼요",   romanization: "seulpeoyo",     english: "Sad",       category: "Emotions" },
+  { korean: "화나요",   romanization: "hwanayo",       english: "Angry",     category: "Emotions" },
+  { korean: "무서워요", romanization: "museowoyo",     english: "Scared",    category: "Emotions" },
+  { korean: "피곤해요", romanization: "pigonhaeyo",    english: "Tired",     category: "Emotions" },
+  { korean: "배고파요", romanization: "baegopayo",     english: "Hungry",    category: "Emotions" },
+  { korean: "배불러요", romanization: "baebulleoyo",   english: "Full (after eating)", category: "Emotions" },
+  { korean: "심심해요", romanization: "simsimhaeyo",   english: "Bored",     category: "Emotions" },
+  { korean: "신나요",   romanization: "sinnayo",       english: "Excited",   category: "Emotions" },
+  { korean: "걱정돼요", romanization: "geokjeongdwaeyo", english: "Worried", category: "Emotions" },
 ];
 
-// â”€â”€ Sentence Patterns â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Sentence Patterns ────────────────────────────────────────────────────────
 const SENTENCE_PATTERNS = [
   {
     id: "sov",
     title: "Word Order: SOV",
     badge: "Core Rule",
     badgeColor: "#6c63ff",
-    summary: "Korean sentences follow Subject â†’ Object â†’ Verb order. The verb always comes last.",
-    explanation: "In English you say 'I eat rice.' In Korean the verb ë¨¹ì–´ìš” (eat) comes at the end: ë‚˜ëŠ” ë°¥ì„ ë¨¹ì–´ìš”. This applies to all Korean sentences â€” the verb is always the final element.",
+    summary: "Korean sentences follow Subject → Object → Verb order. The verb always comes last.",
+    explanation: "In English you say 'I eat rice.' In Korean the verb 먹어요 (eat) comes at the end: 나는 밥을 먹어요. This applies to all Korean sentences — the verb is always the final element.",
     examples: [
-      { korean: "ë‚˜ëŠ” ë°¥ì„ ë¨¹ì–´ìš”",     romanization: "naneun babeul meogeoyo",   english: "I eat rice",          parts: ["ë‚˜ëŠ”Â·I (topic)", "ë°¥ì„Â·rice (object)", "ë¨¹ì–´ìš”Â·eat"] },
-      { korean: "ì €ëŠ” ë¬¼ì„ ë§ˆì…”ìš”",     romanization: "jeoneun mureul mashyeoyo", english: "I drink water",       parts: ["ì €ëŠ”Â·I (topic)", "ë¬¼ì„Â·water (object)", "ë§ˆì…”ìš”Â·drink"] },
-      { korean: "ì¹œêµ¬ëŠ” ìŒì•…ì„ ë“¤ì–´ìš”", romanization: "chinguneun eumageul deureoyo", english: "My friend listens to music", parts: ["ì¹œêµ¬ëŠ”Â·friend (topic)", "ìŒì•…ì„Â·music (object)", "ë“¤ì–´ìš”Â·listens"] },
+      { korean: "나는 밥을 먹어요",     romanization: "naneun babeul meogeoyo",   english: "I eat rice",          parts: ["나는·I (topic)", "밥을·rice (object)", "먹어요·eat"] },
+      { korean: "저는 물을 마셔요",     romanization: "jeoneun mureul mashyeoyo", english: "I drink water",       parts: ["저는·I (topic)", "물을·water (object)", "마셔요·drink"] },
+      { korean: "친구는 음악을 들어요", romanization: "chinguneun eumageul deureoyo", english: "My friend listens to music", parts: ["친구는·friend (topic)", "음악을·music (object)", "들어요·listens"] },
     ],
   },
   {
     id: "topic",
-    title: "Topic Particle ì€/ëŠ”",
+    title: "Topic Particle 은/는",
     badge: "Particles",
     badgeColor: "#ff6584",
-    summary: "ì€ (after consonant) / ëŠ” (after vowel) marks what the sentence is about.",
-    explanation: "The topic particle tells the listener what you're talking about. Use ì€ when the preceding syllable ends in a consonant, and ëŠ” when it ends in a vowel. Topics are often things already known in the conversation.",
+    summary: "은 (after consonant) / 는 (after vowel) marks what the sentence is about.",
+    explanation: "The topic particle tells the listener what you're talking about. Use 은 when the preceding syllable ends in a consonant, and 는 when it ends in a vowel. Topics are often things already known in the conversation.",
     examples: [
-      { korean: "ì €ëŠ” í•™ìƒì´ì—ìš”",   romanization: "jeoneun haksaengieyo",  english: "I am a student",     parts: ["ì €ëŠ”Â·I (topic)", "í•™ìƒì´ì—ìš”Â·am a student"] },
-      { korean: "ì˜¤ëŠ˜ì€ ë”ì›Œìš”",    romanization: "oneureun deowoyo",      english: "Today is hot",        parts: ["ì˜¤ëŠ˜ì€Â·today (topic)", "ë”ì›Œìš”Â·is hot"] },
-      { korean: "ì´ ì±…ì€ ìž¬ë¯¸ìžˆì–´ìš”", romanization: "i chaegeun jaemiisseoyo", english: "This book is interesting", parts: ["ì´ ì±…ì€Â·this book (topic)", "ìž¬ë¯¸ìžˆì–´ìš”Â·is interesting"] },
+      { korean: "저는 학생이에요",   romanization: "jeoneun haksaengieyo",  english: "I am a student",     parts: ["저는·I (topic)", "학생이에요·am a student"] },
+      { korean: "오늘은 더워요",    romanization: "oneureun deowoyo",      english: "Today is hot",        parts: ["오늘은·today (topic)", "더워요·is hot"] },
+      { korean: "이 책은 재미있어요", romanization: "i chaegeun jaemiisseoyo", english: "This book is interesting", parts: ["이 책은·this book (topic)", "재미있어요·is interesting"] },
     ],
   },
   {
     id: "subject",
-    title: "Subject Particle ì´/ê°€",
+    title: "Subject Particle 이/가",
     badge: "Particles",
     badgeColor: "#ff6584",
-    summary: "ì´ (after consonant) / ê°€ (after vowel) marks the grammatical subject â€” often new information.",
-    explanation: "While ì€/ëŠ” marks the topic (what you're talking about), ì´/ê°€ marks the subject (who/what performs the action). It often introduces new information or emphasizes the subject. Use ì´ after a consonant, ê°€ after a vowel.",
+    summary: "이 (after consonant) / 가 (after vowel) marks the grammatical subject — often new information.",
+    explanation: "While 은/는 marks the topic (what you're talking about), 이/가 marks the subject (who/what performs the action). It often introduces new information or emphasizes the subject. Use 이 after a consonant, 가 after a vowel.",
     examples: [
-      { korean: "ë¹„ê°€ ì™€ìš”",        romanization: "biga wayo",         english: "Rain is coming / It's raining", parts: ["ë¹„ê°€Â·rain (subject)", "ì™€ìš”Â·comes"] },
-      { korean: "ì¹œêµ¬ê°€ ì „í™”í–ˆì–´ìš”", romanization: "chinguga jeonhwahaesseoyo", english: "My friend called",  parts: ["ì¹œêµ¬ê°€Â·friend (subject)", "ì „í™”í–ˆì–´ìš”Â·called"] },
-      { korean: "ê³ ì–‘ì´ê°€ ìžìš”",    romanization: "goyangi ga jayo",   english: "The cat is sleeping",  parts: ["ê³ ì–‘ì´ê°€Â·cat (subject)", "ìžìš”Â·sleeps"] },
+      { korean: "비가 와요",        romanization: "biga wayo",         english: "Rain is coming / It's raining", parts: ["비가·rain (subject)", "와요·comes"] },
+      { korean: "친구가 전화했어요", romanization: "chinguga jeonhwahaesseoyo", english: "My friend called",  parts: ["친구가·friend (subject)", "전화했어요·called"] },
+      { korean: "고양이가 자요",    romanization: "goyangi ga jayo",   english: "The cat is sleeping",  parts: ["고양이가·cat (subject)", "자요·sleeps"] },
     ],
   },
   {
     id: "object",
-    title: "Object Particle ì„/ë¥¼",
+    title: "Object Particle 을/를",
     badge: "Particles",
     badgeColor: "#ff6584",
-    summary: "ì„ (after consonant) / ë¥¼ (after vowel) marks the direct object of a verb.",
-    explanation: "This particle attaches to the noun receiving the action. Use ì„ when the noun ends in a consonant, and ë¥¼ when it ends in a vowel. The object always comes before the verb.",
+    summary: "을 (after consonant) / 를 (after vowel) marks the direct object of a verb.",
+    explanation: "This particle attaches to the noun receiving the action. Use 을 when the noun ends in a consonant, and 를 when it ends in a vowel. The object always comes before the verb.",
     examples: [
-      { korean: "ì‚¬ê³¼ë¥¼ ë¨¹ì–´ìš”",   romanization: "sagwareul meogeoyo",  english: "I eat an apple",      parts: ["ì‚¬ê³¼ë¥¼Â·apple (object)", "ë¨¹ì–´ìš”Â·eat"] },
-      { korean: "í•œêµ­ì–´ë¥¼ ê³µë¶€í•´ìš”", romanization: "hangugeo reul gongbuhaeyo", english: "I study Korean", parts: ["í•œêµ­ì–´ë¥¼Â·Korean (object)", "ê³µë¶€í•´ìš”Â·study"] },
-      { korean: "ìŒì•…ì„ ë“¤ì–´ìš”",   romanization: "eumageul deureoyo",  english: "I listen to music",   parts: ["ìŒì•…ì„Â·music (object)", "ë“¤ì–´ìš”Â·listen"] },
+      { korean: "사과를 먹어요",   romanization: "sagwareul meogeoyo",  english: "I eat an apple",      parts: ["사과를·apple (object)", "먹어요·eat"] },
+      { korean: "한국어를 공부해요", romanization: "hangugeo reul gongbuhaeyo", english: "I study Korean", parts: ["한국어를·Korean (object)", "공부해요·study"] },
+      { korean: "음악을 들어요",   romanization: "eumageul deureoyo",  english: "I listen to music",   parts: ["음악을·music (object)", "들어요·listen"] },
     ],
   },
   {
     id: "location",
-    title: "Location: ì— vs ì—ì„œ",
+    title: "Location: 에 vs 에서",
     badge: "Particles",
     badgeColor: "#ff6584",
-    summary: "ì— = static location or direction. ì—ì„œ = location of an action.",
-    explanation: "ì— is used for where something exists (ìžˆì–´ìš”/ì—†ì–´ìš”) or where you're going (direction). ì—ì„œ is used for where an action takes place. Think of ì— as 'at/to' and ì—ì„œ as 'at (doing something here)' or 'from'.",
+    summary: "에 = static location or direction. 에서 = location of an action.",
+    explanation: "에 is used for where something exists (있어요/없어요) or where you're going (direction). 에서 is used for where an action takes place. Think of 에 as 'at/to' and 에서 as 'at (doing something here)' or 'from'.",
     examples: [
-      { korean: "í•™êµì— ê°€ìš”",    romanization: "hakgyoe gayo",      english: "I go to school",        parts: ["í•™êµì—Â·to school", "ê°€ìš”Â·go"] },
-      { korean: "ì§‘ì— ìžˆì–´ìš”",   romanization: "jibe isseoyo",      english: "I am at home",          parts: ["ì§‘ì—Â·at home", "ìžˆì–´ìš”Â·am/exist"] },
-      { korean: "ì¹´íŽ˜ì—ì„œ ê³µë¶€í•´ìš”", romanization: "kapeeseo gongbuhaeyo", english: "I study at the cafÃ©", parts: ["ì¹´íŽ˜ì—ì„œÂ·at the cafÃ©", "ê³µë¶€í•´ìš”Â·study"] },
+      { korean: "학교에 가요",    romanization: "hakgyoe gayo",      english: "I go to school",        parts: ["학교에·to school", "가요·go"] },
+      { korean: "집에 있어요",   romanization: "jibe isseoyo",      english: "I am at home",          parts: ["집에·at home", "있어요·am/exist"] },
+      { korean: "카페에서 공부해요", romanization: "kapeeseo gongbuhaeyo", english: "I study at the café", parts: ["카페에서·at the café", "공부해요·study"] },
     ],
   },
   {
     id: "negation",
-    title: "Negation with ì•ˆ",
+    title: "Negation with 안",
     badge: "Grammar",
     badgeColor: "#43e97b",
-    summary: "Place ì•ˆ directly before the verb to make it negative.",
-    explanation: "ì•ˆ is the simple negation adverb meaning 'not'. Put it right before the verb or adjective. For compound verbs ending in í•˜ë‹¤ (to do), insert ì•ˆ before í•˜ë‹¤: ê³µë¶€ ì•ˆ í•´ìš”. This is the everyday spoken negation.",
+    summary: "Place 안 directly before the verb to make it negative.",
+    explanation: "안 is the simple negation adverb meaning 'not'. Put it right before the verb or adjective. For compound verbs ending in 하다 (to do), insert 안 before 하다: 공부 안 해요. This is the everyday spoken negation.",
     examples: [
-      { korean: "ì•ˆ ë¨¹ì–´ìš”",       romanization: "an meogeoyo",        english: "I don't eat",          parts: ["ì•ˆÂ·not", "ë¨¹ì–´ìš”Â·eat"] },
-      { korean: "ì•ˆ ê°€ìš”",        romanization: "an gayo",            english: "I'm not going",        parts: ["ì•ˆÂ·not", "ê°€ìš”Â·go"] },
-      { korean: "ê³µë¶€ ì•ˆ í•´ìš”",   romanization: "gongbu an haeyo",    english: "I don't study",        parts: ["ê³µë¶€Â·study", "ì•ˆÂ·not", "í•´ìš”Â·do"] },
+      { korean: "안 먹어요",       romanization: "an meogeoyo",        english: "I don't eat",          parts: ["안·not", "먹어요·eat"] },
+      { korean: "안 가요",        romanization: "an gayo",            english: "I'm not going",        parts: ["안·not", "가요·go"] },
+      { korean: "공부 안 해요",   romanization: "gongbu an haeyo",    english: "I don't study",        parts: ["공부·study", "안·not", "해요·do"] },
     ],
   },
   {
     id: "tobe",
-    title: "To Be: ì´ì—ìš”/ì˜ˆìš”",
+    title: "To Be: 이에요/예요",
     badge: "Grammar",
     badgeColor: "#43e97b",
-    summary: "ì´ì—ìš” (after consonant) / ì˜ˆìš” (after vowel) = 'am/is/are' for identification.",
-    explanation: "To say someone IS something (a noun), attach ì´ì—ìš” to nouns ending in a consonant, or ì˜ˆìš” to nouns ending in a vowel. This is different from ìžˆì–´ìš” which means to exist or have. For negative: noun + ì´/ê°€ ì•„ë‹ˆì—ìš” (is not).",
+    summary: "이에요 (after consonant) / 예요 (after vowel) = 'am/is/are' for identification.",
+    explanation: "To say someone IS something (a noun), attach 이에요 to nouns ending in a consonant, or 예요 to nouns ending in a vowel. This is different from 있어요 which means to exist or have. For negative: noun + 이/가 아니에요 (is not).",
     examples: [
-      { korean: "ì €ëŠ” í•™ìƒì´ì—ìš”",  romanization: "jeoneun haksaengieyo",  english: "I am a student",     parts: ["ì €ëŠ”Â·I (topic)", "í•™ìƒì´ì—ìš”Â·am a student"] },
-      { korean: "ì´ê±° ë­ì˜ˆìš”?",    romanization: "igeo mwoyeyo",         english: "What is this?",       parts: ["ì´ê±°Â·this", "ë­ì˜ˆìš”?Â·what is?"] },
-      { korean: "ì €ëŠ” ì„ ìƒë‹˜ì´ ì•„ë‹ˆì—ìš”", romanization: "jeoneun seonsaengnimi anieyo", english: "I'm not a teacher", parts: ["ì €ëŠ”Â·I", "ì„ ìƒë‹˜ì´Â·teacher", "ì•„ë‹ˆì—ìš”Â·am not"] },
+      { korean: "저는 학생이에요",  romanization: "jeoneun haksaengieyo",  english: "I am a student",     parts: ["저는·I (topic)", "학생이에요·am a student"] },
+      { korean: "이거 뭐예요?",    romanization: "igeo mwoyeyo",         english: "What is this?",       parts: ["이거·this", "뭐예요?·what is?"] },
+      { korean: "저는 선생님이 아니에요", romanization: "jeoneun seonsaengnimi anieyo", english: "I'm not a teacher", parts: ["저는·I", "선생님이·teacher", "아니에요·am not"] },
     ],
   },
   {
     id: "polite",
-    title: "Polite Endings: ì•„ìš”/ì–´ìš”",
+    title: "Polite Endings: 아요/어요",
     badge: "Verbs",
     badgeColor: "#ffa94d",
-    summary: "Most verbs in polite speech end in ì•„ìš” or ì–´ìš” â€” the everyday standard form.",
-    explanation: "Remove ë‹¤ from the dictionary form, then add ì•„ìš” if the last vowel is ã… or ã…—, or ì–´ìš” for all others. í•˜ë‹¤ verbs become í•´ìš”. This is the polite informal level you'll use most of the time.",
+    summary: "Most verbs in polite speech end in 아요 or 어요 — the everyday standard form.",
+    explanation: "Remove 다 from the dictionary form, then add 아요 if the last vowel is ㅏ or ㅗ, or 어요 for all others. 하다 verbs become 해요. This is the polite informal level you'll use most of the time.",
     examples: [
-      { korean: "ê°€ìš”",    romanization: "gayo",     english: "go (polite)",    parts: ["ê°€ë‹¤ â†’ ê°€Â·stem", "ìš”Â·polite ending"] },
-      { korean: "ë¨¹ì–´ìš”",  romanization: "meogeoyo", english: "eat (polite)",   parts: ["ë¨¹ë‹¤ â†’ ë¨¹Â·stem", "ì–´ìš”Â·polite ending"] },
-      { korean: "ê³µë¶€í•´ìš”", romanization: "gongbuhaeyo", english: "study (polite)", parts: ["ê³µë¶€í•˜ë‹¤ â†’ ê³µë¶€Â·stem", "í•´ìš”Â·do (polite)"] },
+      { korean: "가요",    romanization: "gayo",     english: "go (polite)",    parts: ["가다 → 가·stem", "요·polite ending"] },
+      { korean: "먹어요",  romanization: "meogeoyo", english: "eat (polite)",   parts: ["먹다 → 먹·stem", "어요·polite ending"] },
+      { korean: "공부해요", romanization: "gongbuhaeyo", english: "study (polite)", parts: ["공부하다 → 공부·stem", "해요·do (polite)"] },
     ],
   },
   {
@@ -634,206 +634,206 @@ const SENTENCE_PATTERNS = [
     title: "Asking Questions",
     badge: "Grammar",
     badgeColor: "#43e97b",
-    summary: "Korean questions use the same word order as statements â€” just change your intonation or add a question word.",
-    explanation: "You can make any statement a yes/no question just by raising your voice at the end. Question words (ë­=what, ì–´ë””=where, ì–¸ì œ=when, ëˆ„êµ¬=who, ì™œ=why, ì–´ë–»ê²Œ=how) slot into the sentence where the answer would go. The verb still comes last.",
+    summary: "Korean questions use the same word order as statements — just change your intonation or add a question word.",
+    explanation: "You can make any statement a yes/no question just by raising your voice at the end. Question words (뭐=what, 어디=where, 언제=when, 누구=who, 왜=why, 어떻게=how) slot into the sentence where the answer would go. The verb still comes last.",
     examples: [
-      { korean: "ë°¥ì„ ë¨¹ì–´ìš”?",    romanization: "babeul meogeoyo?",   english: "Do you eat rice?",     parts: ["ë°¥ì„Â·rice (object)", "ë¨¹ì–´ìš”?Â·eat? (rising intonation)"] },
-      { korean: "ë­ë¥¼ ë¨¹ì–´ìš”?",   romanization: "mworeul meogeoyo?",  english: "What do you eat?",     parts: ["ë­ë¥¼Â·what (object)", "ë¨¹ì–´ìš”?Â·eat?"] },
-      { korean: "ì–´ë””ì— ê°€ìš”?",   romanization: "eodie gayo?",        english: "Where are you going?",  parts: ["ì–´ë””ì—Â·where (to)", "ê°€ìš”?Â·go?"] },
+      { korean: "밥을 먹어요?",    romanization: "babeul meogeoyo?",   english: "Do you eat rice?",     parts: ["밥을·rice (object)", "먹어요?·eat? (rising intonation)"] },
+      { korean: "뭐를 먹어요?",   romanization: "mworeul meogeoyo?",  english: "What do you eat?",     parts: ["뭐를·what (object)", "먹어요?·eat?"] },
+      { korean: "어디에 가요?",   romanization: "eodie gayo?",        english: "Where are you going?",  parts: ["어디에·where (to)", "가요?·go?"] },
     ],
   },
   {
     id: "past",
-    title: "Past Tense: ì•˜ì–´ìš”/ì—ˆì–´ìš”",
+    title: "Past Tense: 았어요/었어요",
     badge: "Verbs",
     badgeColor: "#ffa94d",
-    summary: "Add ì•˜ì–´ìš” (after ã…/ã…— vowels) or ì—ˆì–´ìš” (all others) to the verb stem for past tense.",
-    explanation: "Past tense in Korean is formed by taking the verb stem and adding ì•˜ì–´ìš” or ì—ˆì–´ìš”. The rule is the same as ì•„ìš”/ì–´ìš” â€” ã… or ã…— takes ì•˜, everything else takes ì—ˆ. í•˜ë‹¤ becomes í–ˆì–´ìš”.",
+    summary: "Add 았어요 (after ㅏ/ㅗ vowels) or 었어요 (all others) to the verb stem for past tense.",
+    explanation: "Past tense in Korean is formed by taking the verb stem and adding 았어요 or 었어요. The rule is the same as 아요/어요 — ㅏ or ㅗ takes 았, everything else takes 었. 하다 becomes 했어요.",
     examples: [
-      { korean: "ë¨¹ì—ˆì–´ìš”",    romanization: "meogeosseoyo",  english: "I ate",         parts: ["ë¨¹Â·stem", "ì—ˆì–´ìš”Â·past tense ending"] },
-      { korean: "ê°”ì–´ìš”",     romanization: "gasseoyo",      english: "I went",        parts: ["ê°€Â·stem", "ì•˜ì–´ìš”Â·past tense ending"] },
-      { korean: "ê³µë¶€í–ˆì–´ìš”",  romanization: "gongbuhaesseoyo", english: "I studied",  parts: ["ê³µë¶€í•˜Â·stem", "ì•˜ì–´ìš” â†’ í–ˆì–´ìš”Â·past"] },
+      { korean: "먹었어요",    romanization: "meogeosseoyo",  english: "I ate",         parts: ["먹·stem", "었어요·past tense ending"] },
+      { korean: "갔어요",     romanization: "gasseoyo",      english: "I went",        parts: ["가·stem", "았어요·past tense ending"] },
+      { korean: "공부했어요",  romanization: "gongbuhaesseoyo", english: "I studied",  parts: ["공부하·stem", "았어요 → 했어요·past"] },
     ],
   },
 ];
 
-// â”€â”€ Sentence Builder Exercises â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Sentence Builder Exercises ────────────────────────────────────────────────
 const SENTENCE_BUILDER = [
-  { english: "I eat rice",             words: ["ë‚˜ëŠ”", "ë°¥ì„", "ë¨¹ì–´ìš”"],              pattern: "sov" },
-  { english: "I drink water",          words: ["ì €ëŠ”", "ë¬¼ì„", "ë§ˆì…”ìš”"],              pattern: "sov" },
-  { english: "I go to school",         words: ["ì €ëŠ”", "í•™êµì—", "ê°€ìš”"],             pattern: "location" },
-  { english: "I study at home",        words: ["ì €ëŠ”", "ì§‘ì—ì„œ", "ê³µë¶€í•´ìš”"],         pattern: "location" },
-  { english: "I am a student",         words: ["ì €ëŠ”", "í•™ìƒì´ì—ìš”"],                 pattern: "tobe" },
-  { english: "I don't eat",            words: ["ì €ëŠ”", "ì•ˆ", "ë¨¹ì–´ìš”"],               pattern: "negation" },
-  { english: "I don't go",             words: ["ì €ëŠ”", "ì•ˆ", "ê°€ìš”"],                 pattern: "negation" },
-  { english: "I listen to music",      words: ["ì €ëŠ”", "ìŒì•…ì„", "ë“¤ì–´ìš”"],           pattern: "object" },
-  { english: "Where are you going?",   words: ["ì–´ë””ì—", "ê°€ìš”?"],                    pattern: "question" },
-  { english: "What do you eat?",       words: ["ë­ë¥¼", "ë¨¹ì–´ìš”?"],                    pattern: "question" },
-  { english: "I studied Korean",       words: ["ì €ëŠ”", "í•œêµ­ì–´ë¥¼", "ê³µë¶€í–ˆì–´ìš”"],     pattern: "past" },
-  { english: "I ate rice",             words: ["ì €ëŠ”", "ë°¥ì„", "ë¨¹ì—ˆì–´ìš”"],           pattern: "past" },
-  { english: "My friend is coming",    words: ["ì¹œêµ¬ê°€", "ì™€ìš”"],                     pattern: "subject" },
-  { english: "It is raining",          words: ["ë¹„ê°€", "ì™€ìš”"],                       pattern: "subject" },
-  { english: "I like Korean food",     words: ["ì €ëŠ”", "í•œêµ­ ìŒì‹ì„", "ì¢‹ì•„í•´ìš”"],    pattern: "object" },
-  { english: "Today is hot",           words: ["ì˜¤ëŠ˜ì€", "ë”ì›Œìš”"],                   pattern: "topic" },
-  { english: "I went to the hospital", words: ["ì €ëŠ”", "ë³‘ì›ì—", "ê°”ì–´ìš”"],           pattern: "past" },
-  { english: "I don't study",          words: ["ê³µë¶€", "ì•ˆ", "í•´ìš”"],                 pattern: "negation" },
+  { english: "I eat rice",             words: ["나는", "밥을", "먹어요"],              pattern: "sov" },
+  { english: "I drink water",          words: ["저는", "물을", "마셔요"],              pattern: "sov" },
+  { english: "I go to school",         words: ["저는", "학교에", "가요"],             pattern: "location" },
+  { english: "I study at home",        words: ["저는", "집에서", "공부해요"],         pattern: "location" },
+  { english: "I am a student",         words: ["저는", "학생이에요"],                 pattern: "tobe" },
+  { english: "I don't eat",            words: ["저는", "안", "먹어요"],               pattern: "negation" },
+  { english: "I don't go",             words: ["저는", "안", "가요"],                 pattern: "negation" },
+  { english: "I listen to music",      words: ["저는", "음악을", "들어요"],           pattern: "object" },
+  { english: "Where are you going?",   words: ["어디에", "가요?"],                    pattern: "question" },
+  { english: "What do you eat?",       words: ["뭐를", "먹어요?"],                    pattern: "question" },
+  { english: "I studied Korean",       words: ["저는", "한국어를", "공부했어요"],     pattern: "past" },
+  { english: "I ate rice",             words: ["저는", "밥을", "먹었어요"],           pattern: "past" },
+  { english: "My friend is coming",    words: ["친구가", "와요"],                     pattern: "subject" },
+  { english: "It is raining",          words: ["비가", "와요"],                       pattern: "subject" },
+  { english: "I like Korean food",     words: ["저는", "한국 음식을", "좋아해요"],    pattern: "object" },
+  { english: "Today is hot",           words: ["오늘은", "더워요"],                   pattern: "topic" },
+  { english: "I went to the hospital", words: ["저는", "병원에", "갔어요"],           pattern: "past" },
+  { english: "I don't study",          words: ["공부", "안", "해요"],                 pattern: "negation" },
 ];
 
-// â”€â”€ Grammar Quiz Questions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Grammar Quiz Questions ────────────────────────────────────────────────────
 const GRAMMAR_QUIZ = [
-  // â”€â”€ Particles â”€â”€
+  // ── Particles ──
   { q: "Which particle marks the TOPIC of a sentence?",
-    opts: ["ì€/ëŠ”", "ì´/ê°€", "ì„/ë¥¼", "ì—ì„œ"], a: "ì€/ëŠ”",
-    tip: "ì€/ëŠ” marks the topic (what you're talking about). Use ì€ after consonants, ëŠ” after vowels." },
+    opts: ["은/는", "이/가", "을/를", "에서"], a: "은/는",
+    tip: "은/는 marks the topic (what you're talking about). Use 은 after consonants, 는 after vowels." },
 
   { q: "Which particle marks the DIRECT OBJECT?",
-    opts: ["ì„/ë¥¼", "ì€/ëŠ”", "ì´/ê°€", "ì—"], a: "ì„/ë¥¼",
-    tip: "ì„/ë¥¼ marks the object receiving the action. Use ì„ after consonants, ë¥¼ after vowels." },
+    opts: ["을/를", "은/는", "이/가", "에"], a: "을/를",
+    tip: "을/를 marks the object receiving the action. Use 을 after consonants, 를 after vowels." },
 
   { q: "Which particle marks the grammatical SUBJECT (new info)?",
-    opts: ["ì´/ê°€", "ì€/ëŠ”", "ì„/ë¥¼", "ì—ì„œ"], a: "ì´/ê°€",
-    tip: "ì´/ê°€ marks the subject, often introducing new or emphasized information." },
+    opts: ["이/가", "은/는", "을/를", "에서"], a: "이/가",
+    tip: "이/가 marks the subject, often introducing new or emphasized information." },
 
-  { q: "Fill in the blank: ì €___ ë°¥ì„ ë¨¹ì–´ìš” (I eat rice)",
-    opts: ["ëŠ”", "ê°€", "ë¥¼", "ì—"], a: "ëŠ”",
-    tip: "ì € ends in a vowel, so the topic particle ëŠ” is used. (ì € + ëŠ” = ì €ëŠ”)" },
+  { q: "Fill in the blank: 저___ 밥을 먹어요 (I eat rice)",
+    opts: ["는", "가", "를", "에"], a: "는",
+    tip: "저 ends in a vowel, so the topic particle 는 is used. (저 + 는 = 저는)" },
 
-  { q: "Fill in the blank: ì¹œêµ¬___ í•™êµì— ê°€ìš” (My friend goes to school)",
-    opts: ["ê°€", "ëŠ”", "ë¥¼", "ì—ì„œ"], a: "ê°€",
-    tip: "ì¹œêµ¬ ends in a vowel, so the subject particle ê°€ is used. (ì¹œêµ¬ + ê°€ = ì¹œêµ¬ê°€)" },
+  { q: "Fill in the blank: 친구___ 학교에 가요 (My friend goes to school)",
+    opts: ["가", "는", "를", "에서"], a: "가",
+    tip: "친구 ends in a vowel, so the subject particle 가 is used. (친구 + 가 = 친구가)" },
 
-  { q: "Fill in the blank: ì €ëŠ” ë¬¼___ ë§ˆì…”ìš” (I drink water)",
-    opts: ["ì„", "ëŠ”", "ê°€", "ì—ì„œ"], a: "ì„",
-    tip: "ë¬¼ ends in the consonant ã„¹, so the object particle ì„ is used. (ë¬¼ + ì„ = ë¬¼ì„)" },
+  { q: "Fill in the blank: 저는 물___ 마셔요 (I drink water)",
+    opts: ["을", "는", "가", "에서"], a: "을",
+    tip: "물 ends in the consonant ㄹ, so the object particle 을 is used. (물 + 을 = 물을)" },
 
-  { q: "Fill in the blank: ì €ëŠ” í•œêµ­ì–´___ ê³µë¶€í•´ìš” (I study Korean)",
-    opts: ["ë¥¼", "ì„", "ëŠ”", "ê°€"], a: "ë¥¼",
-    tip: "í•œêµ­ì–´ ends in a vowel, so the object particle ë¥¼ is used." },
+  { q: "Fill in the blank: 저는 한국어___ 공부해요 (I study Korean)",
+    opts: ["를", "을", "는", "가"], a: "를",
+    tip: "한국어 ends in a vowel, so the object particle 를 is used." },
 
-  // â”€â”€ Location â”€â”€
+  // ── Location ──
   { q: "Which particle means 'where an ACTION takes place'?",
-    opts: ["ì—ì„œ", "ì—", "ì„/ë¥¼", "ì´/ê°€"], a: "ì—ì„œ",
-    tip: "ì—ì„œ marks where an action happens (study, eat, work). ì— marks static location or direction." },
+    opts: ["에서", "에", "을/를", "이/가"], a: "에서",
+    tip: "에서 marks where an action happens (study, eat, work). 에 marks static location or direction." },
 
-  { q: "Fill in the blank: í•™êµ___ ê°€ìš” (I go to school)",
-    opts: ["ì—", "ì—ì„œ", "ëŠ”", "ê°€"], a: "ì—",
-    tip: "ì— is used with direction/movement verbs like ê°€ë‹¤ and ì˜¤ë‹¤." },
+  { q: "Fill in the blank: 학교___ 가요 (I go to school)",
+    opts: ["에", "에서", "는", "가"], a: "에",
+    tip: "에 is used with direction/movement verbs like 가다 and 오다." },
 
-  { q: "Fill in the blank: ì¹´íŽ˜___ ê³µë¶€í•´ìš” (I study at the cafÃ©)",
-    opts: ["ì—ì„œ", "ì—", "ê°€", "ë¥¼"], a: "ì—ì„œ",
-    tip: "ì—ì„œ is used because studying is an action being performed at the cafÃ©." },
+  { q: "Fill in the blank: 카페___ 공부해요 (I study at the café)",
+    opts: ["에서", "에", "가", "를"], a: "에서",
+    tip: "에서 is used because studying is an action being performed at the café." },
 
-  { q: "Fill in the blank: ì§‘___ ìžˆì–´ìš” (I am at home)",
-    opts: ["ì—", "ì—ì„œ", "ê°€", "ë¥¼"], a: "ì—",
-    tip: "ìžˆë‹¤ (to exist/be) uses ì— for location, not ì—ì„œ." },
+  { q: "Fill in the blank: 집___ 있어요 (I am at home)",
+    opts: ["에", "에서", "가", "를"], a: "에",
+    tip: "있다 (to exist/be) uses 에 for location, not 에서." },
 
-  // â”€â”€ Negation â”€â”€
+  // ── Negation ──
   { q: "How do you say 'I don't eat'?",
-    opts: ["ì•ˆ ë¨¹ì–´ìš”", "ë¨¹ ì•ˆ ì–´ìš”", "ë¨¹ì–´ìš” ì•ˆ", "ëª» ìžˆì–´ìš”"], a: "ì•ˆ ë¨¹ì–´ìš”",
-    tip: "ì•ˆ goes directly in front of the verb to negate it: ì•ˆ + verb." },
+    opts: ["안 먹어요", "먹 안 어요", "먹어요 안", "못 있어요"], a: "안 먹어요",
+    tip: "안 goes directly in front of the verb to negate it: 안 + verb." },
 
-  { q: "How do you say 'I don't study' (ê³µë¶€í•˜ë‹¤)?",
-    opts: ["ê³µë¶€ ì•ˆ í•´ìš”", "ì•ˆ ê³µë¶€í•´ìš”", "ê³µë¶€í•´ìš” ì•ˆ", "ì•ˆ ê³µë¶€ í•´ìš”"], a: "ê³µë¶€ ì•ˆ í•´ìš”",
-    tip: "For í•˜ë‹¤ compound verbs, ì•ˆ goes between the noun and í•˜ë‹¤: noun + ì•ˆ + í•´ìš”." },
+  { q: "How do you say 'I don't study' (공부하다)?",
+    opts: ["공부 안 해요", "안 공부해요", "공부해요 안", "안 공부 해요"], a: "공부 안 해요",
+    tip: "For 하다 compound verbs, 안 goes between the noun and 하다: noun + 안 + 해요." },
 
-  { q: "Where does ì•ˆ go in a sentence to negate a verb?",
+  { q: "Where does 안 go in a sentence to negate a verb?",
     opts: ["Directly before the verb", "At the very start", "After the verb", "After the subject"], a: "Directly before the verb",
-    tip: "ì•ˆ always sits right before the verb (or í•˜ë‹¤ in compound verbs)." },
+    tip: "안 always sits right before the verb (or 하다 in compound verbs)." },
 
-  // â”€â”€ To Be â”€â”€
+  // ── To Be ──
   { q: "Which ending means 'am/is/are' after a noun ending in a CONSONANT?",
-    opts: ["ì´ì—ìš”", "ì˜ˆìš”", "ìžˆì–´ìš”", "í•´ìš”"], a: "ì´ì—ìš”",
-    tip: "ì´ì—ìš” follows nouns ending in a consonant. ì˜ˆìš” follows nouns ending in a vowel." },
+    opts: ["이에요", "예요", "있어요", "해요"], a: "이에요",
+    tip: "이에요 follows nouns ending in a consonant. 예요 follows nouns ending in a vowel." },
 
   { q: "Which ending means 'am/is/are' after a noun ending in a VOWEL?",
-    opts: ["ì˜ˆìš”", "ì´ì—ìš”", "ìžˆì–´ìš”", "ê°€ìš”"], a: "ì˜ˆìš”",
-    tip: "ì˜ˆìš” follows nouns ending in a vowel. ì´ì—ìš” follows consonant-ending nouns." },
+    opts: ["예요", "이에요", "있어요", "가요"], a: "예요",
+    tip: "예요 follows nouns ending in a vowel. 이에요 follows consonant-ending nouns." },
 
-  { q: "How do you say 'I am a student'? (ì €, í•™ìƒ)",
-    opts: ["ì €ëŠ” í•™ìƒì´ì—ìš”", "ì €ëŠ” í•™ìƒì˜ˆìš”", "ì €ê°€ í•™ìƒì´ì—ìš”", "ì €ëŠ” í•™ìƒìžˆì–´ìš”"], a: "ì €ëŠ” í•™ìƒì´ì—ìš”",
-    tip: "í•™ìƒ ends in ã…‡ (a consonant), so ì´ì—ìš” is used. Topic particle ëŠ” after ì €." },
+  { q: "How do you say 'I am a student'? (저, 학생)",
+    opts: ["저는 학생이에요", "저는 학생예요", "저가 학생이에요", "저는 학생있어요"], a: "저는 학생이에요",
+    tip: "학생 ends in ㅇ (a consonant), so 이에요 is used. Topic particle 는 after 저." },
 
-  { q: "What is 'I am not a teacher'? (ì €, ì„ ìƒë‹˜)",
-    opts: ["ì €ëŠ” ì„ ìƒë‹˜ì´ ì•„ë‹ˆì—ìš”", "ì €ëŠ” ì„ ìƒë‹˜ ì—†ì–´ìš”", "ì €ëŠ” ì•ˆ ì„ ìƒë‹˜ì´ì—ìš”", "ì €ëŠ” ì„ ìƒë‹˜ì´ì—ìš” ì•ˆ"], a: "ì €ëŠ” ì„ ìƒë‹˜ì´ ì•„ë‹ˆì—ìš”",
-    tip: "Negative of ì´ì—ìš”/ì˜ˆìš” is ì´/ê°€ ì•„ë‹ˆì—ìš”. The subject particle ì´ attaches to ì„ ìƒë‹˜." },
+  { q: "What is 'I am not a teacher'? (저, 선생님)",
+    opts: ["저는 선생님이 아니에요", "저는 선생님 없어요", "저는 안 선생님이에요", "저는 선생님이에요 안"], a: "저는 선생님이 아니에요",
+    tip: "Negative of 이에요/예요 is 이/가 아니에요. The subject particle 이 attaches to 선생님." },
 
-  // â”€â”€ Word Order â”€â”€
+  // ── Word Order ──
   { q: "What is the correct word order in Korean?",
     opts: ["Subject + Object + Verb", "Subject + Verb + Object", "Verb + Subject + Object", "Object + Subject + Verb"], a: "Subject + Object + Verb",
     tip: "Korean is an SOV language. The verb ALWAYS comes at the very end of the sentence." },
 
   { q: "Which sentence has the correct Korean word order?",
-    opts: ["ì €ëŠ” ë°¥ì„ ë¨¹ì–´ìš”", "ì €ëŠ” ë¨¹ì–´ìš” ë°¥ì„", "ë¨¹ì–´ìš” ì €ëŠ” ë°¥ì„", "ë°¥ì„ ë¨¹ì–´ìš” ì €ëŠ”"], a: "ì €ëŠ” ë°¥ì„ ë¨¹ì–´ìš”",
-    tip: "Correct: Subject (ì €ëŠ”) â†’ Object (ë°¥ì„) â†’ Verb (ë¨¹ì–´ìš”). Verb always last!" },
+    opts: ["저는 밥을 먹어요", "저는 먹어요 밥을", "먹어요 저는 밥을", "밥을 먹어요 저는"], a: "저는 밥을 먹어요",
+    tip: "Correct: Subject (저는) → Object (밥을) → Verb (먹어요). Verb always last!" },
 
   { q: "In Korean, where does the verb always go?",
     opts: ["At the end of the sentence", "At the beginning", "After the subject", "Before the object"], a: "At the end of the sentence",
-    tip: "This is the most important rule of Korean grammar â€” the verb is always the final word." },
+    tip: "This is the most important rule of Korean grammar — the verb is always the final word." },
 
-  // â”€â”€ Verb Endings â”€â”€
+  // ── Verb Endings ──
   { q: "What is the polite present tense ending for most verbs?",
-    opts: ["ì•„ìš”/ì–´ìš”", "ì•˜ì–´ìš”/ì—ˆì–´ìš”", "ê² ì–´ìš”", "ì´ì—ìš”"], a: "ì•„ìš”/ì–´ìš”",
-    tip: "ì•„ìš” follows ã… or ã…— vowel stems. ì–´ìš” follows all other stems. í•˜ë‹¤ â†’ í•´ìš”." },
+    opts: ["아요/어요", "았어요/었어요", "겠어요", "이에요"], a: "아요/어요",
+    tip: "아요 follows ㅏ or ㅗ vowel stems. 어요 follows all other stems. 하다 → 해요." },
 
   { q: "What is the polite PAST tense ending?",
-    opts: ["ì•˜ì–´ìš”/ì—ˆì–´ìš”", "ì•„ìš”/ì–´ìš”", "ê² ì–´ìš”", "ì´ì—ìš”"], a: "ì•˜ì–´ìš”/ì—ˆì–´ìš”",
-    tip: "ì•˜ì–´ìš” follows ã…/ã…— stems. ì—ˆì–´ìš” follows all others. í•˜ë‹¤ â†’ í–ˆì–´ìš”." },
+    opts: ["았어요/었어요", "아요/어요", "겠어요", "이에요"], a: "았어요/었어요",
+    tip: "았어요 follows ㅏ/ㅗ stems. 었어요 follows all others. 하다 → 했어요." },
 
-  { q: "What is the past tense of ê°€ë‹¤ (to go)?",
-    opts: ["ê°”ì–´ìš”", "ê°€ì—ˆì–´ìš”", "ê°€ìš”", "ê°”ìš”"], a: "ê°”ì–´ìš”",
-    tip: "ê°€ + ì•˜ì–´ìš” contracts: ê°€ì•˜ì–´ìš” â†’ ê°”ì–´ìš”. ã… vowels contract with ì•˜." },
+  { q: "What is the past tense of 가다 (to go)?",
+    opts: ["갔어요", "가었어요", "가요", "갔요"], a: "갔어요",
+    tip: "가 + 았어요 contracts: 가았어요 → 갔어요. ㅏ vowels contract with 았." },
 
-  { q: "What is the past tense of ë¨¹ë‹¤ (to eat)?",
-    opts: ["ë¨¹ì—ˆì–´ìš”", "ë¨¹ì•˜ì–´ìš”", "ë¨¹ì–´ìš”", "ë¨¹ê² ì–´ìš”"], a: "ë¨¹ì—ˆì–´ìš”",
-    tip: "ë¨¹ has the vowel ã…“, which is not ã… or ã…—, so ì—ˆì–´ìš” is used: ë¨¹ + ì—ˆì–´ìš”." },
+  { q: "What is the past tense of 먹다 (to eat)?",
+    opts: ["먹었어요", "먹았어요", "먹어요", "먹겠어요"], a: "먹었어요",
+    tip: "먹 has the vowel ㅓ, which is not ㅏ or ㅗ, so 었어요 is used: 먹 + 었어요." },
 
-  { q: "What is the polite form of ê³µë¶€í•˜ë‹¤ (to study)?",
-    opts: ["ê³µë¶€í•´ìš”", "ê³µë¶€í•˜ìš”", "ê³µë¶€ì–´ìš”", "ê³µë¶€ì•˜ì–´ìš”"], a: "ê³µë¶€í•´ìš”",
-    tip: "All í•˜ë‹¤ verbs follow the same pattern: í•˜ë‹¤ â†’ í•´ìš” in polite speech." },
+  { q: "What is the polite form of 공부하다 (to study)?",
+    opts: ["공부해요", "공부하요", "공부어요", "공부았어요"], a: "공부해요",
+    tip: "All 하다 verbs follow the same pattern: 하다 → 해요 in polite speech." },
 
-  { q: "What is the past tense of ê³µë¶€í•˜ë‹¤ (to study)?",
-    opts: ["ê³µë¶€í–ˆì–´ìš”", "ê³µë¶€í•˜ì—ˆì–´ìš”", "ê³µë¶€í•´ì–´ìš”", "ê³µë¶€ì•˜ì–´ìš”"], a: "ê³µë¶€í–ˆì–´ìš”",
-    tip: "í•˜ë‹¤ past tense: í•˜ + ì˜€ì–´ìš” â†’ í–ˆì–´ìš”. So ê³µë¶€í•˜ë‹¤ â†’ ê³µë¶€í–ˆì–´ìš”." },
+  { q: "What is the past tense of 공부하다 (to study)?",
+    opts: ["공부했어요", "공부하었어요", "공부해어요", "공부았어요"], a: "공부했어요",
+    tip: "하다 past tense: 하 + 였어요 → 했어요. So 공부하다 → 공부했어요." },
 
-  // â”€â”€ Questions â”€â”€
+  // ── Questions ──
   { q: "How do you form a yes/no question in Korean?",
-    opts: ["Same word order as a statement, raise intonation", "Move the verb to the front", "Add ê¹Œ to the start", "Add ìš”? before the subject"], a: "Same word order as a statement, raise intonation",
+    opts: ["Same word order as a statement, raise intonation", "Move the verb to the front", "Add 까 to the start", "Add 요? before the subject"], a: "Same word order as a statement, raise intonation",
     tip: "Korean yes/no questions keep the exact same word order. Just raise your intonation at the end." },
 
-  { q: "Where do question words (ë­, ì–´ë””, ì–¸ì œ, ëˆ„êµ¬) go?",
+  { q: "Where do question words (뭐, 어디, 언제, 누구) go?",
     opts: ["Where the answer would go", "Always at the very start", "Always just before the verb", "After the topic particle"], a: "Where the answer would go",
     tip: "Question words slot in where their answer belongs. The verb still comes last." },
 
   { q: "How do you say 'Where are you going?'",
-    opts: ["ì–´ë””ì— ê°€ìš”?", "ê°€ìš” ì–´ë””ì—?", "ì–´ë””ì—ìš” ê°€?", "ê°€ìš”? ì–´ë””ì—"], a: "ì–´ë””ì— ê°€ìš”?",
-    tip: "ì–´ë”” (where) + ì— (direction) comes before the verb ê°€ìš”. The verb stays at the end even in questions." },
+    opts: ["어디에 가요?", "가요 어디에?", "어디에요 가?", "가요? 어디에"], a: "어디에 가요?",
+    tip: "어디 (where) + 에 (direction) comes before the verb 가요. The verb stays at the end even in questions." },
 
-  // â”€â”€ ìžˆë‹¤/ì—†ë‹¤ â”€â”€
-  { q: "What does ìžˆì–´ìš” mean?",
+  // ── 있다/없다 ──
+  { q: "What does 있어요 mean?",
     opts: ["There is / I have", "There isn't / I don't have", "I am", "I go"], a: "There is / I have",
-    tip: "ìžˆë‹¤ means to exist or to have. Its opposite is ì—†ë‹¤ (ì—†ì–´ìš”) â€” to not exist / not have." },
+    tip: "있다 means to exist or to have. Its opposite is 없다 (없어요) — to not exist / not have." },
 
-  { q: "How do you say 'I don't have time'? (ì‹œê°„)",
-    opts: ["ì‹œê°„ì´ ì—†ì–´ìš”", "ì‹œê°„ì´ ìžˆì–´ìš”", "ì‹œê°„ì€ ì•ˆ ìžˆì–´ìš”", "ì‹œê°„ê°€ ì—†ì–´ìš”"], a: "ì‹œê°„ì´ ì—†ì–´ìš”",
-    tip: "ì‹œê°„ (time) + ì´ (subject particle, after consonant) + ì—†ì–´ìš” (don't have)." },
+  { q: "How do you say 'I don't have time'? (시간)",
+    opts: ["시간이 없어요", "시간이 있어요", "시간은 안 있어요", "시간가 없어요"], a: "시간이 없어요",
+    tip: "시간 (time) + 이 (subject particle, after consonant) + 없어요 (don't have)." },
 
-  // â”€â”€ Mixed application â”€â”€
+  // ── Mixed application ──
   { q: "Which sentence correctly means 'I like Korean food'?",
-    opts: ["ì €ëŠ” í•œêµ­ ìŒì‹ì„ ì¢‹ì•„í•´ìš”", "ì €ëŠ” í•œêµ­ ìŒì‹ì´ ì¢‹ì•„í•´ìš”", "ì €ëŠ” ì¢‹ì•„í•´ìš” í•œêµ­ ìŒì‹ì„", "í•œêµ­ ìŒì‹ì€ ì €ë¥¼ ì¢‹ì•„í•´ìš”"], a: "ì €ëŠ” í•œêµ­ ìŒì‹ì„ ì¢‹ì•„í•´ìš”",
-    tip: "ì¢‹ì•„í•˜ë‹¤ (to like) takes an object with ì„/ë¥¼. Word order: Subject + Object + Verb." },
+    opts: ["저는 한국 음식을 좋아해요", "저는 한국 음식이 좋아해요", "저는 좋아해요 한국 음식을", "한국 음식은 저를 좋아해요"], a: "저는 한국 음식을 좋아해요",
+    tip: "좋아하다 (to like) takes an object with 을/를. Word order: Subject + Object + Verb." },
 
   { q: "Which sentence correctly means 'It is raining'?",
-    opts: ["ë¹„ê°€ ì™€ìš”", "ë¹„ëŠ” ì™€ìš”", "ë¹„ë¥¼ ì™€ìš”", "ë¹„ì—ì„œ ì™€ìš”"], a: "ë¹„ê°€ ì™€ìš”",
-    tip: "ë¹„ (rain) is the subject performing ì™€ìš” (comes/falls), so the subject particle ê°€ is used." },
+    opts: ["비가 와요", "비는 와요", "비를 와요", "비에서 와요"], a: "비가 와요",
+    tip: "비 (rain) is the subject performing 와요 (comes/falls), so the subject particle 가 is used." },
 
   { q: "Which is the correct way to say 'I went to school'?",
-    opts: ["ì €ëŠ” í•™êµì— ê°”ì–´ìš”", "ì €ëŠ” í•™êµì—ì„œ ê°”ì–´ìš”", "ì €ëŠ” í•™êµê°€ ê°”ì–´ìš”", "ì €ëŠ” í•™êµë¥¼ ê°”ì–´ìš”"], a: "ì €ëŠ” í•™êµì— ê°”ì–´ìš”",
-    tip: "ì— marks direction/destination with movement verbs. Past tense: ê°€ë‹¤ â†’ ê°”ì–´ìš”." },
+    opts: ["저는 학교에 갔어요", "저는 학교에서 갔어요", "저는 학교가 갔어요", "저는 학교를 갔어요"], a: "저는 학교에 갔어요",
+    tip: "에 marks direction/destination with movement verbs. Past tense: 가다 → 갔어요." },
 ];
 
 </script>
 <script>
-/* â”€â”€ Utilities â”€â”€ */
+/* ── Utilities ── */
 function el(tag, props = {}, ...children) {
   const e = document.createElement(tag);
   for (const [k, v] of Object.entries(props)) {
@@ -859,7 +859,7 @@ function shuffle(arr) {
   return a;
 }
 
-/* â”€â”€ Persistence â”€â”€ */
+/* ── Persistence ── */
 const store = {
   get(key, fallback) {
     try { const v = localStorage.getItem(key); return v !== null ? JSON.parse(v) : fallback; }
@@ -891,7 +891,7 @@ function resetAll() {
   localStorage.removeItem('quiz_history');
 }
 
-/* â”€â”€ State â”€â”€ */
+/* ── State ── */
 const state = {
   view: 'home',
   hangulTab: 'consonants',
@@ -914,7 +914,7 @@ const state = {
   builderCorrect: false,
 };
 
-/* â”€â”€ Render â”€â”€ */
+/* ── Render ── */
 function render() {
   const app = document.getElementById('app');
   app.innerHTML = '';
@@ -923,15 +923,15 @@ function render() {
 
 function renderHeader() {
   const navItems = [
-    { id: 'home', label: 'ðŸ  Home' },
-    { id: 'hangul', label: 'ê°€ Hangul' },
-    { id: 'flashcard', label: 'ðŸ“‡ Flashcards' },
-    { id: 'quiz', label: 'âœï¸ Quiz' },
-    { id: 'sentences', label: 'ðŸ“ Sentences' },
+    { id: 'home', label: '🏠 Home' },
+    { id: 'hangul', label: '가 Hangul' },
+    { id: 'flashcard', label: '📇 Flashcards' },
+    { id: 'quiz', label: '✏️ Quiz' },
+    { id: 'sentences', label: '📝 Sentences' },
   ];
   return el('header', {},
     el('div', { className: 'logo', onClick: () => { state.view = 'home'; render(); } },
-      el('span', { className: 'logo-kr' }, 'í•œ'),
+      el('span', { className: 'logo-kr' }, '한'),
       el('span', {}, 'Learn Korean')
     ),
     el('nav', {},
@@ -953,7 +953,7 @@ function renderView() {
   if (state.view === 'sentences') return renderSentences();
 }
 
-/* â”€â”€ Home â”€â”€ */
+/* ── Home ── */
 function renderHome() {
   const studied = getStudied();
   const known = getKnown();
@@ -977,7 +977,7 @@ function renderHome() {
         el('div', { className: 'dash-label' }, 'Words Known')
       ),
       el('div', { className: 'dash-stat' },
-        el('div', { className: 'dash-num c3' }, history.length ? `${avgQuiz}%` : 'â€”'),
+        el('div', { className: 'dash-num c3' }, history.length ? `${avgQuiz}%` : '—'),
         el('div', { className: 'dash-label' }, 'Quiz Avg')
       )
     ),
@@ -1006,22 +1006,22 @@ function renderHome() {
 
   const modules = [
     {
-      id: 'hangul', cls: 'c1', icon: 'ê°€', title: 'Hangul Alphabet',
+      id: 'hangul', cls: 'c1', icon: '가', title: 'Hangul Alphabet',
       desc: '14 consonants + 10 vowels. Click to reveal pronunciation.',
       prog: makeProg('', studied.size, totalHangul, 'c1', true),
     },
     {
-      id: 'flashcard', cls: 'c2', icon: 'ðŸ“‡', title: 'Vocabulary Flashcards',
+      id: 'flashcard', cls: 'c2', icon: '📇', title: 'Vocabulary Flashcards',
       desc: `${VOCABULARY.length} words across 6 categories. Mark words as known.`,
       prog: makeProg('', known.size, VOCABULARY.length, 'c2', true),
     },
     {
-      id: 'quiz', cls: 'c3', icon: 'âœï¸', title: 'Quiz Mode',
+      id: 'quiz', cls: 'c3', icon: '✏️', title: 'Quiz Mode',
       desc: `Vocab quiz + Grammar quiz. ${allHistory.length ? `Best: ${Math.max(...allHistory.map(h => Math.round((h.score/h.total)*100)))}%` : 'No attempts yet.'}`,
       prog: null,
     },
     {
-      id: 'sentences', cls: 'c1', icon: 'ðŸ“', title: 'Sentence Structure',
+      id: 'sentences', cls: 'c1', icon: '📝', title: 'Sentence Structure',
       desc: `${SENTENCE_PATTERNS.length} grammar patterns + interactive sentence builder.`,
       prog: null,
     },
@@ -1029,7 +1029,7 @@ function renderHome() {
 
   return el('div', {},
     el('div', { className: 'home-hero' },
-      el('h1', {}, 'í•œêµ­ì–´ ë°°ìš°ê¸°'),
+      el('h1', {}, '한국어 배우기'),
       el('h1', {}, 'Learn ', el('span', {}, 'Korean')),
       el('p', {}, 'Track your progress across all modules')
     ),
@@ -1060,7 +1060,7 @@ function makeProg(label, val, max, cls, compact = false) {
   );
 }
 
-/* â”€â”€ Hangul â”€â”€ */
+/* ── Hangul ── */
 function renderHangul() {
   const data = state.hangulTab === 'consonants' ? HANGUL_CONSONANTS : HANGUL_VOWELS;
   const studied = getStudied();
@@ -1082,7 +1082,7 @@ function renderHangul() {
         render();
       },
     },
-      isStudied ? el('div', { className: 'studied-badge' }, 'âœ“') : null,
+      isStudied ? el('div', { className: 'studied-badge' }, '✓') : null,
       el('div', { className: 'hangul-char' }, item.char),
       el('div', { className: 'hangul-rom' }, item.romanization),
       el('div', { className: 'hangul-sound' }, item.sound)
@@ -1091,23 +1091,23 @@ function renderHangul() {
 
   return el('div', {},
     el('div', { className: 'section-title' }, 'Hangul Alphabet'),
-    el('div', { className: 'section-subtitle' }, 'Click a card to reveal pronunciation â€¢ Green border = studied'),
+    el('div', { className: 'section-subtitle' }, 'Click a card to reveal pronunciation • Green border = studied'),
     el('div', { className: 'hangul-prog-row' }, makeProg('Progress', studied.size, total, 'c1')),
     el('div', { className: 'tab-bar' },
       el('button', {
         className: 'tab' + (state.hangulTab === 'consonants' ? ' active' : ''),
         onClick: () => { state.hangulTab = 'consonants'; state.hangulFlipped.clear(); render(); },
-      }, `Consonants (ìžìŒ) â€” ${HANGUL_CONSONANTS.length}`),
+      }, `Consonants (자음) — ${HANGUL_CONSONANTS.length}`),
       el('button', {
         className: 'tab' + (state.hangulTab === 'vowels' ? ' active' : ''),
         onClick: () => { state.hangulTab = 'vowels'; state.hangulFlipped.clear(); render(); },
-      }, `Vowels (ëª¨ìŒ) â€” ${HANGUL_VOWELS.length}`)
+      }, `Vowels (모음) — ${HANGUL_VOWELS.length}`)
     ),
     el('div', { className: 'hangul-grid' }, ...cards)
   );
 }
 
-/* â”€â”€ Flashcards â”€â”€ */
+/* ── Flashcards ── */
 function getFilteredVocab() {
   return state.fcCategory === 'All' ? VOCABULARY : VOCABULARY.filter(w => w.category === state.fcCategory);
 }
@@ -1124,7 +1124,7 @@ function renderFlashcard() {
 
   return el('div', {},
     el('div', { className: 'section-title' }, 'Vocabulary Flashcards'),
-    el('div', { className: 'section-subtitle' }, 'Flip to reveal â€¢ Mark words you know'),
+    el('div', { className: 'section-subtitle' }, 'Flip to reveal • Mark words you know'),
     el('div', { className: 'fc-stats' },
       el('div', { className: 'fc-stat' }, el('span', { className: 'known' }, `${knownInFilter}`), ` / ${words.length} known in this view`),
       el('div', { className: 'fc-stat' }, el('span', { className: 'known' }, `${known.size}`), ` / ${VOCABULARY.length} total known`)
@@ -1143,13 +1143,13 @@ function renderFlashcard() {
         onClick: () => { state.fcFlipped = !state.fcFlipped; render(); },
       },
         el('div', { className: 'card-face card-front' + (isKnown ? ' known-card' : '') },
-          isKnown ? el('div', { className: 'known-tag' }, 'âœ“ Known') : null,
+          isKnown ? el('div', { className: 'known-tag' }, '✓ Known') : null,
           el('div', { className: 'card-category' }, word.category),
           el('div', { className: 'card-korean' }, word.korean),
           el('div', { className: 'card-hint' }, 'Click to reveal')
         ),
         el('div', { className: 'card-face card-back' + (isKnown ? ' known-card' : '') },
-          isKnown ? el('div', { className: 'known-tag' }, 'âœ“ Known') : null,
+          isKnown ? el('div', { className: 'known-tag' }, '✓ Known') : null,
           el('div', { className: 'card-rom' }, word.romanization),
           el('div', { className: 'card-eng' }, word.english)
         )
@@ -1159,30 +1159,30 @@ function renderFlashcard() {
       el('button', {
         className: 'nav-btn', disabled: idx === 0,
         onClick: () => { state.fcIndex = idx - 1; state.fcFlipped = false; render(); },
-      }, 'â† Prev'),
+      }, '← Prev'),
       el('span', { className: 'card-counter' }, `${idx + 1} / ${words.length}`),
       el('button', {
         className: 'nav-btn', disabled: idx === words.length - 1,
         onClick: () => { state.fcIndex = idx + 1; state.fcFlipped = false; render(); },
-      }, 'Next â†’')
+      }, 'Next →')
     ),
     el('div', { className: 'know-actions' },
       isKnown
-        ? el('button', { className: 'btn-unlearn', onClick: () => { known.delete(word.korean); setKnown(known); render(); } }, 'âœ— Still Learning')
-        : el('button', { className: 'btn-know', onClick: () => { known.add(word.korean); setKnown(known); render(); } }, 'âœ“ Mark as Known')
+        ? el('button', { className: 'btn-unlearn', onClick: () => { known.delete(word.korean); setKnown(known); render(); } }, '✗ Still Learning')
+        : el('button', { className: 'btn-know', onClick: () => { known.add(word.korean); setKnown(known); render(); } }, '✓ Mark as Known')
     ),
-    el('div', { className: 'card-flip-hint' }, 'â† â†’ arrow keys to navigate â€¢ Space to flip')
+    el('div', { className: 'card-flip-hint' }, '← → arrow keys to navigate • Space to flip')
   );
 }
 
-/* â”€â”€ Quiz â”€â”€ */
+/* ── Quiz ── */
 function renderQuiz() {
   if (state.quizView === 'select') return renderQuizSelect();
   if (state.quizView === 'vocab')  return renderVocabQuiz();
   if (state.quizView === 'grammar') return renderGrammarQuiz();
 }
 
-// â”€â”€ Quiz selection screen â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Quiz selection screen ──────────────────────────────────────────────────
 function renderQuizSelect() {
   const vh = getQuizHistory('vocab');
   const gh = getQuizHistory('grammar');
@@ -1202,16 +1202,16 @@ function renderQuizSelect() {
   }
 
   return el('div', {},
-    el('div', { className: 'section-title' }, 'âœï¸ Quiz Mode'),
-    el('div', { className: 'section-subtitle' }, 'Choose a quiz â€” questions are fully randomised every time'),
+    el('div', { className: 'section-title' }, '✏️ Quiz Mode'),
+    el('div', { className: 'section-subtitle' }, 'Choose a quiz — questions are fully randomised every time'),
     el('div', { className: 'cards-grid' },
       // Vocab quiz card
       el('div', { className: 'module-card c2', style: 'cursor:pointer',
         onClick: () => { state.quizView = 'vocab'; state.vqState = 'idle'; render(); }
       },
-        el('div', { className: 'icon' }, 'ðŸ“‡'),
+        el('div', { className: 'icon' }, '📇'),
         el('h3', {}, 'Vocabulary Quiz'),
-        el('p', {}, '10 random questions â€” Koreanâ†’English AND Englishâ†’Korean mixed. Tests all 9 word categories.'),
+        el('p', {}, '10 random questions — Korean→English AND English→Korean mixed. Tests all 9 word categories.'),
         vBest !== null ? el('div', { className: 'quiz-best', style: 'margin-top:6px' }, 'Best: ', el('span', {}, `${vBest}%`)) : null,
         historyPills(vh)
       ),
@@ -1219,7 +1219,7 @@ function renderQuizSelect() {
       el('div', { className: 'module-card c3', style: 'cursor:pointer',
         onClick: () => { state.quizView = 'grammar'; state.gqState = 'idle'; render(); }
       },
-        el('div', { className: 'icon' }, 'ðŸ“'),
+        el('div', { className: 'icon' }, '📝'),
         el('h3', {}, 'Grammar Quiz'),
         el('p', {}, `10 random questions on particles, word order, verb endings, negation & more. (${GRAMMAR_QUIZ.length} question pool)`),
         gBest !== null ? el('div', { className: 'quiz-best', style: 'margin-top:6px' }, 'Best: ', el('span', {}, `${gBest}%`)) : null,
@@ -1229,13 +1229,13 @@ function renderQuizSelect() {
   );
 }
 
-// â”€â”€ Shared quiz engine â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Shared quiz engine ─────────────────────────────────────────────────────
 function renderQuizEngine({ items, index, score, selected, correct, total,
   onAnswer, onNext, onRestart, onBack, type }) {
 
   if (index >= total) {  // done screen
     const pct = Math.round((score / total) * 100);
-    const msg = pct === 100 ? 'ðŸŽ‰ Perfect!' : pct >= 80 ? 'ðŸŒŸ Excellent!' : pct >= 60 ? 'ðŸ‘ Great job!' : pct >= 40 ? 'ðŸ“š Keep studying!' : 'ðŸ’ª Don\'t give up!';
+    const msg = pct === 100 ? '🎉 Perfect!' : pct >= 80 ? '🌟 Excellent!' : pct >= 60 ? '👍 Great job!' : pct >= 40 ? '📚 Keep studying!' : '💪 Don\'t give up!';
     const history = getQuizHistory(type);
     return el('div', { className: 'quiz-results' },
       el('div', { className: 'score-circle' },
@@ -1257,7 +1257,7 @@ function renderQuizEngine({ items, index, score, selected, correct, total,
       ) : null,
       el('div', { className: 'result-actions' },
         el('button', { className: 'btn-primary', onClick: onRestart }, 'Try Again'),
-        el('button', { className: 'btn-secondary', onClick: onBack }, 'â† Quiz Menu')
+        el('button', { className: 'btn-secondary', onClick: onBack }, '← Quiz Menu')
       )
     );
   }
@@ -1280,7 +1280,7 @@ function renderQuizEngine({ items, index, score, selected, correct, total,
 
   return el('div', {},
     el('div', { style: 'display:flex;align-items:center;gap:10px;margin-bottom:16px' },
-      el('button', { className: 'btn-danger', onClick: onBack }, 'â† Back'),
+      el('button', { className: 'btn-danger', onClick: onBack }, '← Back'),
       el('div', { style: 'flex:1' },
         el('div', { className: 'progress-label' },
           el('span', {}, `Question ${index + 1} / ${total}`),
@@ -1298,21 +1298,21 @@ function renderQuizEngine({ items, index, score, selected, correct, total,
     ),
     el('div', { className: 'quiz-options' }, ...opts),
     answered ? el('div', { className: `quiz-feedback ${correct ? 'correct' : 'wrong'}` },
-      correct ? 'âœ“ Correct!' : `âœ— Answer: ${item.answer}`,
+      correct ? '✓ Correct!' : `✗ Answer: ${item.answer}`,
       item.tip && !correct ? el('div', { style: 'font-size:.82rem;font-weight:400;margin-top:6px;opacity:.9' }, item.tip) : null
     ) : null,
     answered ? el('div', { style: 'text-align:center' },
       el('button', { className: 'btn-primary', onClick: onNext },
-        index + 1 >= total ? 'See Results' : 'Next â†’')
+        index + 1 >= total ? 'See Results' : 'Next →')
     ) : null
   );
 }
 
-// â”€â”€ Vocabulary Quiz â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Vocabulary Quiz ────────────────────────────────────────────────────────
 function buildVocabItems() {
   const pool = shuffle(VOCABULARY).slice(0, 10);
   return pool.map((word, i) => {
-    const k2e = i % 2 === 0; // alternate Koreanâ†’English and Englishâ†’Korean
+    const k2e = i % 2 === 0; // alternate Korean→English and English→Korean
     if (k2e) {
       const distractors = shuffle(VOCABULARY.filter(w => w.english !== word.english)).slice(0, 3).map(w => w.english);
       return {
@@ -1343,9 +1343,9 @@ function renderVocabQuiz() {
     const h = getQuizHistory('vocab');
     const best = h.length ? Math.max(...h.map(x => Math.round((x.score/x.total)*100))) : null;
     return el('div', { className: 'quiz-start' },
-      el('div', { className: 'section-title' }, 'ðŸ“‡ Vocabulary Quiz'),
+      el('div', { className: 'section-title' }, '📇 Vocabulary Quiz'),
       el('p', { style: 'color:var(--muted);margin-bottom:16px' },
-        '10 random questions â€” half Koreanâ†’English, half Englishâ†’Korean. New random set every time!'),
+        '10 random questions — half Korean→English, half English→Korean. New random set every time!'),
       best !== null ? el('div', { className: 'quiz-best', style: 'margin-bottom:16px' }, 'Best score: ', el('span', {}, `${best}%`)) : null,
       h.length ? el('div', { style: 'margin-bottom:20px' },
         el('div', { style: 'font-size:.78rem;color:var(--muted);margin-bottom:8px' }, 'Recent:'),
@@ -1357,7 +1357,7 @@ function renderVocabQuiz() {
         )
       ) : null,
       el('div', { style: 'display:flex;gap:10px;justify-content:center' },
-        el('button', { className: 'btn-secondary', onClick: () => { state.quizView = 'select'; render(); } }, 'â† Back'),
+        el('button', { className: 'btn-secondary', onClick: () => { state.quizView = 'select'; render(); } }, '← Back'),
         el('button', { className: 'btn-primary', onClick: () => {
           state.vqItems = buildVocabItems();
           state.vqIndex = 0; state.vqScore = 0;
@@ -1397,7 +1397,7 @@ function renderVocabQuiz() {
   });
 }
 
-// â”€â”€ Grammar Quiz â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Grammar Quiz ───────────────────────────────────────────────────────────
 function buildGrammarItems() {
   return shuffle(GRAMMAR_QUIZ).slice(0, 10).map(q => ({
     label: 'Grammar & Sentences',
@@ -1414,7 +1414,7 @@ function renderGrammarQuiz() {
     const h = getQuizHistory('grammar');
     const best = h.length ? Math.max(...h.map(x => Math.round((x.score/x.total)*100))) : null;
     return el('div', { className: 'quiz-start' },
-      el('div', { className: 'section-title' }, 'ðŸ“ Grammar Quiz'),
+      el('div', { className: 'section-title' }, '📝 Grammar Quiz'),
       el('p', { style: 'color:var(--muted);margin-bottom:16px' },
         `10 random questions drawn from a pool of ${GRAMMAR_QUIZ.length}. Covers particles, word order, verb tense, negation and more.`),
       best !== null ? el('div', { className: 'quiz-best', style: 'margin-bottom:16px' }, 'Best score: ', el('span', {}, `${best}%`)) : null,
@@ -1428,7 +1428,7 @@ function renderGrammarQuiz() {
         )
       ) : null,
       el('div', { style: 'display:flex;gap:10px;justify-content:center' },
-        el('button', { className: 'btn-secondary', onClick: () => { state.quizView = 'select'; render(); } }, 'â† Back'),
+        el('button', { className: 'btn-secondary', onClick: () => { state.quizView = 'select'; render(); } }, '← Back'),
         el('button', { className: 'btn-primary', onClick: () => {
           state.gqItems = buildGrammarItems();
           state.gqIndex = 0; state.gqScore = 0;
@@ -1468,10 +1468,10 @@ function renderGrammarQuiz() {
   });
 }
 
-/* â”€â”€ Sentences â”€â”€ */
+/* ── Sentences ── */
 function renderSentences() {
   return el('div', {},
-    el('div', { className: 'section-title' }, 'ðŸ“ Sentence Structure'),
+    el('div', { className: 'section-title' }, '📝 Sentence Structure'),
     el('div', { className: 'section-subtitle' }, 'Learn Korean grammar patterns and build sentences'),
     el('div', { className: 'tab-bar' },
       el('button', {
@@ -1501,9 +1501,9 @@ function renderPatterns() {
         el('div', { className: 'ex-english' }, ex.english),
         el('div', { className: 'ex-parts' },
           ...ex.parts.map(part => {
-            const [kr, en] = part.split('Â·');
+            const [kr, en] = part.split('·');
             return el('div', { className: 'ex-part' },
-              el('span', {}, kr), en ? ` â€” ${en}` : ''
+              el('span', {}, kr), en ? ` — ${en}` : ''
             );
           })
         )
@@ -1522,7 +1522,7 @@ function renderPatterns() {
         el('span', { className: 'pattern-badge', style: `background:${p.badgeColor}` }, p.badge),
         el('span', { className: 'pattern-title' }, p.title),
         el('span', { className: 'pattern-summary' }, p.summary),
-        el('span', { className: 'pattern-chevron' }, 'â–¼')
+        el('span', { className: 'pattern-chevron' }, '▼')
       ),
       el('div', { className: 'pattern-body' },
         el('div', { className: 'pattern-explanation' }, p.explanation),
@@ -1597,7 +1597,7 @@ function renderBuilder() {
   if (state.builderChecked) {
     feedback = el('div', { className: 'builder-feedback ' + (state.builderCorrect ? 'correct' : 'wrong') },
       el('div', {},
-        state.builderCorrect ? 'âœ“ Correct!' : 'âœ— Not quite.',
+        state.builderCorrect ? '✓ Correct!' : '✗ Not quite.',
         state.builderCorrect ? '' : el('div', { className: 'builder-correct-ans' },
           `Correct: ${ex.words.join(' ')}`
         )
@@ -1626,7 +1626,7 @@ function renderBuilder() {
       state.builderCorrect = false;
       render();
     },
-  }, state.builderIndex + 1 >= total ? 'â†º Restart' : 'Skip â†’');
+  }, state.builderIndex + 1 >= total ? '↺ Restart' : 'Skip →');
 
   const clearBtn = el('button', {
     className: 'btn-danger',
@@ -1650,7 +1650,7 @@ function renderBuilder() {
   );
 }
 
-/* â”€â”€ Keyboard shortcuts â”€â”€ */
+/* ── Keyboard shortcuts ── */
 document.addEventListener('keydown', e => {
   if (state.view === 'flashcard') {
     const words = getFilteredVocab();
@@ -1665,4 +1665,3 @@ render();
 </script>
 </body>
 </html>
-
