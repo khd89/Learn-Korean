@@ -1,3 +1,3 @@
-﻿@echo off
+@echo off
 title Learn Korean
-start chrome "file:///C:/Users/USER/korean-app/index.html"
+start "" "C:\Users\USER\korean-app\index.html"
