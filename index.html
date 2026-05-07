@@ -1277,17 +1277,27 @@ function getFilteredVocab() {
 }
 
 function renderFlashcard() {
-  const categories = ['All', ...new Set(VOCABULARY.map(w => w.category))];
+  const levelMeta2 = { beginner:'🌱 Beginner', intermediate:'📖 Intermediate', expert:'🎓 Expert' };
+
+  // Only show categories that have at least one word at the current level
+  const levelWords = VOCABULARY.filter(w => levelIncluded(w.level));
+  const availableCats = new Set(levelWords.map(w => w.category));
+  const categories = ['All', ...new Set(VOCABULARY.map(w => w.category))].filter(
+    cat => cat === 'All' || availableCats.has(cat)
+  );
+
+  // If the previously-selected category is now empty at this level, reset to All
+  if (state.fcCategory !== 'All' && !availableCats.has(state.fcCategory)) {
+    state.fcCategory = 'All';
+    state.fcIndex = 0;
+    state.fcFlipped = false;
+  }
+
   const words = getFilteredVocab();
   const known = getKnown();
-  const idx = Math.min(state.fcIndex, words.length - 1);
-  const word = words[idx];
-  const isKnown = known.has(word.korean);
-
   const knownInFilter = words.filter(w => known.has(w.korean)).length;
 
-  const levelMeta2 = { beginner:'🌱 Beginner', intermediate:'📖 Intermediate', expert:'🎓 Expert' };
-  return el('div', {},
+  const header = el('div', {},
     el('div', { className: 'section-title' }, 'Vocabulary Flashcards'),
     el('div', { className: 'section-subtitle' }, 'Flip to reveal • Mark words you know'),
     el('div', { className: 'level-filter-note' },
@@ -1304,7 +1314,32 @@ function renderFlashcard() {
           onClick: () => { state.fcCategory = cat; state.fcIndex = 0; state.fcFlipped = false; render(); },
         }, cat)
       )
-    ),
+    )
+  );
+
+  // Empty state — no words in this category at the current level
+  if (words.length === 0) {
+    return el('div', {},
+      header,
+      el('div', { style: 'text-align:center;padding:48px 24px;color:var(--muted)' },
+        el('div', { style: 'font-size:3rem;margin-bottom:16px' }, '📭'),
+        el('div', { style: 'font-size:1.1rem;font-weight:600;margin-bottom:8px;color:var(--text)' }, 'No words here yet'),
+        el('div', { style: 'font-size:.9rem;margin-bottom:20px' },
+          `The "${state.fcCategory}" category has no words at ${levelMeta2[state.level]} level.`),
+        el('button', { className: 'btn-secondary',
+          onClick: () => { state.fcCategory = 'All'; state.fcIndex = 0; state.fcFlipped = false; render(); }
+        }, 'Show All Words'),
+        el('div', { style: 'margin-top:12px;font-size:.8rem' }, 'Or upgrade your level on the Home screen to unlock more content.')
+      )
+    );
+  }
+
+  const idx = Math.min(state.fcIndex, words.length - 1);
+  const word = words[idx];
+  const isKnown = known.has(word.korean);
+
+  return el('div', {},
+    header,
     el('div', { className: 'flashcard-wrap' },
       el('div', {
         className: 'flashcard' + (state.fcFlipped ? ' flipped' : ''),
@@ -1512,12 +1547,26 @@ function buildVocabItems() {
 
 function renderVocabQuiz() {
   if (state.vqState === 'idle') {
+    const eligible = VOCABULARY.filter(w => levelIncluded(w.level));
+    // Need at least 4 words to generate a meaningful quiz (1 answer + 3 distractors)
+    if (eligible.length < 4) {
+      return el('div', { className: 'quiz-start' },
+        el('div', { className: 'section-title' }, '📇 Vocabulary Quiz'),
+        el('div', { style: 'text-align:center;padding:24px;color:var(--muted)' },
+          el('div', { style: 'font-size:2.5rem;margin-bottom:12px' }, '📭'),
+          el('div', { style: 'font-size:1rem;font-weight:600;margin-bottom:8px;color:var(--text)' }, 'Not enough words yet'),
+          el('div', { style: 'font-size:.875rem;margin-bottom:20px' },
+            `Only ${eligible.length} word(s) available at this level. Need at least 4 to start a quiz.`),
+          el('button', { className: 'btn-secondary', onClick: () => { state.quizView = 'select'; render(); } }, '← Back')
+        )
+      );
+    }
     const h = getQuizHistory('vocab');
     const best = h.length ? Math.max(...h.map(x => Math.round((x.score/x.total)*100))) : null;
     return el('div', { className: 'quiz-start' },
       el('div', { className: 'section-title' }, '📇 Vocabulary Quiz'),
       el('p', { style: 'color:var(--muted);margin-bottom:16px' },
-        '10 random questions — half Korean→English, half English→Korean. New random set every time!'),
+        `${Math.min(10, eligible.length)} random questions — half Korean→English, half English→Korean. New random set every time!`),
       best !== null ? el('div', { className: 'quiz-best', style: 'margin-bottom:16px' }, 'Best score: ', el('span', {}, `${best}%`)) : null,
       h.length ? el('div', { style: 'margin-bottom:20px' },
         el('div', { style: 'font-size:.78rem;color:var(--muted);margin-bottom:8px' }, 'Recent:'),
@@ -1585,12 +1634,24 @@ function buildGrammarItems() {
 
 function renderGrammarQuiz() {
   if (state.gqState === 'idle') {
+    const eligibleGQ = GRAMMAR_QUIZ.filter(q => levelIncluded(q.level));
+    if (eligibleGQ.length < 1) {
+      return el('div', { className: 'quiz-start' },
+        el('div', { className: 'section-title' }, '📝 Grammar Quiz'),
+        el('div', { style: 'text-align:center;padding:24px;color:var(--muted)' },
+          el('div', { style: 'font-size:2.5rem;margin-bottom:12px' }, '📭'),
+          el('div', { style: 'font-size:1rem;font-weight:600;margin-bottom:8px;color:var(--text)' }, 'No grammar questions available'),
+          el('div', { style: 'font-size:.875rem;margin-bottom:20px' }, 'Try a higher level to unlock grammar quiz questions.'),
+          el('button', { className: 'btn-secondary', onClick: () => { state.quizView = 'select'; render(); } }, '← Back')
+        )
+      );
+    }
     const h = getQuizHistory('grammar');
     const best = h.length ? Math.max(...h.map(x => Math.round((x.score/x.total)*100))) : null;
     return el('div', { className: 'quiz-start' },
       el('div', { className: 'section-title' }, '📝 Grammar Quiz'),
       el('p', { style: 'color:var(--muted);margin-bottom:16px' },
-        `10 random questions drawn from a pool of ${GRAMMAR_QUIZ.length}. Covers particles, word order, verb tense, negation and more.`),
+        `${Math.min(10, eligibleGQ.length)} random questions drawn from a pool of ${eligibleGQ.length}. Covers particles, word order, verb tense, negation and more.`),
       best !== null ? el('div', { className: 'quiz-best', style: 'margin-bottom:16px' }, 'Best score: ', el('span', {}, `${best}%`)) : null,
       h.length ? el('div', { style: 'margin-bottom:20px' },
         el('div', { style: 'font-size:.78rem;color:var(--muted);margin-bottom:8px' }, 'Recent:'),
