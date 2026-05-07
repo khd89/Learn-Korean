@@ -82,7 +82,7 @@
       border-radius: var(--radius); padding: 24px; margin-bottom: 32px;
     }
     .dashboard-title { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 18px; }
-    .dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 20px; }
+    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px,1fr)); gap: 16px; margin-bottom: 20px; }
     .dash-stat { text-align: center; }
     .dash-num { font-size: 2rem; font-weight: 800; }
     .dash-num.c1 { color: var(--accent); }
@@ -358,6 +358,55 @@
     .level-badge.intermediate { background: rgba(255,169,77,.15);  color: #ffa94d;         border: 1px solid rgba(255,169,77,.5); }
     .level-badge.expert       { background: rgba(255,101,132,.15); color: var(--accent2);  border: 1px solid rgba(255,101,132,.5); }
     .level-filter-note { font-size: .78rem; color: var(--muted); margin-bottom: 16px; padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+
+    /* ── Reading Module ── */
+    .reading-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 16px; }
+    .story-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 22px; cursor: pointer; transition: all .25s; position: relative; overflow: hidden;
+    }
+    .story-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+    .story-card.beginner::before     { background: #43e97b; }
+    .story-card.intermediate::before { background: #ffa94d; }
+    .story-card.expert::before       { background: var(--accent2); }
+    .story-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--accent); }
+    .story-card-emoji { font-size: 2.2rem; margin-bottom: 10px; }
+    .story-card-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 2px; }
+    .story-card-title-eng { font-size: .82rem; color: var(--muted); margin-bottom: 8px; }
+    .story-card-desc { font-size: .8rem; color: var(--muted); line-height: 1.5; margin-bottom: 14px; }
+    .story-card-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .story-card-lines { font-size: .73rem; color: var(--muted); }
+    .story-read-badge  { font-size:.68rem; font-weight:700; padding:2px 8px; border-radius:10px; background:rgba(67,233,123,.15); color:#43e97b; border:1px solid rgba(67,233,123,.4); }
+    .story-score-badge { font-size:.68rem; font-weight:700; padding:2px 8px; border-radius:10px; background:rgba(108,99,255,.15); color:var(--accent); border:1px solid rgba(108,99,255,.4); }
+
+    /* Story reader */
+    .story-reader-header {
+      display: flex; align-items: flex-start; gap: 12px; margin-bottom: 22px; flex-wrap: wrap;
+    }
+    .story-reader-toggles { display: flex; gap: 8px; margin-left: auto; }
+    .toggle-btn {
+      background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
+      padding: 7px 16px; border-radius: 8px; cursor: pointer; font-size: .8rem; transition: all .2s;
+    }
+    .toggle-btn.on { background: rgba(108,99,255,.15); border-color: var(--accent); color: var(--accent); }
+    .story-body {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 28px 32px; margin-bottom: 22px;
+    }
+    .story-line { margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+    .story-line:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .story-line-kr  { font-size: 1.55rem; line-height: 1.6; margin-bottom: 4px; }
+    .story-line-rom { font-size: .85rem; color: var(--muted); font-style: italic; margin-bottom: 3px; }
+    .story-line-eng { font-size: .9rem; color: var(--accent3); margin-top: 4px; }
+
+    /* Vocabulary section */
+    .vocab-section { margin-bottom: 22px; }
+    .vocab-section-title { font-size:.75rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:12px; }
+    .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 8px; }
+    .vocab-chip { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; }
+    .vocab-chip-kr  { font-size: 1.1rem; margin-bottom: 3px; }
+    .vocab-chip-rom { font-size: .72rem; color: var(--accent); margin-bottom: 2px; }
+    .vocab-chip-eng { font-size: .75rem; color: var(--muted); }
   </style>
 </head>
 <body>
@@ -947,6 +996,284 @@ const GQ_LEVELS = [
 ];
 GRAMMAR_QUIZ.forEach((q, i) => { q.level = GQ_LEVELS[i] || 'intermediate'; });
 
+// ── Reading Stories ────────────────────────────────────────────────────────────
+const READING_STORIES = [
+  // ─── BEGINNER ───────────────────────────────────────────────────────────────
+  {
+    id: 'my-day', level: 'beginner', emoji: '🌅',
+    title: '나의 하루', titleEng: 'My Day',
+    desc: 'A short story about a daily routine using core beginner verbs.',
+    lines: [
+      { kr: '저는 아침에 일어나요.',       rom: 'Jeoneun achime ireonayo.',         eng: 'I wake up in the morning.' },
+      { kr: '저는 물을 마셔요.',           rom: 'Jeoneun mureul mashyeoyo.',         eng: 'I drink water.' },
+      { kr: '저는 밥을 먹어요.',           rom: 'Jeoneun babeul meogeoyo.',          eng: 'I eat rice.' },
+      { kr: '저는 학교에 가요.',           rom: 'Jeoneun hakgyoe gayo.',             eng: 'I go to school.' },
+      { kr: '학교에서 공부해요.',          rom: 'Hakgyoeseo gongbuhaeyo.',           eng: 'I study at school.' },
+      { kr: '저녁에 집에 와요.',           rom: 'Jeonyeoge jibe wayo.',              eng: 'I come home in the evening.' },
+      { kr: '저는 밤에 자요.',             rom: 'Jeoneun bame jayo.',                eng: 'I sleep at night.' },
+    ],
+    vocab: [
+      { kr: '아침', rom: 'achim', eng: 'morning' },
+      { kr: '일어나요', rom: 'ireonayo', eng: 'wake up' },
+      { kr: '마셔요', rom: 'mashyeoyo', eng: 'drink' },
+      { kr: '먹어요', rom: 'meogeoyo', eng: 'eat' },
+      { kr: '가요', rom: 'gayo', eng: 'go' },
+      { kr: '공부해요', rom: 'gongbuhaeyo', eng: 'study' },
+      { kr: '저녁', rom: 'jeonyeok', eng: 'evening' },
+      { kr: '자요', rom: 'jayo', eng: 'sleep' },
+    ],
+    questions: [
+      { q: 'What does the person drink in the morning?', opts: ['Water','Coffee','Juice','Tea'], a: 'Water' },
+      { q: 'Where does the person go during the day?', opts: ['School','Hospital','Park','Restaurant'], a: 'School' },
+      { q: 'What does the person do at school?', opts: ['Study','Sleep','Eat','Play'], a: 'Study' },
+      { q: 'When does the person sleep?', opts: ['At night','In the morning','At noon','In the evening'], a: 'At night' },
+    ],
+  },
+  {
+    id: 'my-family', level: 'beginner', emoji: '👨‍👩‍👧',
+    title: '우리 가족', titleEng: 'My Family',
+    desc: 'A simple family introduction using family vocabulary.',
+    lines: [
+      { kr: '우리 가족을 소개해요.',       rom: 'Uri gajogeul sogaehaeyo.',          eng: 'Let me introduce my family.' },
+      { kr: '아빠가 있어요.',              rom: 'Appaga isseoyo.',                   eng: 'There is dad.' },
+      { kr: '엄마가 있어요.',              rom: 'Eommaga isseoyo.',                  eng: 'There is mom.' },
+      { kr: '저도 있어요.',               rom: 'Jeodo isseoyo.',                    eng: 'I am here too.' },
+      { kr: '우리 가족은 셋이에요.',       rom: 'Uri gajogeun seseieyo.',            eng: 'My family has three people.' },
+      { kr: '아빠는 일해요.',              rom: 'Appaneun ilhaeyo.',                 eng: 'Dad works.' },
+      { kr: '엄마는 요리해요.',            rom: 'Eommaneun yorihaeyo.',              eng: 'Mom cooks.' },
+      { kr: '저는 공부해요.',              rom: 'Jeoneun gongbuhaeyo.',              eng: 'I study.' },
+      { kr: '우리 가족은 행복해요.',       rom: 'Uri gajogeun haengbokhaeyo.',       eng: 'My family is happy.' },
+    ],
+    vocab: [
+      { kr: '가족', rom: 'gajok', eng: 'family' },
+      { kr: '아빠', rom: 'appa', eng: 'dad' },
+      { kr: '엄마', rom: 'eomma', eng: 'mom' },
+      { kr: '있어요', rom: 'isseoyo', eng: 'there is / have' },
+      { kr: '셋', rom: 'set', eng: 'three (native Korean)' },
+      { kr: '일해요', rom: 'ilhaeyo', eng: 'works' },
+      { kr: '요리해요', rom: 'yorihaeyo', eng: 'cooks' },
+      { kr: '행복해요', rom: 'haengbokhaeyo', eng: 'happy' },
+    ],
+    questions: [
+      { q: 'How many people are in the family?', opts: ['3','2','4','5'], a: '3' },
+      { q: 'What does dad do?', opts: ['Works','Cooks','Studies','Sleeps'], a: 'Works' },
+      { q: 'What does mom do?', opts: ['Cooks','Studies','Works','Sleeps'], a: 'Cooks' },
+      { q: 'How is the family described?', opts: ['Happy','Tired','Busy','Hungry'], a: 'Happy' },
+    ],
+  },
+  {
+    id: 'im-hungry', level: 'beginner', emoji: '🍚',
+    title: '배고파요', titleEng: "I'm Hungry",
+    desc: 'A short dialogue about being hungry and eating a meal at home.',
+    lines: [
+      { kr: '저는 배고파요.',              rom: 'Jeoneun baegopayo.',               eng: "I'm hungry." },
+      { kr: '엄마, 밥 있어요?',           rom: 'Eomma, bap isseoyo?',               eng: 'Mom, is there rice?' },
+      { kr: '네, 있어요.',                rom: 'Ne, isseoyo.',                      eng: 'Yes, there is.' },
+      { kr: '감사합니다!',                rom: 'Gamsahamnida!',                     eng: 'Thank you!' },
+      { kr: '저는 밥을 먹어요.',           rom: 'Jeoneun babeul meogeoyo.',          eng: 'I eat rice.' },
+      { kr: '맛있어요!',                  rom: 'Massisseoyo!',                      eng: "It's delicious!" },
+      { kr: '이제 배불러요.',              rom: 'Ije baebulleoyo.',                  eng: "Now I'm full." },
+    ],
+    vocab: [
+      { kr: '배고파요', rom: 'baegopayo', eng: 'hungry' },
+      { kr: '배불러요', rom: 'baebulleoyo', eng: 'full (after eating)' },
+      { kr: '있어요?', rom: 'isseoyo?', eng: 'is there? / do you have?' },
+      { kr: '네', rom: 'ne', eng: 'yes' },
+      { kr: '맛있어요', rom: 'massisseoyo', eng: "delicious" },
+      { kr: '이제', rom: 'ije', eng: 'now' },
+    ],
+    questions: [
+      { q: 'How does the person feel at the start?', opts: ['Hungry','Full','Tired','Happy'], a: 'Hungry' },
+      { q: 'What does the person ask for?', opts: ['Rice','Water','Bread','Meat'], a: 'Rice' },
+      { q: 'What do they say about the food?', opts: ["Delicious","Not tasty","Too spicy","Too cold"], a: 'Delicious' },
+      { q: 'How does the person feel at the end?', opts: ['Full','Still hungry','Tired','Sad'], a: 'Full' },
+    ],
+  },
+
+  // ─── INTERMEDIATE ──────────────────────────────────────────────────────────
+  {
+    id: 'at-school', level: 'intermediate', emoji: '🏫',
+    title: '학교에서', titleEng: 'At School',
+    desc: 'A school-day story putting particles and locations into practice.',
+    lines: [
+      { kr: '저는 아침에 학교에 가요.',     rom: 'Jeoneun achime hakgyoe gayo.',     eng: 'I go to school in the morning.' },
+      { kr: '학교에서 친구를 만나요.',      rom: 'Hakgyoeseo chingureul mannayo.',    eng: 'I meet my friend at school.' },
+      { kr: '친구가 "안녕!" 이라고 해요.', rom: 'Chinguga "annyeong!" irago haeyo.', eng: 'My friend says "Hi!"' },
+      { kr: '우리는 같이 교실에 가요.',     rom: 'Urineun gachi gyosire gayo.',       eng: 'We go to the classroom together.' },
+      { kr: '선생님이 한국어를 가르쳐요.',  rom: 'Seonsaengnimi hangugeoreul gareutyeoyo.', eng: 'The teacher teaches Korean.' },
+      { kr: '저는 한국어가 재미있어요.',    rom: 'Jeoneun hangugeoga jaemiisseoyo.',  eng: 'I find Korean interesting.' },
+      { kr: '점심에 식당에서 밥을 먹어요.', rom: 'Jeomsime sikdangeseo babeul meogeoyo.', eng: 'At lunch I eat at the cafeteria.' },
+      { kr: '오늘 학교는 정말 좋아요.',     rom: 'Oneul hakgyoneun jeongmal joayo.',  eng: 'School today is really good.' },
+    ],
+    vocab: [
+      { kr: '교실', rom: 'gyosil', eng: 'classroom' },
+      { kr: '같이', rom: 'gachi', eng: 'together' },
+      { kr: '가르쳐요', rom: 'gareutyeoyo', eng: 'teaches' },
+      { kr: '재미있어요', rom: 'jaemiisseoyo', eng: 'interesting / fun' },
+      { kr: '점심', rom: 'jeomsim', eng: 'lunch' },
+      { kr: '정말', rom: 'jeongmal', eng: 'really / truly' },
+      { kr: '선생님', rom: 'seonsaengnim', eng: 'teacher' },
+    ],
+    questions: [
+      { q: 'Where does the person meet their friend?', opts: ['At school','At home','At the park','At a restaurant'], a: 'At school' },
+      { q: 'What subject does the teacher teach?', opts: ['Korean','English','Math','Science'], a: 'Korean' },
+      { q: 'How does the writer feel about Korean?', opts: ['Interesting','Boring','Difficult','Easy'], a: 'Interesting' },
+      { q: 'Where does the person eat lunch?', opts: ['At the cafeteria','At home','In the classroom','Outside'], a: 'At the cafeteria' },
+    ],
+  },
+  {
+    id: 'weekend', level: 'intermediate', emoji: '🌳',
+    title: '주말에', titleEng: 'On the Weekend',
+    desc: 'A relaxed weekend story using time words, locations, and activities.',
+    lines: [
+      { kr: '오늘은 토요일이에요.',         rom: 'Oneureun toyoirieyo.',              eng: 'Today is Saturday.' },
+      { kr: '저는 집에 있어요.',            rom: 'Jeoneun jibe isseoyo.',             eng: 'I am at home.' },
+      { kr: '아침에 커피를 마셔요.',         rom: 'Achime keopireul mashyeoyo.',       eng: 'I drink coffee in the morning.' },
+      { kr: '친구에게 전화해요.',           rom: 'Chinguege jeonhwahaeyo.',           eng: 'I call my friend.' },
+      { kr: '우리는 공원에 가요.',          rom: 'Urineun gongwone gayo.',            eng: 'We go to the park.' },
+      { kr: '공원에서 같이 운동해요.',       rom: 'Gongwoneseo gachi undonghaeyo.',    eng: 'We exercise together at the park.' },
+      { kr: '저녁에 식당에서 불고기를 먹어요.', rom: 'Jeonyeoge sikdangeseo bulgogireul meogeoyo.', eng: 'In the evening I eat bulgogi at a restaurant.' },
+      { kr: '오늘은 정말 좋은 날이에요!',   rom: 'Oneureun jeongmal joeun narieyo!',  eng: 'Today is a really good day!' },
+    ],
+    vocab: [
+      { kr: '토요일', rom: 'toyoil', eng: 'Saturday' },
+      { kr: '커피', rom: 'keopi', eng: 'coffee' },
+      { kr: '전화해요', rom: 'jeonhwahaeyo', eng: 'make a phone call' },
+      { kr: '공원', rom: 'gongwon', eng: 'park' },
+      { kr: '운동해요', rom: 'undonghaeyo', eng: 'exercise' },
+      { kr: '불고기', rom: 'bulgogi', eng: 'bulgogi (Korean BBQ beef)' },
+      { kr: '좋은 날', rom: 'joeun nal', eng: 'good day' },
+    ],
+    questions: [
+      { q: 'What day is it in the story?', opts: ['Saturday','Sunday','Friday','Monday'], a: 'Saturday' },
+      { q: 'What does the person drink in the morning?', opts: ['Coffee','Water','Juice','Tea'], a: 'Coffee' },
+      { q: 'Where do the friends go together?', opts: ['The park','The school','The mall','The cinema'], a: 'The park' },
+      { q: 'What do they eat for dinner?', opts: ['Bulgogi','Bibimbap','Kimchi','Tteokbokki'], a: 'Bulgogi' },
+    ],
+  },
+  {
+    id: 'korean-food', level: 'intermediate', emoji: '🥢',
+    title: '한국 음식', titleEng: 'Korean Food',
+    desc: 'Discover popular Korean dishes through a descriptive passage.',
+    lines: [
+      { kr: '저는 한국 음식을 좋아해요.',   rom: 'Jeoneun hanguk eumsigeul joahaeyo.', eng: 'I like Korean food.' },
+      { kr: '김치는 맵지만 맛있어요.',      rom: 'Gimchineun maepjiman massisseoyo.',  eng: 'Kimchi is spicy but delicious.' },
+      { kr: '비빔밥에는 채소와 밥이 있어요.', rom: 'Bibimbabeun chaesowa babi isseoyo.', eng: 'Bibimbap has vegetables and rice.' },
+      { kr: '불고기는 달콤한 고기예요.',    rom: 'Bulgogineun dalkomhan gogiyeyo.',    eng: 'Bulgogi is sweet meat.' },
+      { kr: '떡볶이는 맵고 맛있어요.',      rom: 'Tteokbokkineun maepgo massisseoyo.', eng: 'Tteokbokki is spicy and delicious.' },
+      { kr: '한국 음식은 건강해요.',         rom: 'Hanguk eumsigen geonganghaeyo.',    eng: 'Korean food is healthy.' },
+      { kr: '저는 비빔밥이 제일 좋아요.',   rom: 'Jeoneun bibimbabi jeil joayo.',      eng: 'I like bibimbap the most.' },
+    ],
+    vocab: [
+      { kr: '음식', rom: 'eumsik', eng: 'food' },
+      { kr: '맵지만', rom: 'maepjiman', eng: 'spicy but...' },
+      { kr: '채소', rom: 'chaeso', eng: 'vegetables' },
+      { kr: '달콤한', rom: 'dalkomhan', eng: 'sweet' },
+      { kr: '건강해요', rom: 'geonganghaeyo', eng: 'healthy' },
+      { kr: '제일', rom: 'jeil', eng: 'the most / best' },
+    ],
+    questions: [
+      { q: 'How is kimchi described?', opts: ['Spicy but delicious','Sweet and sour','Mild and soft','Cold and fresh'], a: 'Spicy but delicious' },
+      { q: 'What does bibimbap contain?', opts: ['Vegetables and rice','Meat and noodles','Bread and butter','Fish and rice'], a: 'Vegetables and rice' },
+      { q: 'How is bulgogi described?', opts: ['Sweet meat','Spicy meat','Sour meat','Salty meat'], a: 'Sweet meat' },
+      { q: 'Which food does the writer like most?', opts: ['Bibimbap','Kimchi','Bulgogi','Tteokbokki'], a: 'Bibimbap' },
+    ],
+  },
+
+  // ─── EXPERT ─────────────────────────────────────────────────────────────────
+  {
+    id: 'seoul-trip', level: 'expert', emoji: '🏙️',
+    title: '서울 여행', titleEng: 'Trip to Seoul',
+    desc: 'A past-tense narrative about visiting Seoul for the first time.',
+    lines: [
+      { kr: '지난주에 서울에 갔어요.',       rom: 'Jinanjue seoure gasseoyo.',         eng: 'Last week I went to Seoul.' },
+      { kr: '공항에서 지하철을 탔어요.',     rom: 'Gonghang eseo jihacheoreul tasseoyo.', eng: 'I took the subway from the airport.' },
+      { kr: '서울은 크고 아름다웠어요.',     rom: 'Seoureun keugo areumdawosseoyo.',   eng: 'Seoul was big and beautiful.' },
+      { kr: '경복궁에 갔어요.',              rom: 'Gyeongbokgunge gasseoyo.',          eng: 'I went to Gyeongbokgung Palace.' },
+      { kr: '궁은 정말 멋있었어요.',          rom: 'Gungeun jeongmal meositsseoyo.',    eng: 'The palace was really impressive.' },
+      { kr: '시장에서 맛있는 음식을 많이 먹었어요.', rom: 'Sijangeseo massinneun eumsigeul mani meogeosseoyo.', eng: 'I ate a lot of delicious food at the market.' },
+      { kr: '저는 정말 행복했어요.',          rom: 'Jeoneun jeongmal haengbokhaesseoyo.', eng: 'I was really happy.' },
+      { kr: '서울에 또 가고 싶어요.',         rom: 'Seoure tto gago sipeoyo.',          eng: 'I want to go to Seoul again.' },
+    ],
+    vocab: [
+      { kr: '지난주', rom: 'jinanju', eng: 'last week' },
+      { kr: '탔어요', rom: 'tasseoyo', eng: 'rode / took (transport)' },
+      { kr: '아름다웠어요', rom: 'areumdawosseoyo', eng: 'was beautiful (past)' },
+      { kr: '경복궁', rom: 'gyeongbokgung', eng: 'Gyeongbokgung Palace' },
+      { kr: '시장', rom: 'sijang', eng: 'market' },
+      { kr: '행복했어요', rom: 'haengbokhaesseoyo', eng: 'was happy (past)' },
+      { kr: '또 가고 싶어요', rom: 'tto gago sipeoyo', eng: 'want to go again' },
+    ],
+    questions: [
+      { q: 'When did the person go to Seoul?', opts: ['Last week','Yesterday','Last year','This morning'], a: 'Last week' },
+      { q: 'How did the person get from the airport?', opts: ['By subway','By taxi','By bus','By car'], a: 'By subway' },
+      { q: 'What landmark did they visit?', opts: ['Gyeongbokgung Palace','Namsan Tower','Han River','Incheon Bridge'], a: 'Gyeongbokgung Palace' },
+      { q: 'Does the person want to return to Seoul?', opts: ['Yes','No','Maybe','Not mentioned'], a: 'Yes' },
+    ],
+  },
+  {
+    id: 'new-friend', level: 'expert', emoji: '🤝',
+    title: '새 친구', titleEng: 'A New Friend',
+    desc: 'A past-tense story about meeting a new Korean friend at school.',
+    lines: [
+      { kr: '오늘 학교에서 새 친구를 만났어요.', rom: 'Oneul hakgyoeseo sae chingureul mannasseoyo.', eng: 'Today I met a new friend at school.' },
+      { kr: '그 친구 이름은 민준이에요.',     rom: 'Geu chingu ireumeun minjunieyo.',   eng: "That friend's name is Minjun." },
+      { kr: '민준이는 한국에서 왔어요.',       rom: 'Minjunineun hangukeseo wasseoyo.',  eng: 'Minjun came from Korea.' },
+      { kr: '우리는 같이 점심을 먹었어요.',   rom: 'Urineun gachi jeomsimeul meogeosseoyo.', eng: 'We ate lunch together.' },
+      { kr: '민준이는 한국어와 영어를 잘해요.', rom: 'Minjunineun hangugeowa yeongeoreul jalhaeyo.', eng: 'Minjun is good at Korean and English.' },
+      { kr: '저는 한국어를 공부한다고 말했어요.', rom: 'Jeoneun hangugeoreul gongbuhanda go malhaesseoyo.', eng: 'I said that I study Korean.' },
+      { kr: '민준이가 도와준다고 했어요.',     rom: 'Minjuniga dowajunda go haesseoyo.',  eng: 'Minjun said he would help me.' },
+      { kr: '우리는 좋은 친구가 될 것 같아요.', rom: 'Urineun joeun chinguga doel geot gatayo.', eng: 'I think we will become good friends.' },
+    ],
+    vocab: [
+      { kr: '새 친구', rom: 'sae chingu', eng: 'new friend' },
+      { kr: '만났어요', rom: 'mannasseoyo', eng: 'met (past)' },
+      { kr: '왔어요', rom: 'wasseoyo', eng: 'came (past)' },
+      { kr: '잘해요', rom: 'jalhaeyo', eng: 'is good at' },
+      { kr: '영어', rom: 'yeongeo', eng: 'English (language)' },
+      { kr: '도와준다고', rom: 'dowajundago', eng: 'said he would help' },
+      { kr: '될 것 같아요', rom: 'doel geot gatayo', eng: 'I think will become' },
+    ],
+    questions: [
+      { q: 'Where did they meet?', opts: ['At school','At a restaurant','At the park','At home'], a: 'At school' },
+      { q: "What is the new friend's name?", opts: ['Minjun','Jihun','Soyeon','Minji'], a: 'Minjun' },
+      { q: 'What languages does Minjun speak?', opts: ['Korean and English','Korean and Japanese','English and Chinese','Korean only'], a: 'Korean and English' },
+      { q: 'What did Minjun offer to do?', opts: ['Help with Korean','Share food','Study together','Visit Korea'], a: 'Help with Korean' },
+    ],
+  },
+  {
+    id: 'spring', level: 'expert', emoji: '🌸',
+    title: '봄이 왔어요', titleEng: 'Spring Has Come',
+    desc: 'A descriptive story mixing past and present tense about the arrival of spring.',
+    lines: [
+      { kr: '긴 겨울이 끝나고 봄이 왔어요.',   rom: 'Gin gyeoUri geutnago bomi wasseoyo.', eng: 'The long winter ended and spring came.' },
+      { kr: '날씨가 따뜻해졌어요.',            rom: 'Nalssiga ttatteuthaejyeosseoyo.',    eng: 'The weather became warm.' },
+      { kr: '공원에 꽃이 많이 피었어요.',       rom: 'Gongwone kkochi mani pieosseoyo.',   eng: 'Many flowers bloomed in the park.' },
+      { kr: '사람들이 공원에서 산책해요.',       rom: 'Saramdeuri gongwoneseo sanchaekaeyo.', eng: 'People take walks in the park.' },
+      { kr: '저도 친구와 공원에 갔어요.',        rom: 'Jeodo chinguwa gongwone gasseoyo.',  eng: 'I also went to the park with a friend.' },
+      { kr: '벚꽃이 정말 예뻤어요.',            rom: 'Beotkkochi jeongmal yeppeosseoyo.',  eng: 'The cherry blossoms were really pretty.' },
+      { kr: '봄은 제가 제일 좋아하는 계절이에요.', rom: 'Bomeun jega jeil joahaneun gyejeorieyo.', eng: 'Spring is my favorite season.' },
+      { kr: '내년 봄도 기대돼요!',              rom: 'Naenyeon bomdo gidaedwaeyo!',        eng: "I'm looking forward to next spring too!" },
+    ],
+    vocab: [
+      { kr: '겨울', rom: 'gyeoul', eng: 'winter' },
+      { kr: '봄', rom: 'bom', eng: 'spring' },
+      { kr: '따뜻해졌어요', rom: 'ttatteuthaejyeosseoyo', eng: 'became warm (past)' },
+      { kr: '꽃', rom: 'kkot', eng: 'flower' },
+      { kr: '벚꽃', rom: 'beotkkot', eng: 'cherry blossom' },
+      { kr: '산책해요', rom: 'sanchaekaeyo', eng: 'take a walk' },
+      { kr: '계절', rom: 'gyejeol', eng: 'season' },
+      { kr: '기대돼요', rom: 'gidaedwaeyo', eng: 'look forward to' },
+    ],
+    questions: [
+      { q: 'What season comes in the story?', opts: ['Spring','Summer','Autumn','Rainy season'], a: 'Spring' },
+      { q: 'What happened to the weather?', opts: ['Became warm','Got colder','Started raining','Got windy'], a: 'Became warm' },
+      { q: 'What specific flowers are mentioned?', opts: ['Cherry blossoms','Roses','Tulips','Sunflowers'], a: 'Cherry blossoms' },
+      { q: "What is the writer's favorite season?", opts: ['Spring','Winter','Summer','Autumn'], a: 'Spring' },
+    ],
+  },
+];
+
 </script>
 <script>
 /* ── Utilities ── */
@@ -1005,6 +1332,20 @@ function resetAll() {
   localStorage.removeItem('hangul_studied');
   localStorage.removeItem('vocab_known');
   localStorage.removeItem('quiz_history');
+  localStorage.removeItem('reading_completed');
+  READING_STORIES.forEach(s => localStorage.removeItem(`reading_score_${s.id}`));
+}
+
+function getReadingCompleted() { return store.get('reading_completed', []); }
+function addReadingCompleted(id) {
+  const c = getReadingCompleted();
+  if (!c.includes(id)) { c.push(id); store.set('reading_completed', c); }
+}
+function getReadingScore(id) { return store.get(`reading_score_${id}`, null); }
+function setReadingScore(id, score, total) {
+  const pct = Math.round((score / total) * 100);
+  const existing = getReadingScore(id);
+  if (existing === null || pct > existing) store.set(`reading_score_${id}`, pct);
 }
 
 /* ── Level helpers ── */
@@ -1032,6 +1373,12 @@ const state = {
   gqItems: [], gqIndex: 0, gqScore: 0, gqSelected: null, gqCorrect: null,
   sentenceTab: 'patterns',   // patterns | builder
   openPatterns: new Set(),
+  // reading
+  readingView: 'list',       // list | story | quiz
+  readingStory: null,
+  readingShowRom: true,
+  readingShowEng: false,
+  rqItems: [], rqIndex: 0, rqScore: 0, rqSelected: null, rqCorrect: null,
   builderIndex: 0,
   builderOrder: [],          // indices into SENTENCE_BUILDER (shuffled)
   builderAnswer: [],         // word tiles placed so far
@@ -1048,11 +1395,12 @@ function render() {
 
 function renderHeader() {
   const navItems = [
-    { id: 'home', label: '🏠 Home' },
-    { id: 'hangul', label: '가 Hangul' },
+    { id: 'home',      label: '🏠 Home' },
+    { id: 'hangul',    label: '가 Hangul' },
     { id: 'flashcard', label: '📇 Flashcards' },
-    { id: 'quiz', label: '✏️ Quiz' },
+    { id: 'quiz',      label: '✏️ Quiz' },
     { id: 'sentences', label: '📝 Sentences' },
+    { id: 'reading',   label: '📖 Reading' },
   ];
   const levelMeta = {
     beginner:     { emoji: '🌱', label: 'Beginner' },
@@ -1081,11 +1429,12 @@ function renderHeader() {
 }
 
 function renderView() {
-  if (state.view === 'home') return renderHome();
-  if (state.view === 'hangul') return renderHangul();
+  if (state.view === 'home')      return renderHome();
+  if (state.view === 'hangul')    return renderHangul();
   if (state.view === 'flashcard') return renderFlashcard();
-  if (state.view === 'quiz') return renderQuiz();
+  if (state.view === 'quiz')      return renderQuiz();
   if (state.view === 'sentences') return renderSentences();
+  if (state.view === 'reading')   return renderReading();
 }
 
 /* ── Home ── */
@@ -1099,6 +1448,8 @@ function renderHome() {
   const avgQuiz = allHistory.length
     ? Math.round(allHistory.reduce((s, h) => s + (h.score / h.total) * 100, 0) / allHistory.length)
     : 0;
+  const storiesRead = getReadingCompleted().length;
+  const totalStories = READING_STORIES.length;
 
   const dashboard = el('div', { className: 'progress-dashboard' },
     el('div', { className: 'dashboard-title' }, 'Your Progress'),
@@ -1114,6 +1465,10 @@ function renderHome() {
       el('div', { className: 'dash-stat' },
         el('div', { className: 'dash-num c3' }, allHistory.length ? `${avgQuiz}%` : '—'),
         el('div', { className: 'dash-label' }, 'Quiz Avg')
+      ),
+      el('div', { className: 'dash-stat' },
+        el('div', { className: 'dash-num c1' }, `${storiesRead}/${totalStories}`),
+        el('div', { className: 'dash-label' }, 'Stories Read')
       )
     ),
     makeProg('Hangul', studied.size, totalHangul, 'c1'),
@@ -1157,6 +1512,11 @@ function renderHome() {
     {
       id: 'sentences', cls: 'c1', icon: '📝', title: 'Sentence Structure',
       desc: `${SENTENCE_PATTERNS.length} grammar patterns + interactive sentence builder.`,
+      prog: null,
+    },
+    {
+      id: 'reading', cls: 'c2', icon: '📖', title: 'Reading Practice',
+      desc: `${READING_STORIES.filter(s => levelIncluded(s.level)).length} stories at your level. Toggle romanization & test comprehension.`,
       prog: null,
     },
   ];
@@ -1889,6 +2249,168 @@ function renderBuilder() {
     feedback,
     el('div', { className: 'builder-actions' }, checkBtn, nextBtn, clearBtn)
   );
+}
+
+/* ── Reading ── */
+function renderReading() {
+  if (state.readingView === 'list')  return renderStoryList();
+  if (state.readingView === 'story') return renderStoryReader();
+  if (state.readingView === 'quiz')  return renderStoryQuiz();
+}
+
+function renderStoryList() {
+  const completed = getReadingCompleted();
+  const stories   = READING_STORIES.filter(s => levelIncluded(s.level));
+  const levelLabel = { beginner:'🌱 Beginner', intermediate:'📖 Intermediate', expert:'🎓 Expert' }[state.level];
+
+  return el('div', {},
+    el('div', { className: 'section-title' }, '📖 Reading Practice'),
+    el('div', { className: 'section-subtitle' }, 'Read Korean stories — toggle romanization, reveal translations, then test your comprehension'),
+    el('div', { className: 'level-filter-note' },
+      `Level: ${levelLabel} — ${stories.length} ${stories.length === 1 ? 'story' : 'stories'} available (${completed.length} read so far)`
+    ),
+    stories.length === 0
+      ? el('div', { style: 'text-align:center;padding:60px 24px;color:var(--muted)' },
+          el('div', { style: 'font-size:3rem;margin-bottom:14px' }, '📭'),
+          el('div', { style: 'font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:8px' }, 'No stories yet'),
+          el('div', { style: 'font-size:.875rem' }, 'Upgrade your level on the Home screen to unlock reading stories.')
+        )
+      : el('div', { className: 'reading-grid' },
+          ...stories.map(story => {
+            const isRead = completed.includes(story.id);
+            const score  = getReadingScore(story.id);
+            const lvlEmoji = { beginner:'🌱', intermediate:'📖', expert:'🎓' }[story.level];
+            const lvlLabel = { beginner:'Beginner', intermediate:'Intermediate', expert:'Expert' }[story.level];
+            return el('div', { className: `story-card ${story.level}`,
+              onClick: () => {
+                state.readingStory   = story.id;
+                state.readingView    = 'story';
+                state.readingShowRom = true;
+                state.readingShowEng = false;
+                render();
+              }},
+              el('div', { className: 'story-card-emoji' }, story.emoji),
+              el('div', { className: 'story-card-title' }, story.title),
+              el('div', { className: 'story-card-title-eng' }, story.titleEng),
+              el('div', { className: 'story-card-desc' }, story.desc),
+              el('div', { className: 'story-card-meta' },
+                el('span', { className: `level-badge ${story.level}` }, `${lvlEmoji} ${lvlLabel}`),
+                el('span', { className: 'story-card-lines' }, `${story.lines.length} lines`),
+                isRead ? el('span', { className: 'story-read-badge' }, '✓ Read') : null,
+                score !== null ? el('span', { className: 'story-score-badge' }, `Quiz ${score}%`) : null
+              )
+            );
+          })
+        )
+  );
+}
+
+function renderStoryReader() {
+  const story = READING_STORIES.find(s => s.id === state.readingStory);
+  if (!story) { state.readingView = 'list'; render(); return el('div', {}); }
+
+  // Mark as read when user opens the story
+  addReadingCompleted(story.id);
+
+  const lines = story.lines.map(line =>
+    el('div', { className: 'story-line' },
+      el('div', { className: 'story-line-kr' }, line.kr),
+      state.readingShowRom ? el('div', { className: 'story-line-rom' }, line.rom) : null,
+      state.readingShowEng ? el('div', { className: 'story-line-eng' }, line.eng) : null
+    )
+  );
+
+  const vocabItems = story.vocab.map(v =>
+    el('div', { className: 'vocab-chip' },
+      el('div', { className: 'vocab-chip-kr' },  v.kr),
+      el('div', { className: 'vocab-chip-rom' }, v.rom),
+      el('div', { className: 'vocab-chip-eng' }, v.eng)
+    )
+  );
+
+  return el('div', {},
+    el('div', { className: 'story-reader-header' },
+      el('button', { className: 'btn-danger',
+        onClick: () => { state.readingView = 'list'; render(); }
+      }, '← Stories'),
+      el('div', {},
+        el('div', { style: 'font-size:1.3rem;font-weight:700' }, `${story.emoji} ${story.title}`),
+        el('div', { style: 'font-size:.85rem;color:var(--muted)' }, story.titleEng)
+      ),
+      el('div', { className: 'story-reader-toggles' },
+        el('button', {
+          className: 'toggle-btn' + (state.readingShowRom ? ' on' : ''),
+          onClick: () => { state.readingShowRom = !state.readingShowRom; render(); },
+        }, '가나 Romanization'),
+        el('button', {
+          className: 'toggle-btn' + (state.readingShowEng ? ' on' : ''),
+          onClick: () => { state.readingShowEng = !state.readingShowEng; render(); },
+        }, '🇬🇧 Translation')
+      )
+    ),
+    el('div', { className: 'story-body' }, ...lines),
+    el('div', { className: 'vocab-section' },
+      el('div', { className: 'vocab-section-title' }, `Key Vocabulary — ${story.vocab.length} words`),
+      el('div', { className: 'vocab-grid' }, ...vocabItems)
+    ),
+    el('div', { style: 'text-align:center;padding:8px 0 28px' },
+      el('div', { style: 'color:var(--muted);font-size:.875rem;margin-bottom:14px' },
+        `Ready to test your understanding? ${story.questions.length} comprehension questions.`
+      ),
+      el('button', { className: 'btn-primary', onClick: () => {
+        state.rqItems = story.questions.map(q => ({
+          label:   '📖 Comprehension',
+          prompt:  q.q,
+          sub:     null,
+          options: shuffle([...q.opts]),
+          answer:  q.a,
+          tip:     null,
+        }));
+        state.rqIndex = 0; state.rqScore = 0;
+        state.rqSelected = null; state.rqCorrect = null;
+        state.readingView = 'quiz';
+        render();
+      }}, '📝 Test Comprehension')
+    )
+  );
+}
+
+function renderStoryQuiz() {
+  const story = READING_STORIES.find(s => s.id === state.readingStory);
+  if (!story) { state.readingView = 'list'; render(); return el('div', {}); }
+
+  const total = state.rqItems.length;
+
+  return renderQuizEngine({
+    items: state.rqItems, index: state.rqIndex, score: state.rqScore,
+    selected: state.rqSelected, correct: state.rqCorrect, total,
+    type: 'reading',
+    onAnswer: (opt) => {
+      state.rqSelected = opt;
+      state.rqCorrect  = opt === state.rqItems[state.rqIndex].answer;
+      if (state.rqCorrect) state.rqScore++;
+      render();
+    },
+    onNext: () => {
+      if (state.rqIndex + 1 >= total) {
+        setReadingScore(story.id, state.rqScore, total);
+        state.rqIndex = total;
+      } else {
+        state.rqIndex++; state.rqSelected = null; state.rqCorrect = null;
+      }
+      render();
+    },
+    onRestart: () => {
+      state.rqItems = story.questions.map(q => ({
+        label: '📖 Comprehension', prompt: q.q, sub: null,
+        options: shuffle([...q.opts]), answer: q.a, tip: null,
+      }));
+      state.rqIndex = 0; state.rqScore = 0;
+      state.rqSelected = null; state.rqCorrect = null;
+      render();
+    },
+    onBack: () => { state.readingView = 'story'; render(); },
+  });
 }
 
 /* ── Keyboard shortcuts ── */
