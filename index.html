@@ -330,6 +330,34 @@
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ── Level selector ── */
+    .level-selector { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 30px; }
+    .level-btn {
+      padding: 18px 10px; border-radius: var(--radius); border: 2px solid var(--border);
+      background: var(--surface); color: var(--muted); cursor: pointer; text-align: center;
+      transition: all .25s; font-size: .85rem; font-weight: 600;
+    }
+    .level-btn:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); box-shadow: var(--shadow); }
+    .level-btn.active.beginner     { border-color: #43e97b; background: rgba(67,233,123,.07);  color: #43e97b; }
+    .level-btn.active.intermediate { border-color: #ffa94d; background: rgba(255,169,77,.07);  color: #ffa94d; }
+    .level-btn.active.expert       { border-color: var(--accent2); background: rgba(255,101,132,.07); color: var(--accent2); }
+    .level-emoji { font-size: 1.9rem; margin-bottom: 7px; }
+    .level-btn-label { font-size: .95rem; font-weight: 700; }
+    .level-btn-sub { font-size: .72rem; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+    .level-btn.active .level-btn-sub { color: inherit; opacity: .75; }
+    .level-section-title {
+      font-size: .75rem; text-transform: uppercase; letter-spacing: .09em;
+      color: var(--muted); margin-bottom: 10px;
+    }
+    .level-badge {
+      font-size: .7rem; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+      letter-spacing: .05em; white-space: nowrap; margin-left: 10px; vertical-align: middle;
+    }
+    .level-badge.beginner     { background: rgba(67,233,123,.15);  color: #43e97b;         border: 1px solid rgba(67,233,123,.5); }
+    .level-badge.intermediate { background: rgba(255,169,77,.15);  color: #ffa94d;         border: 1px solid rgba(255,169,77,.5); }
+    .level-badge.expert       { background: rgba(255,101,132,.15); color: var(--accent2);  border: 1px solid rgba(255,101,132,.5); }
+    .level-filter-note { font-size: .78rem; color: var(--muted); margin-bottom: 16px; padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
   </style>
 </head>
 <body>
@@ -523,6 +551,44 @@ const VOCABULARY = [
   { korean: "걱정돼요", romanization: "geokjeongdwaeyo", english: "Worried", category: "Emotions" },
 ];
 
+// ── Vocabulary level tagging ──────────────────────────────────────────────────
+(function tagVocabLevels() {
+  const BV = new Set([
+    // Basic greetings
+    "안녕하세요","감사합니다","죄송합니다","네","아니요","괜찮아요",
+    // Sino-Korean numbers 1-10
+    "일","이","삼","사","오","육","칠","팔","구","십",
+    // Native Korean numbers 1-5
+    "하나","둘","셋","넷","다섯",
+    // Core verbs
+    "가다","오다","먹다","마시다","자다","공부하다","있다","없다",
+    // All colors
+    "빨간색","파란색","초록색","노란색","흰색","검은색","보라색","주황색","분홍색","갈색",
+    // Basic time words
+    "오늘","내일","어제","지금","아침","점심","저녁","밤",
+  ]);
+  const IV = new Set([
+    // More greetings
+    "안녕","고마워요","안녕히 가세요","만나서 반가워요","잘 지내요?","잘 지내요",
+    // People
+    "나","저","우리","친구","가족","엄마","아빠","오빠","언니","형","누나","선생님","학생",
+    // Food & Drink
+    "물","밥","빵","고기","생선","채소","과일","김치","불고기","비빔밥","떡볶이","커피","차","주스","맛있어요","맛없어요",
+    // Places
+    "학교","집","식당","병원","은행","편의점","공항","지하철역","공원","서울",
+    // More verbs
+    "일어나다","일하다","보다","듣다","말하다","읽다","쓰다","사다","만나다","알다","좋아하다","사랑하다",
+    // Adjectives
+    "크다","작다","좋다","나쁘다","빠르다","느리다","예쁘다","멋있다","재미있다","쉽다","어렵다",
+    // Days of the week
+    "월요일","화요일","수요일","목요일","금요일","토요일","일요일",
+  ]);
+  // Everything else → expert (emotions, complex adjectives, remaining)
+  VOCABULARY.forEach(w => {
+    w.level = BV.has(w.korean) ? 'beginner' : IV.has(w.korean) ? 'intermediate' : 'expert';
+  });
+})();
+
 // ── Sentence Patterns ────────────────────────────────────────────────────────
 const SENTENCE_PATTERNS = [
   {
@@ -657,6 +723,15 @@ const SENTENCE_PATTERNS = [
   },
 ];
 
+// ── Sentence pattern levels ───────────────────────────────────────────────────
+const SP_LEVELS = {
+  sov: 'beginner', tobe: 'beginner', polite: 'beginner',
+  topic: 'intermediate', subject: 'intermediate', object: 'intermediate',
+  location: 'intermediate', negation: 'intermediate', question: 'intermediate',
+  past: 'expert',
+};
+SENTENCE_PATTERNS.forEach(p => { p.level = SP_LEVELS[p.id] || 'intermediate'; });
+
 // ── Sentence Builder Exercises ────────────────────────────────────────────────
 const SENTENCE_BUILDER = [
   { english: "I eat rice",             words: ["나는", "밥을", "먹어요"],              pattern: "sov" },
@@ -678,6 +753,19 @@ const SENTENCE_BUILDER = [
   { english: "I went to the hospital", words: ["저는", "병원에", "갔어요"],           pattern: "past" },
   { english: "I don't study",          words: ["공부", "안", "해요"],                 pattern: "negation" },
 ];
+
+// ── Sentence builder levels ───────────────────────────────────────────────────
+// Order: I eat rice, I drink water, I go to school, I study at home, I am a student,
+//        I don't eat, I don't go, I listen to music, Where are you going, What do you eat,
+//        I studied Korean, I ate rice, My friend is coming, It is raining,
+//        I like Korean food, Today is hot, I went to the hospital, I don't study
+const SB_LEVELS = [
+  'beginner','beginner','intermediate','intermediate','beginner',
+  'intermediate','intermediate','intermediate','intermediate','intermediate',
+  'expert','expert','intermediate','intermediate',
+  'intermediate','intermediate','expert','intermediate',
+];
+SENTENCE_BUILDER.forEach((ex, i) => { ex.level = SB_LEVELS[i] || 'intermediate'; });
 
 // ── Grammar Quiz Questions ────────────────────────────────────────────────────
 const GRAMMAR_QUIZ = [
@@ -831,6 +919,34 @@ const GRAMMAR_QUIZ = [
     tip: "에 marks direction/destination with movement verbs. Past tense: 가다 → 갔어요." },
 ];
 
+// ── Grammar quiz levels (0-based index) ──────────────────────────────────────
+// Particles (0-6): intermediate | Location (7-10): intermediate
+// Negation (11-13): intermediate | To Be (14-17): beginner/intermediate
+// Word Order (18-20): beginner | Verb Endings (21-26): beginner/intermediate
+// Questions (27-29): intermediate | 있다/없다 (30-31): intermediate/expert
+// Mixed (32-34): expert
+const GQ_LEVELS = [
+  // 0-6: Particles
+  'intermediate','intermediate','intermediate','intermediate','intermediate','intermediate','intermediate',
+  // 7-10: Location
+  'intermediate','intermediate','intermediate','intermediate',
+  // 11-13: Negation
+  'intermediate','intermediate','intermediate',
+  // 14-17: To Be
+  'beginner','beginner','beginner','intermediate',
+  // 18-20: Word Order
+  'beginner','beginner','beginner',
+  // 21-26: Verb Endings
+  'beginner','intermediate','intermediate','intermediate','beginner','intermediate',
+  // 27-29: Questions
+  'intermediate','intermediate','intermediate',
+  // 30-31: 있다/없다
+  'intermediate','expert',
+  // 32-34: Mixed application
+  'expert','expert','expert',
+];
+GRAMMAR_QUIZ.forEach((q, i) => { q.level = GQ_LEVELS[i] || 'intermediate'; });
+
 </script>
 <script>
 /* ── Utilities ── */
@@ -891,9 +1007,18 @@ function resetAll() {
   localStorage.removeItem('quiz_history');
 }
 
+/* ── Level helpers ── */
+function levelIncluded(itemLevel) {
+  const l = state ? state.level : store.get('user_level', 'beginner');
+  if (l === 'expert')       return true;
+  if (l === 'intermediate') return itemLevel !== 'expert';
+  return itemLevel === 'beginner';
+}
+
 /* ── State ── */
 const state = {
   view: 'home',
+  level: store.get('user_level', 'beginner'),
   hangulTab: 'consonants',
   hangulFlipped: new Set(),
   fcCategory: 'All',
@@ -929,10 +1054,20 @@ function renderHeader() {
     { id: 'quiz', label: '✏️ Quiz' },
     { id: 'sentences', label: '📝 Sentences' },
   ];
+  const levelMeta = {
+    beginner:     { emoji: '🌱', label: 'Beginner' },
+    intermediate: { emoji: '📖', label: 'Intermediate' },
+    expert:       { emoji: '🎓', label: 'Expert' },
+  };
+  const lm = levelMeta[state.level] || levelMeta.beginner;
+
   return el('header', {},
-    el('div', { className: 'logo', onClick: () => { state.view = 'home'; render(); } },
-      el('span', { className: 'logo-kr' }, '한'),
-      el('span', {}, 'Learn Korean')
+    el('div', { style: 'display:flex;align-items:center;gap:0' },
+      el('div', { className: 'logo', onClick: () => { state.view = 'home'; render(); } },
+        el('span', { className: 'logo-kr' }, '한'),
+        el('span', {}, 'Learn Korean')
+      ),
+      el('span', { className: `level-badge ${state.level}` }, `${lm.emoji} ${lm.label}`)
     ),
     el('nav', {},
       ...navItems.map(({ id, label }) =>
@@ -1026,12 +1161,41 @@ function renderHome() {
     },
   ];
 
+  const levels = [
+    { id: 'beginner',     emoji: '🌱', label: 'Beginner',     sub: 'Essential words\n& basic grammar' },
+    { id: 'intermediate', emoji: '📖', label: 'Intermediate', sub: 'Expand vocab\n& particles' },
+    { id: 'expert',       emoji: '🎓', label: 'Expert',       sub: 'Master all\ncontent' },
+  ];
+
+  const levelSelector = el('div', {},
+    el('div', { className: 'level-section-title' }, 'Choose Your Level'),
+    el('div', { className: 'level-selector' },
+      ...levels.map(lv =>
+        el('div', {
+          className: `level-btn${state.level === lv.id ? ' active ' + lv.id : ''}`,
+          onClick: () => {
+            state.level = lv.id;
+            store.set('user_level', lv.id);
+            // reset builder so it re-draws from new level pool
+            state.builderOrder = [];
+            render();
+          },
+        },
+          el('div', { className: 'level-emoji' }, lv.emoji),
+          el('div', { className: 'level-btn-label' }, lv.label),
+          el('div', { className: 'level-btn-sub' }, lv.sub)
+        )
+      )
+    )
+  );
+
   return el('div', {},
     el('div', { className: 'home-hero' },
       el('h1', {}, '한국어 배우기'),
       el('h1', {}, 'Learn ', el('span', {}, 'Korean')),
       el('p', {}, 'Track your progress across all modules')
     ),
+    levelSelector,
     dashboard,
     el('div', { className: 'cards-grid' },
       ...modules.map(m =>
@@ -1108,7 +1272,8 @@ function renderHangul() {
 
 /* ── Flashcards ── */
 function getFilteredVocab() {
-  return state.fcCategory === 'All' ? VOCABULARY : VOCABULARY.filter(w => w.category === state.fcCategory);
+  const byLevel = VOCABULARY.filter(w => levelIncluded(w.level));
+  return state.fcCategory === 'All' ? byLevel : byLevel.filter(w => w.category === state.fcCategory);
 }
 
 function renderFlashcard() {
@@ -1121,9 +1286,13 @@ function renderFlashcard() {
 
   const knownInFilter = words.filter(w => known.has(w.korean)).length;
 
+  const levelMeta2 = { beginner:'🌱 Beginner', intermediate:'📖 Intermediate', expert:'🎓 Expert' };
   return el('div', {},
     el('div', { className: 'section-title' }, 'Vocabulary Flashcards'),
     el('div', { className: 'section-subtitle' }, 'Flip to reveal • Mark words you know'),
+    el('div', { className: 'level-filter-note' },
+      `Showing ${levelMeta2[state.level]} level words (${words.length} words). Change level on the Home screen.`
+    ),
     el('div', { className: 'fc-stats' },
       el('div', { className: 'fc-stat' }, el('span', { className: 'known' }, `${knownInFilter}`), ` / ${words.length} known in this view`),
       el('div', { className: 'fc-stat' }, el('span', { className: 'known' }, `${known.size}`), ` / ${VOCABULARY.length} total known`)
@@ -1203,6 +1372,9 @@ function renderQuizSelect() {
   return el('div', {},
     el('div', { className: 'section-title' }, '✏️ Quiz Mode'),
     el('div', { className: 'section-subtitle' }, 'Choose a quiz — questions are fully randomised every time'),
+    el('div', { className: 'level-filter-note' },
+      `Level: ${{ beginner:'🌱 Beginner', intermediate:'📖 Intermediate', expert:'🎓 Expert' }[state.level]} — ${VOCABULARY.filter(w => levelIncluded(w.level)).length} vocab words · ${GRAMMAR_QUIZ.filter(q => levelIncluded(q.level)).length} grammar questions available`
+    ),
     el('div', { className: 'cards-grid' },
       // Vocab quiz card
       el('div', { className: 'module-card c2', style: 'cursor:pointer',
@@ -1309,7 +1481,8 @@ function renderQuizEngine({ items, index, score, selected, correct, total,
 
 // ── Vocabulary Quiz ────────────────────────────────────────────────────────
 function buildVocabItems() {
-  const pool = shuffle(VOCABULARY).slice(0, 10);
+  const eligible = VOCABULARY.filter(w => levelIncluded(w.level));
+  const pool = shuffle(eligible).slice(0, Math.min(10, eligible.length));
   return pool.map((word, i) => {
     const k2e = i % 2 === 0; // alternate Korean→English and English→Korean
     if (k2e) {
@@ -1367,9 +1540,10 @@ function renderVocabQuiz() {
     );
   }
 
+  const vqTotal = state.vqItems.length;
   return renderQuizEngine({
     items: state.vqItems, index: state.vqIndex, score: state.vqScore,
-    selected: state.vqSelected, correct: state.vqCorrect, total: 10,
+    selected: state.vqSelected, correct: state.vqCorrect, total: vqTotal,
     type: 'vocab',
     onAnswer: (opt) => {
       state.vqSelected = opt;
@@ -1378,9 +1552,9 @@ function renderVocabQuiz() {
       render();
     },
     onNext: () => {
-      if (state.vqIndex + 1 >= 10) {
-        addQuizResult('vocab', state.vqScore, 10);
-        state.vqIndex = 10; // trigger done screen
+      if (state.vqIndex + 1 >= vqTotal) {
+        addQuizResult('vocab', state.vqScore, vqTotal);
+        state.vqIndex = vqTotal; // trigger done screen
       } else {
         state.vqIndex++; state.vqSelected = null; state.vqCorrect = null;
       }
@@ -1398,7 +1572,8 @@ function renderVocabQuiz() {
 
 // ── Grammar Quiz ───────────────────────────────────────────────────────────
 function buildGrammarItems() {
-  return shuffle(GRAMMAR_QUIZ).slice(0, 10).map(q => ({
+  const eligible = GRAMMAR_QUIZ.filter(q => levelIncluded(q.level));
+  return shuffle(eligible).slice(0, Math.min(10, eligible.length)).map(q => ({
     label: 'Grammar & Sentences',
     prompt: q.q,
     sub: null,
@@ -1438,9 +1613,10 @@ function renderGrammarQuiz() {
     );
   }
 
+  const gqTotal = state.gqItems.length;
   return renderQuizEngine({
     items: state.gqItems, index: state.gqIndex, score: state.gqScore,
-    selected: state.gqSelected, correct: state.gqCorrect, total: 10,
+    selected: state.gqSelected, correct: state.gqCorrect, total: gqTotal,
     type: 'grammar',
     onAnswer: (opt) => {
       state.gqSelected = opt;
@@ -1449,9 +1625,9 @@ function renderGrammarQuiz() {
       render();
     },
     onNext: () => {
-      if (state.gqIndex + 1 >= 10) {
-        addQuizResult('grammar', state.gqScore, 10);
-        state.gqIndex = 10;
+      if (state.gqIndex + 1 >= gqTotal) {
+        addQuizResult('grammar', state.gqScore, gqTotal);
+        state.gqIndex = gqTotal;
       } else {
         state.gqIndex++; state.gqSelected = null; state.gqCorrect = null;
       }
@@ -1472,6 +1648,9 @@ function renderSentences() {
   return el('div', {},
     el('div', { className: 'section-title' }, '📝 Sentence Structure'),
     el('div', { className: 'section-subtitle' }, 'Learn Korean grammar patterns and build sentences'),
+    el('div', { className: 'level-filter-note' },
+      `Level: ${{ beginner:'🌱 Beginner', intermediate:'📖 Intermediate', expert:'🎓 Expert' }[state.level]} — showing ${SENTENCE_PATTERNS.filter(p => levelIncluded(p.level)).length} patterns & ${SENTENCE_BUILDER.filter(ex => levelIncluded(ex.level)).length} builder exercises`
+    ),
     el('div', { className: 'tab-bar' },
       el('button', {
         className: 'tab' + (state.sentenceTab === 'patterns' ? ' active' : ''),
@@ -1491,7 +1670,7 @@ function renderSentences() {
 }
 
 function renderPatterns() {
-  const cards = SENTENCE_PATTERNS.map(p => {
+  const cards = SENTENCE_PATTERNS.filter(p => levelIncluded(p.level)).map(p => {
     const isOpen = state.openPatterns.has(p.id);
     const examples = p.examples.map(ex =>
       el('div', { className: 'example-row' },
@@ -1535,8 +1714,10 @@ function renderPatterns() {
 }
 
 function initBuilder() {
-  const indices = SENTENCE_BUILDER.map((_, i) => i);
-  state.builderOrder = shuffle(indices);
+  const allIndices = SENTENCE_BUILDER.map((_, i) => i);
+  const eligible = allIndices.filter(i => levelIncluded(SENTENCE_BUILDER[i].level));
+  // fall back to all if no exercises match (shouldn't happen but just in case)
+  state.builderOrder = shuffle(eligible.length ? eligible : allIndices);
   state.builderIndex = 0;
   state.builderAnswer = [];
   state.builderChecked = false;
