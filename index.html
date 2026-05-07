@@ -977,7 +977,7 @@ function renderHome() {
         el('div', { className: 'dash-label' }, 'Words Known')
       ),
       el('div', { className: 'dash-stat' },
-        el('div', { className: 'dash-num c3' }, history.length ? `${avgQuiz}%` : '—'),
+        el('div', { className: 'dash-num c3' }, allHistory.length ? `${avgQuiz}%` : '—'),
         el('div', { className: 'dash-label' }, 'Quiz Avg')
       )
     ),
