@@ -359,6 +359,32 @@
     .level-badge.expert       { background: rgba(255,101,132,.15); color: var(--accent2);  border: 1px solid rgba(255,101,132,.5); }
     .level-filter-note { font-size: .78rem; color: var(--muted); margin-bottom: 16px; padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
 
+    /* ── Audio / Speech ── */
+    .speak-btn {
+      background: none; border: 1px solid transparent; cursor: pointer;
+      font-size: .95rem; padding: 3px 7px; border-radius: 6px;
+      color: var(--muted); transition: all .15s; line-height: 1; vertical-align: middle;
+    }
+    .speak-btn:hover { color: var(--accent); border-color: var(--accent); background: rgba(108,99,255,.1); }
+    .speak-btn-lg {
+      background: var(--surface2); border: 1px solid var(--border); cursor: pointer;
+      font-size: .875rem; padding: 7px 16px; border-radius: 8px;
+      color: var(--text); transition: all .2s; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .speak-btn-lg:hover { border-color: var(--accent); color: var(--accent); }
+    .stop-btn {
+      background: rgba(255,101,132,.08); border: 1px solid var(--accent2); cursor: pointer;
+      font-size: .875rem; padding: 7px 16px; border-radius: 8px;
+      color: var(--accent2); transition: all .2s; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .stop-btn:hover { background: rgba(255,101,132,.18); }
+    .audio-bar {
+      display: flex; gap: 8px; align-items: center; justify-content: center;
+      margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .story-line-kr { position: relative; }
+    .line-speak { float: right; margin-top: 2px; }
+
     /* ── Reading Module ── */
     .reading-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 16px; }
     .story-card {
@@ -1302,6 +1328,45 @@ function shuffle(arr) {
   return a;
 }
 
+/* ── Speech synthesis ── */
+const TTS = {
+  // Speak a single Korean text
+  speak(text, rate = 0.82) {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'ko-KR';
+    utt.rate = rate;
+    utt.pitch = 1.0;
+    window.speechSynthesis.speak(utt);
+  },
+  // Queue multiple texts to be read one after another
+  speakAll(texts, rate = 0.80) {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    texts.forEach(text => {
+      const utt = new SpeechSynthesisUtterance(text);
+      utt.lang  = 'ko-KR';
+      utt.rate  = rate;
+      utt.pitch = 1.0;
+      window.speechSynthesis.speak(utt);
+    });
+  },
+  stop() { if (window.speechSynthesis) window.speechSynthesis.cancel(); },
+  supported() { return !!window.speechSynthesis; },
+};
+
+// Helper: inline 🔊 button that speaks Korean text
+function mkSpeak(text, extraStyle = '') {
+  if (!TTS.supported()) return null;
+  return el('button', {
+    className: 'speak-btn',
+    title: 'Listen',
+    style: extraStyle,
+    onClick: (e) => { e.stopPropagation(); TTS.speak(text); },
+  }, '🔊');
+}
+
 /* ── Persistence ── */
 const store = {
   get(key, fallback) {
@@ -1608,7 +1673,8 @@ function renderHangul() {
       isStudied ? el('div', { className: 'studied-badge' }, '✓') : null,
       el('div', { className: 'hangul-char' }, item.char),
       el('div', { className: 'hangul-rom' }, item.romanization),
-      el('div', { className: 'hangul-sound' }, item.sound)
+      el('div', { className: 'hangul-sound' }, item.sound),
+      mkSpeak(item.char, 'margin-top:6px')
     );
   });
 
@@ -1709,12 +1775,14 @@ function renderFlashcard() {
           isKnown ? el('div', { className: 'known-tag' }, '✓ Known') : null,
           el('div', { className: 'card-category' }, word.category),
           el('div', { className: 'card-korean' }, word.korean),
+          mkSpeak(word.korean, 'font-size:1.2rem;margin:4px 0 8px'),
           el('div', { className: 'card-hint' }, 'Click to reveal')
         ),
         el('div', { className: 'card-face card-back' + (isKnown ? ' known-card' : '') },
           isKnown ? el('div', { className: 'known-tag' }, '✓ Known') : null,
           el('div', { className: 'card-rom' }, word.romanization),
-          el('div', { className: 'card-eng' }, word.english)
+          el('div', { className: 'card-eng' }, word.english),
+          mkSpeak(word.korean, 'margin-top:10px')
         )
       )
     ),
@@ -1860,6 +1928,9 @@ function renderQuizEngine({ items, index, score, selected, correct, total,
     el('div', { className: 'quiz-question' },
       item.label ? el('div', { className: 'q-label' }, item.label) : null,
       el('div', { className: 'q-word' }, item.prompt),
+      // Show speak button only when prompt contains Korean characters
+      /[가-힣ᄀ-ᇿ㄰-㆏]/.test(item.prompt)
+        ? mkSpeak(item.prompt, 'font-size:1.1rem;margin:4px 0') : null,
       item.sub ? el('div', { className: 'q-rom' }, item.sub) : null
     ),
     el('div', { className: 'quiz-options' }, ...opts),
@@ -2095,7 +2166,10 @@ function renderPatterns() {
     const isOpen = state.openPatterns.has(p.id);
     const examples = p.examples.map(ex =>
       el('div', { className: 'example-row' },
-        el('div', { className: 'ex-korean' }, ex.korean),
+        el('div', { style: 'display:flex;align-items:center;gap:8px' },
+          el('div', { className: 'ex-korean', style: 'flex:1' }, ex.korean),
+          mkSpeak(ex.korean)
+        ),
         el('div', { className: 'ex-rom' }, ex.romanization),
         el('div', { className: 'ex-english' }, ex.english),
         el('div', { className: 'ex-parts' },
@@ -2196,13 +2270,15 @@ function renderBuilder() {
   // feedback
   let feedback = null;
   if (state.builderChecked) {
+    const correctSentence = ex.words.join(' ');
     feedback = el('div', { className: 'builder-feedback ' + (state.builderCorrect ? 'correct' : 'wrong') },
-      el('div', {},
+      el('div', { style: 'flex:1' },
         state.builderCorrect ? '✓ Correct!' : '✗ Not quite.',
         state.builderCorrect ? '' : el('div', { className: 'builder-correct-ans' },
-          `Correct: ${ex.words.join(' ')}`
+          `Correct: ${correctSentence}`
         )
-      )
+      ),
+      mkSpeak(state.builderCorrect ? state.builderAnswer.join(' ') : correctSentence)
     );
   }
 
@@ -2314,15 +2390,21 @@ function renderStoryReader() {
 
   const lines = story.lines.map(line =>
     el('div', { className: 'story-line' },
-      el('div', { className: 'story-line-kr' }, line.kr),
+      el('div', { style: 'display:flex;align-items:flex-start;justify-content:space-between;gap:8px' },
+        el('div', { className: 'story-line-kr', style: 'flex:1' }, line.kr),
+        mkSpeak(line.kr, 'flex-shrink:0;margin-top:4px')
+      ),
       state.readingShowRom ? el('div', { className: 'story-line-rom' }, line.rom) : null,
       state.readingShowEng ? el('div', { className: 'story-line-eng' }, line.eng) : null
     )
   );
 
   const vocabItems = story.vocab.map(v =>
-    el('div', { className: 'vocab-chip' },
-      el('div', { className: 'vocab-chip-kr' },  v.kr),
+    el('div', { className: 'vocab-chip', style: 'position:relative' },
+      el('div', { style: 'display:flex;align-items:center;justify-content:space-between' },
+        el('div', { className: 'vocab-chip-kr' }, v.kr),
+        mkSpeak(v.kr)
+      ),
       el('div', { className: 'vocab-chip-rom' }, v.rom),
       el('div', { className: 'vocab-chip-eng' }, v.eng)
     )
@@ -2348,6 +2430,15 @@ function renderStoryReader() {
         }, '🇬🇧 Translation')
       )
     ),
+    TTS.supported() ? el('div', { className: 'audio-bar' },
+      el('button', { className: 'speak-btn-lg',
+        onClick: () => TTS.speakAll(story.lines.map(l => l.kr), 0.78),
+      }, '▶', ' Read Aloud'),
+      el('button', { className: 'stop-btn',
+        onClick: () => TTS.stop(),
+      }, '⏹', ' Stop'),
+      el('div', { style: 'font-size:.75rem;color:var(--muted)' }, 'Uses device Korean voice')
+    ) : null,
     el('div', { className: 'story-body' }, ...lines),
     el('div', { className: 'vocab-section' },
       el('div', { className: 'vocab-section-title' }, `Key Vocabulary — ${story.vocab.length} words`),
