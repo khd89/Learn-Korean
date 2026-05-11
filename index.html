@@ -433,6 +433,80 @@
     .vocab-chip-kr  { font-size: 1.1rem; margin-bottom: 3px; }
     .vocab-chip-rom { font-size: .72rem; color: var(--accent); margin-bottom: 2px; }
     .vocab-chip-eng { font-size: .75rem; color: var(--muted); }
+
+    /* ── Streak / XP Widget ── */
+    .streak-widget {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 18px 22px; margin-bottom: 24px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    }
+    .streak-fire { font-size: 2.2rem; line-height: 1; }
+    .streak-info { flex: 1; min-width: 140px; }
+    .streak-num { font-size: 1.6rem; font-weight: 800; color: #ffa94d; line-height: 1; }
+    .streak-label { font-size: .75rem; color: var(--muted); margin-top: 2px; }
+    .xp-section { flex: 2; min-width: 180px; }
+    .xp-top { display: flex; justify-content: space-between; font-size: .78rem; color: var(--muted); margin-bottom: 5px; }
+    .xp-bar-wrap { height: 10px; background: var(--surface2); border-radius: 5px; overflow: hidden; }
+    .xp-bar-fill { height: 100%; background: linear-gradient(90deg, #ffa94d, #ff6584); border-radius: 5px; transition: width .5s ease; }
+    .xp-earned { font-size: .72rem; color: var(--muted); margin-top: 4px; }
+    .xp-badge { font-size: .65rem; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255,169,77,.18); color: #ffa94d; border: 1px solid rgba(255,169,77,.4); margin-left: 8px; vertical-align: middle; }
+    .streak-badge { font-size: .65rem; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: rgba(255,101,132,.15); color: var(--accent2); border: 1px solid rgba(255,101,132,.4); margin-left: 6px; vertical-align: middle; }
+    .goal-done { font-size: .72rem; color: var(--accent3); font-weight: 600; }
+
+    /* ── SRS Buttons ── */
+    .srs-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px; }
+    .srs-btn {
+      padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: .82rem; font-weight: 600; border: 1px solid transparent; transition: all .2s;
+    }
+    .srs-again { background: #3a1a1a; color: #ff6b6b; border-color: #ff6b6b; }
+    .srs-again:hover { background: #ff6b6b; color: #fff; }
+    .srs-good  { background: #1a2a3a; color: #74b9ff; border-color: #74b9ff; }
+    .srs-good:hover  { background: #74b9ff; color: #000; }
+    .srs-easy  { background: #1a3a2a; color: var(--accent3); border-color: var(--accent3); }
+    .srs-easy:hover  { background: var(--accent3); color: #000; }
+    .srs-label { font-size: .65rem; display: block; opacity: .75; font-weight: 400; margin-top: 2px; }
+    .due-badge { display: inline-block; background: rgba(255,101,132,.15); color: var(--accent2); border: 1px solid rgba(255,101,132,.4); font-size: .65rem; font-weight: 700; padding: 2px 7px; border-radius: 10px; margin-left: 6px; vertical-align: middle; }
+
+    /* ── Dialogue Practice ── */
+    .dialogue-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px,1fr)); gap: 16px; }
+    .dialogue-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 20px; cursor: pointer; transition: all .25s; position: relative; overflow: hidden;
+    }
+    .dialogue-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+    .dialogue-card.beginner::before     { background: #43e97b; }
+    .dialogue-card.intermediate::before { background: #ffa94d; }
+    .dialogue-card.expert::before       { background: var(--accent2); }
+    .dialogue-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--accent); }
+    .dialogue-card-emoji { font-size: 2rem; margin-bottom: 8px; }
+    .dialogue-card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 2px; }
+    .dialogue-card-title-eng { font-size: .78rem; color: var(--muted); margin-bottom: 8px; }
+    .dialogue-card-desc { font-size: .78rem; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
+    .dialogue-card-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .dialogue-done-badge { font-size:.65rem; font-weight:700; padding:2px 8px; border-radius:10px; background:rgba(67,233,123,.15); color:#43e97b; border:1px solid rgba(67,233,123,.4); }
+    .dialogue-score-badge { font-size:.65rem; font-weight:700; padding:2px 8px; border-radius:10px; background:rgba(108,99,255,.15); color:var(--accent); border:1px solid rgba(108,99,255,.4); }
+
+    /* Chat bubble UI */
+    .chat-container { display: flex; flex-direction: column; gap: 14px; margin-bottom: 22px; }
+    .chat-bubble-wrap { display: flex; align-items: flex-end; gap: 8px; }
+    .chat-bubble-wrap.speaker-b { flex-direction: row-reverse; }
+    .chat-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .chat-avatar.a { background: rgba(108,99,255,.25); border: 1px solid rgba(108,99,255,.5); }
+    .chat-avatar.b { background: rgba(255,101,132,.25); border: 1px solid rgba(255,101,132,.5); }
+    .chat-bubble {
+      max-width: 70%; padding: 12px 16px; border-radius: 16px;
+      background: var(--surface2); border: 1px solid var(--border);
+    }
+    .chat-bubble-wrap.speaker-a .chat-bubble { border-bottom-left-radius: 4px; }
+    .chat-bubble-wrap.speaker-b .chat-bubble { border-bottom-right-radius: 4px; background: rgba(108,99,255,.1); border-color: rgba(108,99,255,.3); }
+    .chat-kr { font-size: 1.15rem; line-height: 1.5; margin-bottom: 3px; }
+    .chat-rom { font-size: .75rem; color: var(--muted); font-style: italic; }
+    .chat-eng { font-size: .8rem; color: var(--accent3); margin-top: 4px; }
+    .chat-line-actions { display: flex; align-items: center; gap: 4px; margin-top: 6px; }
+    .dialogue-reader-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 22px; flex-wrap: wrap; }
+    .dialogue-reader-toggles { display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; }
+    .chat-speaker-label { font-size: .68rem; color: var(--muted); margin-bottom: 4px; }
+    .chat-bubble-wrap.speaker-b .chat-speaker-label { text-align: right; }
+    .chat-line-col { display: flex; flex-direction: column; }
   </style>
 </head>
 <body>
@@ -1300,6 +1374,284 @@ const READING_STORIES = [
   },
 ];
 
+// ── Dialogue Scripts ────────────────────────────────────────────────────────
+const DIALOGUES = [
+  // ─── BEGINNER ───────────────────────────────────────────────────────────
+  {
+    id: 'greet-intro',
+    level: 'beginner',
+    emoji: '👋',
+    title: '첫 만남',
+    titleEng: 'First Meeting',
+    desc: 'Two people meet and introduce themselves for the first time.',
+    lines: [
+      { speaker: 'A', kr: '안녕하세요! 저는 민준이에요.', rom: 'Annyeonghaseyo! Jeoneun Minjuniyeyo.', eng: 'Hello! I am Minjun.' },
+      { speaker: 'B', kr: '안녕하세요! 저는 수아예요. 만나서 반가워요.', rom: 'Annyeonghaseyo! Jeoneun Suayeyo. Mannaseo bangawoyo.', eng: 'Hello! I am Sua. Nice to meet you.' },
+      { speaker: 'A', kr: '저도 만나서 반가워요. 학생이에요?', rom: 'Jeodo mannaseo bangawoyo. Haksaengiyeyo?', eng: 'Nice to meet you too. Are you a student?' },
+      { speaker: 'B', kr: '네, 저는 대학생이에요. 민준 씨는요?', rom: 'Ne, jeoneun daehaksaengiyeyo. Minjun ssineunyo?', eng: 'Yes, I am a university student. What about you, Minjun?' },
+      { speaker: 'A', kr: '저도 학생이에요. 어느 학교예요?', rom: 'Jeodo haksaengiyeyo. Eoneu hakgyoyeyo?', eng: 'I am a student too. Which school?' },
+      { speaker: 'B', kr: '서울대학교예요. 민준 씨는요?', rom: 'Seouldaehakgyoyeyo. Minjun ssineunyo?', eng: 'Seoul National University. And you?' },
+      { speaker: 'A', kr: '저는 연세대학교예요. 잘 부탁드려요!', rom: 'Jeoneun Yonseidaehakgyoyeyo. Jal butakdeuryeoyo!', eng: 'I go to Yonsei University. Please take care of me!' },
+    ],
+    vocab: [
+      { kr: '만나서 반가워요', rom: 'mannaseo bangawoyo', eng: 'nice to meet you' },
+      { kr: '학생', rom: 'haksaeng', eng: 'student' },
+      { kr: '대학생', rom: 'daehaksaeng', eng: 'university student' },
+      { kr: '학교', rom: 'hakgyo', eng: 'school' },
+      { kr: '잘 부탁드려요', rom: 'jal butakdeuryeoyo', eng: 'please take care of me' },
+    ],
+    questions: [
+      { q: 'What is the name of Person A?', opts: ['Minjun','Sua','Jisoo','Yuna'], a: 'Minjun' },
+      { q: 'What does Person B do?', opts: ['University student','High school student','Teacher','Office worker'], a: 'University student' },
+      { q: 'Which university does Person A attend?', opts: ['Yonsei','Seoul National','Korea','Hanyang'], a: 'Yonsei' },
+    ],
+  },
+  {
+    id: 'cafe-order',
+    level: 'beginner',
+    emoji: '☕',
+    title: '카페에서',
+    titleEng: 'At the Café',
+    desc: 'Ordering coffee and a snack at a Korean café.',
+    lines: [
+      { speaker: 'A', kr: '어서오세요! 뭐 드릴까요?', rom: 'Eoseooseyo! Mwo deurilkkayo?', eng: 'Welcome! What can I get you?' },
+      { speaker: 'B', kr: '아메리카노 한 잔 주세요.', rom: 'Amerikano han jan juseyo.', eng: 'One Americano please.' },
+      { speaker: 'A', kr: '차갑게요, 따뜻하게요?', rom: 'Chagapgeyo, ttatteutageyo?', eng: 'Cold or hot?' },
+      { speaker: 'B', kr: '차갑게 주세요. 그리고 케이크도 있어요?', rom: 'Chagapge juseyo. Geurigo keikeudo isseoyo?', eng: 'Cold please. And do you have cake too?' },
+      { speaker: 'A', kr: '네, 치즈케이크랑 초콜릿케이크 있어요.', rom: 'Ne, chijeukeikeurang chokollit keikeu isseoyo.', eng: 'Yes, we have cheesecake and chocolate cake.' },
+      { speaker: 'B', kr: '치즈케이크 하나 주세요. 얼마예요?', rom: 'Chijeukeikeu hana juseyo. Eolmayeyo?', eng: 'One cheesecake please. How much is it?' },
+      { speaker: 'A', kr: '모두 육천오백 원이에요.', rom: 'Modu yukcheono-baek woniyeyo.', eng: 'That\'s 6,500 won in total.' },
+    ],
+    vocab: [
+      { kr: '드릴까요', rom: 'deurilkkayo', eng: 'shall I give / what can I get you?' },
+      { kr: '주세요', rom: 'juseyo', eng: 'please give me' },
+      { kr: '차갑게', rom: 'chagapge', eng: 'cold (adverb)' },
+      { kr: '따뜻하게', rom: 'ttatteutage', eng: 'warm (adverb)' },
+      { kr: '얼마예요', rom: 'eolmayeyo', eng: 'how much is it?' },
+    ],
+    questions: [
+      { q: 'What drink does Person B order?', opts: ['Americano','Latte','Green tea','Juice'], a: 'Americano' },
+      { q: 'Does Person B want the drink hot or cold?', opts: ['Cold','Hot','Both','Neither'], a: 'Cold' },
+      { q: 'What cake does Person B order?', opts: ['Cheesecake','Chocolate cake','Both','None'], a: 'Cheesecake' },
+    ],
+  },
+  {
+    id: 'ask-directions',
+    level: 'beginner',
+    emoji: '🗺️',
+    title: '길 묻기',
+    titleEng: 'Asking for Directions',
+    desc: 'Asking a stranger how to get to the subway station.',
+    lines: [
+      { speaker: 'A', kr: '저기요, 지하철역이 어디예요?', rom: 'Jeogiyo, jihacheolyeogi eodiyeyo?', eng: 'Excuse me, where is the subway station?' },
+      { speaker: 'B', kr: '어느 역 찾으세요?', rom: 'Eoneu yeok chajeuseyo?', eng: 'Which station are you looking for?' },
+      { speaker: 'A', kr: '홍대입구역이요.', rom: 'Hongdaeipguyeogiyo.', eng: 'Hongdae station.' },
+      { speaker: 'B', kr: '아, 여기서 좀 멀어요. 버스 타는 게 빨라요.', rom: 'A, yeogiseo jom meoreoyo. Beoseu taneun ge ppallayo.', eng: 'Ah, it\'s a bit far from here. Taking the bus is faster.' },
+      { speaker: 'A', kr: '버스 정류장이 어디예요?', rom: 'Beoseu jeongnyujangi eodiyeyo?', eng: 'Where is the bus stop?' },
+      { speaker: 'B', kr: '이 길로 쭉 가면 왼쪽에 있어요.', rom: 'I gillo jjuk gamyeon oenjjoge isseoyo.', eng: 'Go straight down this road and it\'s on the left.' },
+      { speaker: 'A', kr: '감사합니다! 몇 번 버스예요?', rom: 'Gamsahamnida! Myeot beon beoseuyeyo?', eng: 'Thank you! What bus number is it?' },
+      { speaker: 'B', kr: '273번이에요.', rom: 'Ichil-sambeonieyeo.', eng: 'It\'s number 273.' },
+    ],
+    vocab: [
+      { kr: '지하철역', rom: 'jihacheolyeok', eng: 'subway station' },
+      { kr: '멀어요', rom: 'meoreoyo', eng: 'it is far' },
+      { kr: '버스 정류장', rom: 'beoseu jeongnyujang', eng: 'bus stop' },
+      { kr: '쭉 가면', rom: 'jjuk gamyeon', eng: 'if you go straight' },
+      { kr: '왼쪽', rom: 'oenjjok', eng: 'left side' },
+    ],
+    questions: [
+      { q: 'Where does Person A want to go?', opts: ['Hongdae station','Sinchon station','Itaewon station','City Hall'], a: 'Hongdae station' },
+      { q: 'Why does Person B recommend the bus?', opts: ['It\'s faster','It\'s cheaper','The subway is closed','It\'s closer'], a: 'It\'s faster' },
+      { q: 'Where is the bus stop?', opts: ['On the left after going straight','On the right','Across the street','Around the corner'], a: 'On the left after going straight' },
+    ],
+  },
+
+  // ─── INTERMEDIATE ────────────────────────────────────────────────────────
+  {
+    id: 'job-interview',
+    level: 'intermediate',
+    emoji: '💼',
+    title: '취업 면접',
+    titleEng: 'Job Interview',
+    desc: 'A candidate answers common interview questions in Korean.',
+    lines: [
+      { speaker: 'A', kr: '오늘 면접 보러 오셨군요. 자기소개 해주시겠어요?', rom: 'Oneul myeonjip boreo osyeossgunyo. Jagi soge haejusigesseoyo?', eng: 'So you came for the interview today. Could you introduce yourself?' },
+      { speaker: 'B', kr: '네, 저는 김지수입니다. 마케팅 전공으로 졸업했습니다.', rom: 'Ne, jeoneun Kim Jisuimnida. Maketing jeongongeuro joreobhaetsseumnida.', eng: 'Yes, my name is Kim Jisu. I graduated majoring in marketing.' },
+      { speaker: 'A', kr: '이 회사에 지원한 이유가 뭔가요?', rom: 'I hoesae jiwonhan iyuga mwongayo?', eng: 'What\'s your reason for applying to our company?' },
+      { speaker: 'B', kr: '저는 이 회사의 혁신적인 문화와 성장 가능성을 높이 평가합니다.', rom: 'Jeoneun i hoesaui hyeoksinjeogin munhawa seongjang ganeungseongeul nopi pyeonggahamnida.', eng: 'I highly value this company\'s innovative culture and growth potential.' },
+      { speaker: 'A', kr: '본인의 강점이 뭐라고 생각하세요?', rom: 'Bonini gangjeomin mworago saenggakhaseyo?', eng: 'What do you think is your greatest strength?' },
+      { speaker: 'B', kr: '저는 팀워크와 소통 능력이 뛰어나다고 생각합니다.', rom: 'Jeoneun timwokwa sotong neungnyeogi ttwieonada go saenggakhamnida.', eng: 'I believe my teamwork and communication skills are outstanding.' },
+      { speaker: 'A', kr: '마지막으로 궁금한 것이 있으세요?', rom: 'Majimageuro gunggumhan geosi isseuseyo?', eng: 'Finally, do you have any questions for us?' },
+      { speaker: 'B', kr: '네, 입사 후 연수 기간은 얼마나 되나요?', rom: 'Ne, ipsa hu yeonsu giganeun eolmana doenayo?', eng: 'Yes, how long is the training period after joining?' },
+    ],
+    vocab: [
+      { kr: '자기소개', rom: 'jagi soge', eng: 'self-introduction' },
+      { kr: '전공', rom: 'jeongong', eng: 'major (field of study)' },
+      { kr: '지원하다', rom: 'jiwonhada', eng: 'to apply' },
+      { kr: '강점', rom: 'gangjeon', eng: 'strength / strong point' },
+      { kr: '팀워크', rom: 'timwok', eng: 'teamwork' },
+      { kr: '소통', rom: 'sotong', eng: 'communication' },
+    ],
+    questions: [
+      { q: "What was Person B's university major?", opts: ['Marketing','Computer science','Design','Business'], a: 'Marketing' },
+      { q: 'What does Person B say is their strength?', opts: ['Teamwork and communication','Leadership','Technical skills','Creativity'], a: 'Teamwork and communication' },
+      { q: "What does Person B ask at the end?", opts: ['Training period length','Salary','Work hours','Location'], a: 'Training period length' },
+    ],
+  },
+  {
+    id: 'doctor-visit',
+    level: 'intermediate',
+    emoji: '🏥',
+    title: '병원에서',
+    titleEng: 'At the Doctor',
+    desc: 'A patient describes symptoms to a doctor at a clinic.',
+    lines: [
+      { speaker: 'A', kr: '어디가 아프세요?', rom: 'Eoiga apeuseyo?', eng: 'Where does it hurt?' },
+      { speaker: 'B', kr: '목이 너무 아프고 열도 있어요.', rom: 'Mogi neomu apeuggo yeoldo isseoyo.', eng: 'My throat hurts a lot and I also have a fever.' },
+      { speaker: 'A', kr: '언제부터 아프셨어요?', rom: 'Eonjebuto apeusy eosseoyo?', eng: 'Since when have you been sick?' },
+      { speaker: 'B', kr: '어제 저녁부터요. 기침도 많이 해요.', rom: 'Eoje jeo nyeokbutoyo. Gichimdo mani haeyo.', eng: 'Since yesterday evening. I\'ve also been coughing a lot.' },
+      { speaker: 'A', kr: '다른 증상도 있으세요? 두통은요?', rom: 'Dareun jeungsangdo isseuseyo? Dutongeunyo?', eng: 'Any other symptoms? What about headaches?' },
+      { speaker: 'B', kr: '네, 머리도 좀 아파요. 몸살인 것 같아요.', rom: 'Ne, meorido jom apayo. Monsal in geot gatayo.', eng: 'Yes, my head also hurts a little. I think it might be body aches.' },
+      { speaker: 'A', kr: '독감 검사를 해볼게요. 잠깐 기다려 주세요.', rom: 'Dokgam geomsareul haebolgeyo. Jamkkan gidaryeo juseyo.', eng: 'Let me run a flu test. Please wait a moment.' },
+      { speaker: 'B', kr: '네, 알겠습니다.', rom: 'Ne, algetseumnida.', eng: 'Yes, understood.' },
+    ],
+    vocab: [
+      { kr: '목이 아프다', rom: 'mogi apeuda', eng: 'throat hurts' },
+      { kr: '열', rom: 'yeol', eng: 'fever' },
+      { kr: '기침', rom: 'gichim', eng: 'cough' },
+      { kr: '증상', rom: 'jeungsang', eng: 'symptom' },
+      { kr: '두통', rom: 'dutong', eng: 'headache' },
+      { kr: '독감', rom: 'dokgam', eng: 'flu' },
+    ],
+    questions: [
+      { q: 'What two symptoms does Person B mention first?', opts: ['Sore throat and fever','Headache and cough','Stomach ache and fever','Dizziness and sore throat'], a: 'Sore throat and fever' },
+      { q: 'When did the symptoms start?', opts: ['Yesterday evening','This morning','Two days ago','This afternoon'], a: 'Yesterday evening' },
+      { q: 'What test does the doctor run?', opts: ['Flu test','Blood test','X-ray','COVID test'], a: 'Flu test' },
+    ],
+  },
+  {
+    id: 'phone-call',
+    level: 'intermediate',
+    emoji: '📱',
+    title: '전화 통화',
+    titleEng: 'Phone Call',
+    desc: 'Making plans to meet a friend over the phone.',
+    lines: [
+      { speaker: 'A', kr: '여보세요? 지민이야?', rom: 'Yeoboseyo? Jiminiya?', eng: 'Hello? Is this Jimin?' },
+      { speaker: 'B', kr: '응, 나야. 무슨 일이야?', rom: 'Eung, naya. Museun iriya?', eng: 'Yeah, it\'s me. What\'s up?' },
+      { speaker: 'A', kr: '이번 주말에 시간 있어? 같이 영화 보러 갈까?', rom: 'Ibeon jumare sigan isseo? Gachi yeonghwa boreo galkka?', eng: 'Do you have time this weekend? Shall we go watch a movie?' },
+      { speaker: 'B', kr: '이번 주 토요일은 좀 바빠. 일요일은 어때?', rom: 'Ibeon ju toyoireun jom bappa. Iryoireun eottae?', eng: 'This Saturday I\'m a bit busy. How about Sunday?' },
+      { speaker: 'A', kr: '일요일 좋아! 몇 시가 좋을까?', rom: 'Iryoil joa! Myeot siga joeulkka?', eng: 'Sunday is good! What time would be good?' },
+      { speaker: 'B', kr: '오후 세 시 어때? 강남 CGV에서 만나자.', rom: 'Ohu se si eottae? Gangnam CGVeseo mannaja.', eng: 'How about 3pm? Let\'s meet at Gangnam CGV.' },
+      { speaker: 'A', kr: '좋아! 그럼 일요일 세 시에 CGV 앞에서 봐!', rom: 'Joa! Geureom iryoil se sie CGV apeseo bwa!', eng: 'Great! See you in front of CGV at 3 on Sunday!' },
+    ],
+    vocab: [
+      { kr: '여보세요', rom: 'yeoboseyo', eng: 'hello (phone greeting)' },
+      { kr: '이번 주말', rom: 'ibeon jumal', eng: 'this weekend' },
+      { kr: '바빠', rom: 'bappa', eng: 'busy (informal)' },
+      { kr: '어때', rom: 'eottae', eng: 'how about / what do you think?' },
+      { kr: '만나자', rom: 'mannaja', eng: 'let\'s meet (informal)' },
+    ],
+    questions: [
+      { q: 'What does Person A invite Person B to do?', opts: ['Watch a movie','Eat dinner','Go shopping','Play sports'], a: 'Watch a movie' },
+      { q: 'Why can\'t Person B meet on Saturday?', opts: ['They are busy','They are sick','They are traveling','They have work'], a: 'They are busy' },
+      { q: 'Where do they agree to meet?', opts: ['Gangnam CGV','Hongdae CGV','Sinchon CGV','Coex Mall'], a: 'Gangnam CGV' },
+    ],
+  },
+
+  // ─── EXPERT ─────────────────────────────────────────────────────────────
+  {
+    id: 'business-meeting',
+    level: 'expert',
+    emoji: '🤝',
+    title: '비즈니스 미팅',
+    titleEng: 'Business Meeting',
+    desc: 'Negotiating a project proposal in a formal business context.',
+    lines: [
+      { speaker: 'A', kr: '오늘 바쁘신데 시간 내주셔서 감사합니다.', rom: 'Oneul bappeusinde sigan naejusyeoseo gamsahamnida.', eng: 'Thank you for making time despite being busy today.' },
+      { speaker: 'B', kr: '아닙니다. 제안서를 검토해 보니 흥미로운 부분이 많더군요.', rom: 'Animnida. Jeanseoreul geomtohae boni heungmiroun buni mandeokkunyo.', eng: 'Not at all. After reviewing the proposal, I found many interesting aspects.' },
+      { speaker: 'A', kr: '감사합니다. 특히 어떤 부분이 관심을 끌었나요?', rom: 'Gamsahamnida. Teukhi eotteon buni gwansimeul kkeureonnayo?', eng: 'Thank you. Which parts in particular caught your interest?' },
+      { speaker: 'B', kr: '시장 분석 데이터가 매우 설득력 있었습니다. 다만 예산 부분이 좀 높게 책정된 것 같아요.', rom: 'Sijang bunseok deitaga maeu seoldeungnyo isseotsseumnida. Daman yaesan buni jom nopge chaekjeongdoen geot gatayo.', eng: 'The market analysis data was very persuasive. However, the budget seems set a bit high.' },
+      { speaker: 'A', kr: '그 부분은 협의를 통해 조정 가능합니다. 어느 정도를 생각하고 계신가요?', rom: 'Geu buneun hyeobuireul tonghae jojeong ganeunghamnida. Eoneu jeongdoreul saengakago gyesingayo?', eng: 'That part can be adjusted through negotiation. What figure are you thinking?' },
+      { speaker: 'B', kr: '현재 제시된 금액의 15-20% 정도 낮출 수 있다면 적극 검토하겠습니다.', rom: 'Hyeonjae jesidoen geumaegi sipobisipopesento jeongdo natccul su itdamyeon jeokggeuk geomtohagesseumnida.', eng: 'If we can lower the presented amount by about 15-20%, I would actively consider it.' },
+      { speaker: 'A', kr: '충분히 검토해 보겠습니다. 다음 주까지 수정된 제안서를 보내드리겠습니다.', rom: 'Chungbunhi geomtohae bogetsseumnida. Daeum jukkajisujeongdoen jeanseoreul bonaedeuri gesseumnida.', eng: 'We will thoroughly consider it. I will send you the revised proposal by next week.' },
+    ],
+    vocab: [
+      { kr: '제안서', rom: 'jeanseol', eng: 'proposal document' },
+      { kr: '검토하다', rom: 'geomtohada', eng: 'to review / examine' },
+      { kr: '설득력', rom: 'seoldeungnyo', eng: 'persuasiveness' },
+      { kr: '예산', rom: 'yaesan', eng: 'budget' },
+      { kr: '협의', rom: 'hyeobui', eng: 'negotiation / consultation' },
+      { kr: '조정하다', rom: 'jojeongda', eng: 'to adjust' },
+    ],
+    questions: [
+      { q: 'What does Person B find persuasive?', opts: ['Market analysis data','Product design','Company reputation','Price offer'], a: 'Market analysis data' },
+      { q: 'What is Person B\'s concern about the proposal?', opts: ['Budget is too high','Timeline is too short','Team is too small','Scope is unclear'], a: 'Budget is too high' },
+      { q: 'By how much does Person B want to reduce the budget?', opts: ['15-20%','10-15%','20-25%','5-10%'], a: '15-20%' },
+    ],
+  },
+  {
+    id: 'debate-environment',
+    level: 'expert',
+    emoji: '🌍',
+    title: '환경 토론',
+    titleEng: 'Environmental Debate',
+    desc: 'A discussion on environmental policy and individual responsibility.',
+    lines: [
+      { speaker: 'A', kr: '요즘 기후 변화 문제가 정말 심각해졌잖아요.', rom: 'Yojeum gihu byeonhwa munje ga jeongmal simgakhaejyeosjanhayo.', eng: 'Climate change has become a really serious problem lately, hasn\'t it.' },
+      { speaker: 'B', kr: '맞아요. 하지만 개인의 노력만으로는 한계가 있어요. 기업과 정부의 책임이 더 중요하다고 봐요.', rom: 'Majayo. Hajiman gaeini noryeogmaneuroneun hanggyega isseoyo. Gibeogwa jeongbui chaegimi deo jungyohadago bwayo.', eng: 'Agreed. But individual efforts alone have limits. I think the responsibility of corporations and government is more important.' },
+      { speaker: 'A', kr: '물론 구조적 변화가 필요하죠. 그래도 개인의 소비 습관도 바뀌어야 하지 않을까요?', rom: 'Mullon gujojok byeonhwaga piryohajyo. Geuraedo gaeini sobi seupgwando bakkwieoya haji anheulkkayo?', eng: 'Of course structural change is needed. But shouldn\'t individual consumption habits also change?' },
+      { speaker: 'B', kr: '동의해요. 다만 친환경 제품은 가격이 너무 비싸서 모든 사람이 선택하기 어렵잖아요.', rom: 'Donguihaeyo. Daman chinwangyeong jepumeun gagyeogi neomu bissaseo modeun sarami seontaekhagi eo ryeobjanhayo.', eng: 'I agree. But eco-friendly products are so expensive that not everyone can choose them.' },
+      { speaker: 'A', kr: '그래서 정부가 보조금이나 세금 혜택으로 친환경 선택을 더 쉽게 만들어야 해요.', rom: 'Geuraeseo jeongbuga bojogeumine se geum hyetaegeuro chinwangyeong seontaekeul deo swipge mandeureoya haeyo.', eng: 'That\'s why the government should make eco-friendly choices easier through subsidies or tax benefits.' },
+      { speaker: 'B', kr: '그건 좋은 방향이에요. 교육도 중요한 것 같아요. 어릴 때부터 환경 의식을 키워야 하니까요.', rom: 'Geugeon joeun banghyangiyeyo. Gyoyukdo jungyohan geot gatayo. Eoril ttaebuteo hwangyeong uisigeul kiwoya hanikayo.', eng: 'That\'s a good direction. Education also seems important. We need to cultivate environmental awareness from a young age.' },
+    ],
+    vocab: [
+      { kr: '기후 변화', rom: 'gihu byeonhwa', eng: 'climate change' },
+      { kr: '한계', rom: 'hanggyeo', eng: 'limit / boundary' },
+      { kr: '구조적', rom: 'gujojok', eng: 'structural' },
+      { kr: '친환경', rom: 'chinwangyeong', eng: 'eco-friendly' },
+      { kr: '보조금', rom: 'bogokgeum', eng: 'subsidy' },
+      { kr: '환경 의식', rom: 'hwangyeong uisik', eng: 'environmental awareness' },
+    ],
+    questions: [
+      { q: 'What does Person B think is more important than individual effort?', opts: ['Corporate and government responsibility','Technology innovation','International cooperation','Media coverage'], a: 'Corporate and government responsibility' },
+      { q: 'What barrier to eco-friendly choices does Person B mention?', opts: ['High prices','Lack of availability','Poor quality','Complex usage'], a: 'High prices' },
+      { q: 'What solution does Person A suggest for making eco-friendly choices easier?', opts: ['Government subsidies or tax benefits','Stricter laws','Public campaigns','Lower production costs'], a: 'Government subsidies or tax benefits' },
+    ],
+  },
+  {
+    id: 'apartment-search',
+    level: 'expert',
+    emoji: '🏠',
+    title: '집 구하기',
+    titleEng: 'Apartment Hunting',
+    desc: 'Discussing apartment details with a real estate agent.',
+    lines: [
+      { speaker: 'A', kr: '안녕하세요. 이 근처에 원룸이나 오피스텔 보러 왔어요.', rom: 'Annyeonghaseyo. I geunchoe wonrumine opiseutel boreo wasseoyo.', eng: 'Hello. I came to look at studios or officetels in this area.' },
+      { speaker: 'B', kr: '네, 오셨군요. 보증금이랑 월세 예산은 어느 정도 생각하고 계세요?', rom: 'Ne, osyeossgunyo. Bojeunggeumnirang wolse yaesan euneoneu jeongdo saengakago gyeseyo?', eng: 'Yes, you\'re here. What deposit and monthly rent budget are you thinking of?' },
+      { speaker: 'A', kr: '보증금 오백에 월세 오십만 원 이하로 보고 있어요.', rom: 'Bojeunggeum obaege wolse osipman won ihaoro bogo isseoyo.', eng: 'I\'m looking at deposit of 5 million and monthly rent under 500,000 won.' },
+      { speaker: 'B', kr: '알겠습니다. 혹시 층수나 방향에 대한 선호도 있으세요?', rom: 'Algesseumnida. Hoksi cheungsunabanghyang e daehan seonhodo isseuseyo?', eng: 'Understood. Do you have any preference for floor or direction?' },
+      { speaker: 'A', kr: '가능하면 햇볕이 잘 드는 남향이 좋겠어요. 그리고 엘리베이터가 있으면 좋겠어요.', rom: 'Ganeunghamyeon haetbyeochi jal deuneun namhyangi joketsseoyo. Geurigo elribeiteoga isseumyeon joketsseoyo.', eng: 'If possible, I\'d prefer south-facing with good sunlight. And it would be nice to have an elevator.' },
+      { speaker: 'B', kr: '마침 딱 맞는 매물이 하나 있어요. 5층 남향 오피스텔인데 관리비도 저렴해요.', rom: 'Machim ttak manneun maemuliga hana isseoyo. Ochung namhyang opiseuteiinde gwallibido jeoryeomhaeyo.', eng: 'We happen to have a property that fits perfectly. It\'s a 5th floor south-facing officetel with low maintenance fees.' },
+      { speaker: 'A', kr: '좋네요! 지금 바로 볼 수 있을까요?', rom: 'Joneyo! Jigeum baro bol su isseulkkayo?', eng: 'Sounds good! Can we see it right now?' },
+      { speaker: 'B', kr: '물론이죠! 바로 안내해 드릴게요.', rom: 'Mullonjyo! Baro annae haedeurilgeyo.', eng: 'Of course! I\'ll take you there right away.' },
+    ],
+    vocab: [
+      { kr: '원룸', rom: 'wonrum', eng: 'studio apartment' },
+      { kr: '오피스텔', rom: 'opiseutel', eng: 'officetel (studio flat)' },
+      { kr: '보증금', rom: 'bojeunggeum', eng: 'security deposit' },
+      { kr: '월세', rom: 'wolse', eng: 'monthly rent' },
+      { kr: '남향', rom: 'namhyang', eng: 'south-facing' },
+      { kr: '관리비', rom: 'gwallbi', eng: 'maintenance fee' },
+    ],
+    questions: [
+      { q: 'What is Person A\'s maximum monthly rent budget?', opts: ['500,000 won','400,000 won','600,000 won','700,000 won'], a: '500,000 won' },
+      { q: 'What direction does Person A prefer?', opts: ['South','North','East','West'], a: 'South' },
+      { q: 'What floor is the available property on?', opts: ['5th','3rd','7th','2nd'], a: '5th' },
+    ],
+  },
+];
+
 </script>
 <script>
 /* ── Utilities ── */
@@ -1398,7 +1750,11 @@ function resetAll() {
   localStorage.removeItem('vocab_known');
   localStorage.removeItem('quiz_history');
   localStorage.removeItem('reading_completed');
+  localStorage.removeItem('xp_data');
+  localStorage.removeItem('srs_data');
+  localStorage.removeItem('dialogue_completed');
   READING_STORIES.forEach(s => localStorage.removeItem(`reading_score_${s.id}`));
+  DIALOGUES.forEach(d => localStorage.removeItem(`dialogue_score_${d.id}`));
 }
 
 function getReadingCompleted() { return store.get('reading_completed', []); }
@@ -1411,6 +1767,85 @@ function setReadingScore(id, score, total) {
   const pct = Math.round((score / total) * 100);
   const existing = getReadingScore(id);
   if (existing === null || pct > existing) store.set(`reading_score_${id}`, pct);
+}
+
+/* ── XP & Streak ── */
+const DAILY_XP_GOAL = 20;
+function getTodayStr() { return new Date().toISOString().slice(0, 10); }
+function getXPData() { return store.get('xp_data', { today: '', xp: 0, streak: 0, lastStreakDate: '' }); }
+function addXP(amount) {
+  const d = getXPData();
+  const today = getTodayStr();
+  if (d.today !== today) { d.today = today; d.xp = 0; }
+  const wasGoalMet = d.xp >= DAILY_XP_GOAL;
+  d.xp += amount;
+  const isGoalMet = d.xp >= DAILY_XP_GOAL;
+  if (isGoalMet && !wasGoalMet) {
+    // just crossed goal today — update streak
+    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    if (d.lastStreakDate === yesterday) { d.streak += 1; }
+    else if (d.lastStreakDate !== today) { d.streak = 1; }
+    d.lastStreakDate = today;
+  }
+  store.set('xp_data', d);
+}
+function getStreak() {
+  const d = getXPData();
+  const today = getTodayStr();
+  // if streak day was more than 1 day ago and today's goal not met, streak is broken
+  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  if (d.lastStreakDate !== today && d.lastStreakDate !== yesterday) {
+    if (d.streak > 0) { d.streak = 0; store.set('xp_data', d); }
+  }
+  return d.streak;
+}
+function getTodayXP() {
+  const d = getXPData();
+  return d.today === getTodayStr() ? d.xp : 0;
+}
+
+/* ── SRS ── */
+function getSRSData() { return store.get('srs_data', {}); }
+function rateSRSCard(wordKr, rating) {
+  // rating: 'again' | 'good' | 'easy'
+  const data = getSRSData();
+  const now = Date.now();
+  const card = data[wordKr] || { interval: 1, due: now, reps: 0 };
+  card.reps += 1;
+  const msDay = 86400000;
+  if (rating === 'again') { card.interval = 1; }
+  else if (rating === 'good') { card.interval = Math.max(2, Math.round(card.interval * 2)); }
+  else { card.interval = Math.max(4, Math.round(card.interval * 3)); }
+  card.due = now + card.interval * msDay;
+  card.lastRated = now;
+  data[wordKr] = card;
+  store.set('srs_data', data);
+  addXP(1);
+}
+function getDueCards() {
+  const data = getSRSData();
+  const now = Date.now();
+  return VOCABULARY.filter(w => {
+    const c = data[w.korean];
+    return c && c.due <= now;
+  });
+}
+function getSRSCard(wordKr) {
+  return getSRSData()[wordKr] || null;
+}
+function getDueCount() { return getDueCards().length; }
+
+/* ── Dialogue progress ── */
+function getDialogueCompleted() { return store.get('dialogue_completed', []); }
+function addDialogueCompleted(id) {
+  const c = getDialogueCompleted();
+  if (!c.includes(id)) { c.push(id); store.set('dialogue_completed', c); }
+}
+function getDialogueScore(id) { return store.get(`dialogue_score_${id}`, null); }
+function setDialogueScore(id, score, total) {
+  const pct = Math.round((score / total) * 100);
+  const existing = getDialogueScore(id);
+  if (existing === null || pct > existing) store.set(`dialogue_score_${id}`, pct);
 }
 
 /* ── Level helpers ── */
@@ -1449,6 +1884,12 @@ const state = {
   builderAnswer: [],         // word tiles placed so far
   builderChecked: false,
   builderCorrect: false,
+  // dialogue
+  dialogueView: 'list',      // list | chat | quiz
+  dialogueId: null,
+  dialogueShowRom: true,
+  dialogueShowEng: false,
+  dqItems: [], dqIndex: 0, dqScore: 0, dqSelected: null, dqCorrect: null,
 };
 
 /* ── Render ── */
@@ -1466,6 +1907,7 @@ function renderHeader() {
     { id: 'quiz',      label: '✏️ Quiz' },
     { id: 'sentences', label: '📝 Sentences' },
     { id: 'reading',   label: '📖 Reading' },
+    { id: 'dialogue',  label: '💬 Talk' },
   ];
   const levelMeta = {
     beginner:     { emoji: '🌱', label: 'Beginner' },
@@ -1474,13 +1916,18 @@ function renderHeader() {
   };
   const lm = levelMeta[state.level] || levelMeta.beginner;
 
+  const streak = getStreak();
+  const todayXP = getTodayXP();
+
   return el('header', {},
     el('div', { style: 'display:flex;align-items:center;gap:0' },
       el('div', { className: 'logo', onClick: () => { state.view = 'home'; render(); } },
         el('span', { className: 'logo-kr' }, '한'),
         el('span', {}, 'Learn Korean')
       ),
-      el('span', { className: `level-badge ${state.level}` }, `${lm.emoji} ${lm.label}`)
+      el('span', { className: `level-badge ${state.level}` }, `${lm.emoji} ${lm.label}`),
+      streak > 0 ? el('span', { className: 'streak-badge', title: `${streak} day streak` }, `🔥 ${streak}`) : null,
+      todayXP > 0 ? el('span', { className: 'xp-badge', title: `${todayXP} XP today` }, `⚡ ${todayXP} XP`) : null
     ),
     el('nav', {},
       ...navItems.map(({ id, label }) =>
@@ -1500,6 +1947,34 @@ function renderView() {
   if (state.view === 'quiz')      return renderQuiz();
   if (state.view === 'sentences') return renderSentences();
   if (state.view === 'reading')   return renderReading();
+  if (state.view === 'dialogue')  return renderDialogue();
+}
+
+/* ── Streak Widget ── */
+function renderStreakWidget() {
+  const streak = getStreak();
+  const todayXP = getTodayXP();
+  const pct = Math.min(100, Math.round((todayXP / DAILY_XP_GOAL) * 100));
+  const goalMet = todayXP >= DAILY_XP_GOAL;
+  return el('div', { className: 'streak-widget' },
+    el('div', { className: 'streak-fire' }, streak > 0 ? '🔥' : '❄️'),
+    el('div', { className: 'streak-info' },
+      el('div', { className: 'streak-num' }, `${streak}`),
+      el('div', { className: 'streak-label' }, streak === 1 ? '1 day streak' : streak > 1 ? `${streak} day streak` : 'No streak yet')
+    ),
+    el('div', { className: 'xp-section' },
+      el('div', { className: 'xp-top' },
+        el('span', {}, goalMet ? '✅ Daily goal reached!' : `Daily XP Goal`),
+        el('span', {}, `${Math.min(todayXP, DAILY_XP_GOAL)} / ${DAILY_XP_GOAL} XP`)
+      ),
+      el('div', { className: 'xp-bar-wrap' },
+        el('div', { className: 'xp-bar-fill', style: `width:${pct}%` })
+      ),
+      goalMet
+        ? el('div', { className: 'goal-done' }, '🎉 Keep going for bonus XP!')
+        : el('div', { className: 'xp-earned' }, `${DAILY_XP_GOAL - todayXP} XP to hit today's goal`)
+    )
+  );
 }
 
 /* ── Home ── */
@@ -1584,6 +2059,11 @@ function renderHome() {
       desc: `${READING_STORIES.filter(s => levelIncluded(s.level)).length} stories at your level. Toggle romanization & test comprehension.`,
       prog: null,
     },
+    {
+      id: 'dialogue', cls: 'c3', icon: '💬', title: 'Dialogue Practice',
+      desc: `${DIALOGUES.filter(d => levelIncluded(d.level)).length} real-life conversations with chat bubbles, audio & comprehension quiz.`,
+      prog: null,
+    },
   ];
 
   const levels = [
@@ -1620,6 +2100,7 @@ function renderHome() {
       el('h1', {}, 'Learn ', el('span', {}, 'Korean')),
       el('p', {}, 'Track your progress across all modules')
     ),
+    renderStreakWidget(),
     levelSelector,
     dashboard,
     el('div', { className: 'cards-grid' },
@@ -1664,6 +2145,7 @@ function renderHangul() {
         if (flipped) state.hangulFlipped.delete(key);
         else {
           state.hangulFlipped.add(key);
+          if (!studied.has(item.char)) addXP(2);
           studied.add(item.char);
           setStudied(studied);
         }
@@ -1699,6 +2181,7 @@ function renderHangul() {
 /* ── Flashcards ── */
 function getFilteredVocab() {
   const byLevel = VOCABULARY.filter(w => levelIncluded(w.level));
+  if (state.fcCategory === '📋 Due') return getDueCards().filter(w => levelIncluded(w.level));
   return state.fcCategory === 'All' ? byLevel : byLevel.filter(w => w.category === state.fcCategory);
 }
 
@@ -1708,12 +2191,21 @@ function renderFlashcard() {
   // Only show categories that have at least one word at the current level
   const levelWords = VOCABULARY.filter(w => levelIncluded(w.level));
   const availableCats = new Set(levelWords.map(w => w.category));
-  const categories = ['All', ...new Set(VOCABULARY.map(w => w.category))].filter(
-    cat => cat === 'All' || availableCats.has(cat)
-  );
+  const dueCount = getDueCount();
+  const categories = [
+    ...(dueCount > 0 ? ['📋 Due'] : []),
+    'All',
+    ...new Set(VOCABULARY.map(w => w.category))
+  ].filter(cat => cat === 'All' || cat === '📋 Due' || availableCats.has(cat));
 
   // If the previously-selected category is now empty at this level, reset to All
-  if (state.fcCategory !== 'All' && !availableCats.has(state.fcCategory)) {
+  if (state.fcCategory !== 'All' && state.fcCategory !== '📋 Due' && !availableCats.has(state.fcCategory)) {
+    state.fcCategory = 'All';
+    state.fcIndex = 0;
+    state.fcFlipped = false;
+  }
+  // If Due tab selected but no due cards now
+  if (state.fcCategory === '📋 Due' && dueCount === 0) {
     state.fcCategory = 'All';
     state.fcIndex = 0;
     state.fcFlipped = false;
@@ -1724,8 +2216,11 @@ function renderFlashcard() {
   const knownInFilter = words.filter(w => known.has(w.korean)).length;
 
   const header = el('div', {},
-    el('div', { className: 'section-title' }, 'Vocabulary Flashcards'),
-    el('div', { className: 'section-subtitle' }, 'Flip to reveal • Mark words you know'),
+    el('div', { className: 'section-title' },
+      'Vocabulary Flashcards',
+      dueCount > 0 ? el('span', { className: 'due-badge' }, `${dueCount} due for review`) : null
+    ),
+    el('div', { className: 'section-subtitle' }, 'Flip to reveal • Rate cards for spaced repetition • Mark words you know'),
     el('div', { className: 'level-filter-note' },
       `Showing ${levelMeta2[state.level]} level words (${words.length} words). Change level on the Home screen.`
     ),
@@ -1797,12 +2292,23 @@ function renderFlashcard() {
         onClick: () => { state.fcIndex = idx + 1; state.fcFlipped = false; render(); },
       }, 'Next →')
     ),
+    state.fcFlipped ? el('div', { className: 'srs-row' },
+      el('button', { className: 'srs-btn srs-again', onClick: () => { rateSRSCard(word.korean, 'again'); state.fcFlipped = false; state.fcIndex = Math.min(idx + 1, words.length - 1); render(); } },
+        '🔴 Again', el('span', { className: 'srs-label' }, 'review again soon')
+      ),
+      el('button', { className: 'srs-btn srs-good', onClick: () => { rateSRSCard(word.korean, 'good'); state.fcFlipped = false; state.fcIndex = Math.min(idx + 1, words.length - 1); render(); } },
+        '🟡 Good', el('span', { className: 'srs-label' }, 'review in a few days')
+      ),
+      el('button', { className: 'srs-btn srs-easy', onClick: () => { rateSRSCard(word.korean, 'easy'); state.fcFlipped = false; state.fcIndex = Math.min(idx + 1, words.length - 1); render(); } },
+        '🟢 Easy', el('span', { className: 'srs-label' }, 'review much later')
+      )
+    ) : null,
     el('div', { className: 'know-actions' },
       isKnown
         ? el('button', { className: 'btn-unlearn', onClick: () => { known.delete(word.korean); setKnown(known); render(); } }, '✗ Still Learning')
-        : el('button', { className: 'btn-know', onClick: () => { known.add(word.korean); setKnown(known); render(); } }, '✓ Mark as Known')
+        : el('button', { className: 'btn-know', onClick: () => { known.add(word.korean); setKnown(known); addXP(3); render(); } }, '✓ Mark as Known')
     ),
-    el('div', { className: 'card-flip-hint' }, '← → arrow keys to navigate • Space to flip')
+    el('div', { className: 'card-flip-hint' }, '← → arrow keys to navigate • Space to flip • Rate after flipping')
   );
 }
 
@@ -2034,6 +2540,7 @@ function renderVocabQuiz() {
     onNext: () => {
       if (state.vqIndex + 1 >= vqTotal) {
         addQuizResult('vocab', state.vqScore, vqTotal);
+        addXP(5);
         state.vqIndex = vqTotal; // trigger done screen
       } else {
         state.vqIndex++; state.vqSelected = null; state.vqCorrect = null;
@@ -2119,6 +2626,7 @@ function renderGrammarQuiz() {
     onNext: () => {
       if (state.gqIndex + 1 >= gqTotal) {
         addQuizResult('grammar', state.gqScore, gqTotal);
+        addXP(5);
         state.gqIndex = gqTotal;
       } else {
         state.gqIndex++; state.gqSelected = null; state.gqCorrect = null;
@@ -2290,6 +2798,7 @@ function renderBuilder() {
       const correct = state.builderAnswer.join(' ') === ex.words.join(' ');
       state.builderChecked = true;
       state.builderCorrect = correct;
+      if (correct) addXP(2);
       render();
     },
   }, 'Check');
@@ -2386,7 +2895,9 @@ function renderStoryReader() {
   if (!story) { state.readingView = 'list'; render(); return el('div', {}); }
 
   // Mark as read when user opens the story
+  const wasStoryAlreadyRead = getReadingCompleted().includes(story.id);
   addReadingCompleted(story.id);
+  if (!wasStoryAlreadyRead) addXP(3);
 
   const lines = story.lines.map(line =>
     el('div', { className: 'story-line' },
@@ -2485,6 +2996,7 @@ function renderStoryQuiz() {
     onNext: () => {
       if (state.rqIndex + 1 >= total) {
         setReadingScore(story.id, state.rqScore, total);
+        addXP(5);
         state.rqIndex = total;
       } else {
         state.rqIndex++; state.rqSelected = null; state.rqCorrect = null;
@@ -2501,6 +3013,192 @@ function renderStoryQuiz() {
       render();
     },
     onBack: () => { state.readingView = 'story'; render(); },
+  });
+}
+
+/* ── Dialogue Practice ── */
+function renderDialogue() {
+  if (state.dialogueView === 'list') return renderDialogueList();
+  if (state.dialogueView === 'chat') return renderDialogueChat();
+  if (state.dialogueView === 'quiz') return renderDialogueQuiz();
+}
+
+function renderDialogueList() {
+  const completed = getDialogueCompleted();
+  const dialogues = DIALOGUES.filter(d => levelIncluded(d.level));
+  const levelLabel = { beginner: '🌱 Beginner', intermediate: '📖 Intermediate', expert: '🎓 Expert' }[state.level];
+
+  return el('div', {},
+    el('div', { className: 'section-title' }, '💬 Dialogue Practice'),
+    el('div', { className: 'section-subtitle' }, 'Real-life Korean conversations with chat bubbles • Toggle romanization • Test comprehension'),
+    el('div', { className: 'level-filter-note' },
+      `Level: ${levelLabel} — ${dialogues.length} ${dialogues.length === 1 ? 'dialogue' : 'dialogues'} available (${completed.length} practiced so far)`
+    ),
+    dialogues.length === 0
+      ? el('div', { style: 'text-align:center;padding:60px 24px;color:var(--muted)' },
+          el('div', { style: 'font-size:3rem;margin-bottom:14px' }, '💬'),
+          el('div', { style: 'font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:8px' }, 'No dialogues yet'),
+          el('div', { style: 'font-size:.875rem' }, 'Upgrade your level on the Home screen to unlock dialogues.')
+        )
+      : el('div', { className: 'dialogue-grid' },
+          ...dialogues.map(d => {
+            const isDone = completed.includes(d.id);
+            const score = getDialogueScore(d.id);
+            const lvlEmoji = { beginner: '🌱', intermediate: '📖', expert: '🎓' }[d.level];
+            const lvlLabel = { beginner: 'Beginner', intermediate: 'Intermediate', expert: 'Expert' }[d.level];
+            return el('div', {
+              className: `dialogue-card ${d.level}`,
+              onClick: () => {
+                state.dialogueId = d.id;
+                state.dialogueView = 'chat';
+                state.dialogueShowRom = true;
+                state.dialogueShowEng = false;
+                render();
+              }
+            },
+              el('div', { className: 'dialogue-card-emoji' }, d.emoji),
+              el('div', { className: 'dialogue-card-title' }, d.title),
+              el('div', { className: 'dialogue-card-title-eng' }, d.titleEng),
+              el('div', { className: 'dialogue-card-desc' }, d.desc),
+              el('div', { className: 'dialogue-card-meta' },
+                el('span', { className: `level-badge ${d.level}` }, `${lvlEmoji} ${lvlLabel}`),
+                el('span', { style: 'font-size:.73rem;color:var(--muted)' }, `${d.lines.length} lines`),
+                isDone ? el('span', { className: 'dialogue-done-badge' }, '✓ Practiced') : null,
+                score !== null ? el('span', { className: 'dialogue-score-badge' }, `Quiz ${score}%`) : null
+              )
+            );
+          })
+        )
+  );
+}
+
+function renderDialogueChat() {
+  const dialogue = DIALOGUES.find(d => d.id === state.dialogueId);
+  if (!dialogue) { state.dialogueView = 'list'; render(); return el('div', {}); }
+
+  const wasAlreadyDone = getDialogueCompleted().includes(dialogue.id);
+  addDialogueCompleted(dialogue.id);
+  if (!wasAlreadyDone) addXP(3);
+
+  const bubbles = dialogue.lines.map(line => {
+    const isB = line.speaker === 'B';
+    return el('div', { className: `chat-bubble-wrap speaker-${line.speaker.toLowerCase()}` },
+      el('div', { className: `chat-avatar ${line.speaker.toLowerCase()}` }, line.speaker === 'A' ? '👤' : '🧑'),
+      el('div', { className: 'chat-line-col' },
+        el('div', { className: 'chat-speaker-label' }, `Speaker ${line.speaker}`),
+        el('div', { className: 'chat-bubble' },
+          el('div', { className: 'chat-kr' }, line.kr),
+          state.dialogueShowRom ? el('div', { className: 'chat-rom' }, line.rom) : null,
+          state.dialogueShowEng ? el('div', { className: 'chat-eng' }, line.eng) : null,
+          el('div', { className: 'chat-line-actions' },
+            mkSpeak(line.kr)
+          )
+        )
+      )
+    );
+  });
+
+  const vocabItems = dialogue.vocab.map(v =>
+    el('div', { className: 'vocab-chip', style: 'position:relative' },
+      el('div', { style: 'display:flex;align-items:center;justify-content:space-between' },
+        el('div', { className: 'vocab-chip-kr' }, v.kr),
+        mkSpeak(v.kr)
+      ),
+      el('div', { className: 'vocab-chip-rom' }, v.rom),
+      el('div', { className: 'vocab-chip-eng' }, v.eng)
+    )
+  );
+
+  return el('div', {},
+    el('div', { className: 'dialogue-reader-header' },
+      el('button', { className: 'btn-danger',
+        onClick: () => { state.dialogueView = 'list'; render(); }
+      }, '← Dialogues'),
+      el('div', {},
+        el('div', { style: 'font-size:1.25rem;font-weight:700' }, `${dialogue.emoji} ${dialogue.title}`),
+        el('div', { style: 'font-size:.85rem;color:var(--muted)' }, dialogue.titleEng)
+      ),
+      el('div', { className: 'dialogue-reader-toggles' },
+        el('button', {
+          className: 'toggle-btn' + (state.dialogueShowRom ? ' on' : ''),
+          onClick: () => { state.dialogueShowRom = !state.dialogueShowRom; render(); },
+        }, '가나 Romanization'),
+        el('button', {
+          className: 'toggle-btn' + (state.dialogueShowEng ? ' on' : ''),
+          onClick: () => { state.dialogueShowEng = !state.dialogueShowEng; render(); },
+        }, '🇬🇧 Translation')
+      )
+    ),
+    TTS.supported() ? el('div', { className: 'audio-bar' },
+      el('button', { className: 'speak-btn-lg',
+        onClick: () => TTS.speakAll(dialogue.lines.map(l => l.kr), 0.78),
+      }, '▶', ' Read Aloud'),
+      el('button', { className: 'stop-btn',
+        onClick: () => TTS.stop(),
+      }, '⏹', ' Stop'),
+      el('div', { style: 'font-size:.75rem;color:var(--muted)' }, 'Uses device Korean voice')
+    ) : null,
+    el('div', { className: 'chat-container' }, ...bubbles),
+    el('div', { className: 'vocab-section' },
+      el('div', { className: 'vocab-section-title' }, `Key Vocabulary — ${dialogue.vocab.length} words`),
+      el('div', { className: 'vocab-grid' }, ...vocabItems)
+    ),
+    el('div', { style: 'text-align:center;padding:8px 0 28px' },
+      el('div', { style: 'color:var(--muted);font-size:.875rem;margin-bottom:14px' },
+        `Ready to test your understanding? ${dialogue.questions.length} comprehension questions.`
+      ),
+      el('button', { className: 'btn-primary', onClick: () => {
+        state.dqItems = dialogue.questions.map(q => ({
+          label: '💬 Comprehension',
+          prompt: q.q, sub: null,
+          options: shuffle([...q.opts]),
+          answer: q.a, tip: null,
+        }));
+        state.dqIndex = 0; state.dqScore = 0;
+        state.dqSelected = null; state.dqCorrect = null;
+        state.dialogueView = 'quiz';
+        render();
+      }}, '📝 Test Comprehension')
+    )
+  );
+}
+
+function renderDialogueQuiz() {
+  const dialogue = DIALOGUES.find(d => d.id === state.dialogueId);
+  if (!dialogue) { state.dialogueView = 'list'; render(); return el('div', {}); }
+
+  const total = state.dqItems.length;
+
+  return renderQuizEngine({
+    items: state.dqItems, index: state.dqIndex, score: state.dqScore,
+    selected: state.dqSelected, correct: state.dqCorrect, total,
+    type: 'dialogue',
+    onAnswer: (opt) => {
+      state.dqSelected = opt;
+      state.dqCorrect = opt === state.dqItems[state.dqIndex].answer;
+      if (state.dqCorrect) state.dqScore++;
+      render();
+    },
+    onNext: () => {
+      if (state.dqIndex + 1 >= total) {
+        setDialogueScore(dialogue.id, state.dqScore, total);
+        addXP(5);
+        state.dqIndex = total;
+      } else {
+        state.dqIndex++; state.dqSelected = null; state.dqCorrect = null;
+      }
+      render();
+    },
+    onRestart: () => {
+      state.dqItems = dialogue.questions.map(q => ({
+        label: '💬 Comprehension', prompt: q.q, sub: null,
+        options: shuffle([...q.opts]), answer: q.a, tip: null,
+      }));
+      state.dqIndex = 0; state.dqScore = 0;
+      state.dqSelected = null; state.dqCorrect = null;
+      render();
+    },
+    onBack: () => { state.dialogueView = 'chat'; render(); },
   });
 }
 
