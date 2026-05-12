@@ -613,6 +613,89 @@
     .conj-col-formal   .conj-kr { color: var(--accent); }
     .conj-col-polite   .conj-kr { color: var(--accent3); }
     .conj-col-informal .conj-kr { color: var(--accent2); }
+
+    /* ── Mobile Responsive ─────────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      /* Compact header — hide desktop nav, show only logo + badges */
+      header {
+        padding: 10px 16px;
+        flex-wrap: nowrap;
+      }
+      header nav { display: none; }
+      .logo { font-size: 1rem; }
+      .logo-kr { font-size: 1.3rem; }
+      .level-badge { font-size: .7rem; padding: 3px 7px; }
+      .streak-badge, .xp-badge { font-size: .75rem; padding: 3px 8px; }
+
+      /* Main content — leave room for bottom nav */
+      main { padding: 20px 14px 90px; }
+
+      /* Home hero smaller on mobile */
+      .home-hero h1 { font-size: 1.8rem; }
+      .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+      .cards-grid { grid-template-columns: 1fr; }
+
+      /* Flashcard adjustments */
+      .flashcard { height: 200px; }
+      .card-korean { font-size: 2.4rem; }
+      .fc-stats { flex-direction: column; gap: 8px; }
+
+      /* Quiz options full width */
+      .quiz-options { grid-template-columns: 1fr; }
+
+      /* Sentence builder */
+      .builder-dots { flex-wrap: wrap; }
+
+      /* Hangul grid tighter */
+      .hangul-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
+
+      /* Dialogue bubbles */
+      .bubble { max-width: 90%; }
+
+      /* Conjugation table scroll */
+      .conj-wrap { overflow-x: auto; }
+    }
+
+    /* ── Bottom Navigation Bar (mobile only) ───────────────────────────────── */
+    .bottom-nav {
+      display: none;
+    }
+    @media (max-width: 640px) {
+      .bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        z-index: 200;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .bottom-nav::-webkit-scrollbar { display: none; }
+      .bottom-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        min-width: 60px;
+        padding: 8px 4px 6px;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        color: var(--muted);
+        font-size: .62rem;
+        font-weight: 500;
+        gap: 3px;
+        transition: color .2s;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .bottom-nav-item .bn-icon { font-size: 1.3rem; line-height: 1; }
+      .bottom-nav-item.active { color: var(--accent); }
+      .bottom-nav-item.active .bn-icon { transform: scale(1.1); }
+    }
   </style>
 </head>
 <body>
@@ -2248,7 +2331,34 @@ const state = {
 function render() {
   const app = document.getElementById('app');
   app.innerHTML = '';
-  app.append(renderHeader(), el('main', {}, renderView()));
+  app.append(renderHeader(), el('main', {}, renderView()), renderBottomNav());
+}
+
+function renderBottomNav() {
+  const navItems = [
+    { id: 'home',       icon: '🏠', label: 'Home' },
+    { id: 'hangul',     icon: '가', label: 'Hangul' },
+    { id: 'flashcard',  icon: '📇', label: 'Cards' },
+    { id: 'quiz',       icon: '✏️', label: 'Quiz' },
+    { id: 'sentences',  icon: '📝', label: 'Grammar' },
+    { id: 'dialogue',   icon: '💬', label: 'Talk' },
+    { id: 'phrasebook', icon: '📖', label: 'Phrases' },
+    { id: 'kpop',       icon: '🎵', label: 'K-Pop' },
+    { id: 'particles',  icon: '🎯', label: 'Particles' },
+    { id: 'reading',    icon: '📚', label: 'Reading' },
+    { id: 'conjugation',icon: '📊', label: 'Conjugate' },
+  ];
+  return el('nav', { className: 'bottom-nav' },
+    ...navItems.map(({ id, icon, label }) =>
+      el('button', {
+        className: 'bottom-nav-item' + (state.view === id ? ' active' : ''),
+        onClick: () => { state.view = id; render(); },
+      },
+        el('span', { className: 'bn-icon' }, icon),
+        el('span', {}, label)
+      )
+    )
+  );
 }
 
 function renderHeader() {
