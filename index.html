@@ -2389,6 +2389,8 @@ function renderBottomNav() {
   );
 }
 
+const APP_VERSION = 'v1.4';
+
 function renderHeader() {
   const navItems = [
     { id: 'home',      label: '🏠 Home' },
@@ -2421,7 +2423,8 @@ function renderHeader() {
       ),
       el('span', { className: `level-badge ${state.level}` }, `${lm.emoji} ${lm.label}`),
       streak > 0 ? el('span', { className: 'streak-badge', title: `${streak} day streak` }, `🔥 ${streak}`) : null,
-      todayXP > 0 ? el('span', { className: 'xp-badge', title: `${todayXP} XP today` }, `⚡ ${todayXP} XP`) : null
+      todayXP > 0 ? el('span', { className: 'xp-badge', title: `${todayXP} XP today` }, `⚡ ${todayXP} XP`) : null,
+      el('span', { style: 'font-size:.6rem;color:var(--muted);margin-left:6px;opacity:.6;flex-shrink:0' }, APP_VERSION)
     ),
     el('nav', {},
       ...navItems.map(({ id, label }) =>
