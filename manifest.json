@@ -1,0 +1,44 @@
+{
+  "name": "한국어 배우기 · Learn Korean",
+  "short_name": "Learn Korean",
+  "description": "Learn Korean with flashcards, quizzes, dialogues, particle drills and more — works fully offline",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f0f13",
+  "theme_color": "#6c63ff",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "categories": ["education", "lifestyle"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Flashcards",
+      "short_name": "Cards",
+      "description": "Jump straight to vocabulary flashcards",
+      "url": "./index.html#flashcard",
+      "icons": [{ "src": "icon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Quiz",
+      "short_name": "Quiz",
+      "description": "Start a vocab or grammar quiz",
+      "url": "./index.html#quiz",
+      "icons": [{ "src": "icon.svg", "sizes": "any" }]
+    }
+  ]
+}

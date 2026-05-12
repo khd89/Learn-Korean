@@ -4,6 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>한국어 배우기 · Learn Korean</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#6c63ff" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Learn Korean" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <meta name="description" content="Learn Korean with flashcards, quizzes, dialogues, particle drills and more — works offline" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -3858,6 +3868,30 @@ document.addEventListener('keydown', e => {
 });
 
 render();
+
+// ── Register Service Worker (PWA offline support) ──────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => {
+        // Check for updates every time the app is opened
+        reg.addEventListener('updatefound', () => {
+          const newSW = reg.installing;
+          newSW.addEventListener('statechange', () => {
+            if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+              // New version available — show a subtle indicator
+              const toast = document.createElement('div');
+              toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#6c63ff;color:#fff;padding:10px 20px;border-radius:10px;font-size:.85rem;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.4)';
+              toast.textContent = '✨ App updated! Reload for the latest version.';
+              document.body.appendChild(toast);
+              setTimeout(() => toast.remove(), 5000);
+            }
+          });
+        });
+      })
+      .catch(() => {}); // Silently ignore SW errors (e.g. local file:// access)
+  });
+}
 </script>
 </body>
 </html>
