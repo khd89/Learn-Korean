@@ -31,6 +31,7 @@
       --shadow: 0 4px 24px rgba(0,0,0,.4);
     }
 
+    html, body { overflow-x: hidden; }
     body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
     #app { display: flex; flex-direction: column; min-height: 100vh; }
 
@@ -39,8 +40,9 @@
       display: flex; align-items: center; justify-content: space-between;
       padding: 14px 28px; background: var(--surface);
       border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
+      flex-wrap: nowrap; overflow: hidden;
     }
-    .logo { font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .logo { font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 10px; cursor: pointer; flex-shrink: 0; }
     .logo-kr { font-size: 1.5rem; }
     nav { display: flex; gap: 6px; }
     nav button {
@@ -615,25 +617,24 @@
     .conj-col-informal .conj-kr { color: var(--accent2); }
 
     /* ── Mobile Responsive ─────────────────────────────────────────────────── */
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
       /* Compact header — hide desktop nav, show only logo + badges */
       header {
         padding: 10px 16px;
-        flex-wrap: nowrap;
       }
-      header nav { display: none; }
+      header nav { display: none !important; }
       .logo { font-size: 1rem; }
       .logo-kr { font-size: 1.3rem; }
       .level-badge { font-size: .7rem; padding: 3px 7px; }
       .streak-badge, .xp-badge { font-size: .75rem; padding: 3px 8px; }
 
       /* Main content — leave room for bottom nav */
-      main { padding: 20px 14px 90px; }
+      main { padding: 20px 14px 90px !important; max-width: 100% !important; }
 
       /* Home hero smaller on mobile */
-      .home-hero h1 { font-size: 1.8rem; }
-      .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
-      .cards-grid { grid-template-columns: 1fr; }
+      .home-hero h1 { font-size: 1.6rem !important; word-break: break-word; }
+      .dashboard-grid { grid-template-columns: repeat(2, 1fr) !important; }
+      .cards-grid { grid-template-columns: 1fr !important; }
 
       /* Flashcard adjustments */
       .flashcard { height: 200px; }
@@ -641,7 +642,7 @@
       .fc-stats { flex-direction: column; gap: 8px; }
 
       /* Quiz options full width */
-      .quiz-options { grid-template-columns: 1fr; }
+      .quiz-options { grid-template-columns: 1fr !important; }
 
       /* Sentence builder */
       .builder-dots { flex-wrap: wrap; }
@@ -653,14 +654,18 @@
       .bubble { max-width: 90%; }
 
       /* Conjugation table scroll */
-      .conj-wrap { overflow-x: auto; }
+      .conj-wrap, table { overflow-x: auto; display: block; }
+
+      /* Prevent any element from causing horizontal scroll */
+      * { max-width: 100%; }
+      img, video { height: auto; }
     }
 
     /* ── Bottom Navigation Bar (mobile only) ───────────────────────────────── */
     .bottom-nav {
       display: none;
     }
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
       .bottom-nav {
         display: flex;
         position: fixed;
