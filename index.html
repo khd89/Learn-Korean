@@ -628,8 +628,8 @@
       .level-badge { font-size: .7rem; padding: 3px 7px; }
       .streak-badge, .xp-badge { font-size: .75rem; padding: 3px 8px; }
 
-      /* Main content — leave room for bottom nav */
-      main { padding: 20px 14px 90px !important; max-width: 100% !important; }
+      /* Main content — leave room for bottom nav, never overflow */
+      main { padding: 20px 14px 90px !important; max-width: 100% !important; width: 100% !important; overflow-x: hidden !important; }
 
       /* Home hero smaller on mobile */
       .home-hero h1 { font-size: 1.6rem !important; word-break: break-word; }
@@ -647,8 +647,8 @@
       /* Sentence builder */
       .builder-dots { flex-wrap: wrap; }
 
-      /* Hangul grid tighter */
-      .hangul-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
+      /* Hangul grid — 2 columns on mobile so nothing overflows */
+      .hangul-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
 
       /* Dialogue bubbles */
       .bubble { max-width: 90%; }
@@ -709,8 +709,20 @@
       }
       .bottom-nav-item .bn-icon { font-size: 1.25rem; line-height: 1; display: block; }
       .bottom-nav-item span:last-child { overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: block; text-align: center; }
-      .bottom-nav-item.active { color: var(--accent); }
-      .bottom-nav-item.active .bn-icon { transform: scale(1.1); }
+      /* Override nav button.active which adds a blue background */
+      .bottom-nav .bottom-nav-item,
+      .bottom-nav .bottom-nav-item.active {
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+      .bottom-nav-item.active {
+        color: var(--accent) !important;
+        border-top: 2px solid var(--accent) !important;
+        padding-top: 6px !important;
+      }
+      .bottom-nav-item.active .bn-icon { transform: scale(1.15); }
     }
   </style>
 </head>
