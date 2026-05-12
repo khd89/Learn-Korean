@@ -654,17 +654,21 @@
       .bubble { max-width: 90%; }
 
       /* Conjugation table scroll */
-      .conj-wrap, table { overflow-x: auto; display: block; }
+      .conj-wrap { overflow-x: auto; }
+      table { display: block; overflow-x: auto; width: 100%; }
 
-      /* Prevent any element from causing horizontal scroll */
-      * { max-width: 100%; }
-      img, video { height: auto; }
+      /* Progress dashboard numbers smaller so they don't overflow */
+      .dash-num { font-size: 1.5rem !important; }
+      .progress-dashboard { padding: 16px !important; }
+      .prog-bar-top { font-size: .72rem; }
+
+      /* Stop horizontal overflow globally */
+      body, #app, main, header, section, article, div { box-sizing: border-box; }
     }
 
     /* ── Bottom Navigation Bar (mobile only) ───────────────────────────────── */
-    .bottom-nav {
-      display: none;
-    }
+    .bottom-nav { display: none; }
+
     @media (max-width: 768px) {
       .bottom-nav {
         display: flex;
@@ -677,6 +681,7 @@
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
+        gap: 0;
       }
       .bottom-nav::-webkit-scrollbar { display: none; }
       .bottom-nav-item {
@@ -684,20 +689,26 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        flex: 1;
-        min-width: 60px;
-        padding: 8px 4px 6px;
+        flex: 0 0 auto;
+        width: calc(100vw / 6);
+        min-width: 54px;
+        max-width: 80px;
+        padding: 8px 2px 6px;
         cursor: pointer;
         border: none;
         background: transparent;
         color: var(--muted);
-        font-size: .62rem;
+        font-size: .58rem;
         font-weight: 500;
         gap: 3px;
         transition: color .2s;
         -webkit-tap-highlight-color: transparent;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
-      .bottom-nav-item .bn-icon { font-size: 1.3rem; line-height: 1; }
+      .bottom-nav-item .bn-icon { font-size: 1.25rem; line-height: 1; display: block; }
+      .bottom-nav-item span:last-child { overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: block; text-align: center; }
       .bottom-nav-item.active { color: var(--accent); }
       .bottom-nav-item.active .bn-icon { transform: scale(1.1); }
     }
