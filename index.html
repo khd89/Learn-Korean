@@ -666,63 +666,39 @@
       body, #app, main, header, section, article, div { box-sizing: border-box; }
     }
 
-    /* ── Bottom Navigation Bar (mobile only) ───────────────────────────────── */
-    .bottom-nav { display: none; }
+    /* ── Mobile Menu Button ─────────────────────────────────────────────────── */
+    .mobile-menu-btn { display: none; }
 
     @media (max-width: 768px) {
-      .bottom-nav {
+      /* Main no longer needs bottom padding for nav bar */
+      main { padding-bottom: 24px !important; }
+
+      .mobile-menu-btn {
         display: flex;
-        position: fixed;
-        bottom: 0; left: 0; right: 0;
-        background: var(--surface);
-        border-top: 1px solid var(--border);
-        z-index: 200;
-        padding-bottom: env(safe-area-inset-bottom, 0px);
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        gap: 0;
-      }
-      .bottom-nav::-webkit-scrollbar { display: none; }
-      .bottom-nav-item {
-        display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
-        flex: 0 0 auto;
-        width: calc(100vw / 6);
-        min-width: 54px;
-        max-width: 80px;
-        padding: 8px 2px 6px;
+        flex-shrink: 0;
+        width: 40px; height: 40px;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        color: var(--text);
+        font-size: 1.2rem;
         cursor: pointer;
-        border: none;
-        background: transparent;
-        color: var(--muted);
-        font-size: .58rem;
-        font-weight: 500;
-        gap: 3px;
-        transition: color .2s;
         -webkit-tap-highlight-color: transparent;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        transition: background .2s;
       }
-      .bottom-nav-item .bn-icon { font-size: 1.25rem; line-height: 1; display: block; }
-      .bottom-nav-item span:last-child { overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: block; text-align: center; }
-      /* Override nav button.active which adds a blue background */
-      .bottom-nav .bottom-nav-item,
-      .bottom-nav .bottom-nav-item.active {
-        background: transparent !important;
-        border: none !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
-      }
-      .bottom-nav-item.active {
-        color: var(--accent) !important;
-        border-top: 2px solid var(--accent) !important;
-        padding-top: 6px !important;
-      }
-      .bottom-nav-item.active .bn-icon { transform: scale(1.15); }
+      .mobile-menu-btn:active { background: var(--accent); color: #fff; }
+    }
+
+    /* ── Slide-down drawer animation ────────────────────────────────────────── */
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to   { transform: translateY(0);     opacity: 1; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
     }
   </style>
 </head>
@@ -2326,6 +2302,7 @@ const state = {
   vqItems: [], vqIndex: 0, vqScore: 0, vqSelected: null, vqCorrect: null,
   gqState: 'idle',        // grammar quiz: idle | active | done
   gqItems: [], gqIndex: 0, gqScore: 0, gqSelected: null, gqCorrect: null,
+  drawerOpen: false,
   sentenceTab: 'patterns',   // patterns | builder
   openPatterns: new Set(),
   // reading
@@ -2359,81 +2336,155 @@ const state = {
 function render() {
   const app = document.getElementById('app');
   app.innerHTML = '';
-  app.append(renderHeader(), el('main', {}, renderView()), renderBottomNav());
+  app.append(renderHeader(), el('main', {}, renderView()));
+  // Re-attach drawer if it was open
+  if (state.drawerOpen) attachDrawer();
 }
 
-function renderBottomNav() {
-  const navItems = [
-    { id: 'home',       icon: '🏠', label: 'Home' },
-    { id: 'hangul',     icon: '가', label: 'Hangul' },
-    { id: 'flashcard',  icon: '📇', label: 'Cards' },
-    { id: 'quiz',       icon: '✏️', label: 'Quiz' },
-    { id: 'sentences',  icon: '📝', label: 'Grammar' },
-    { id: 'dialogue',   icon: '💬', label: 'Talk' },
-    { id: 'phrasebook', icon: '📖', label: 'Phrases' },
-    { id: 'kpop',       icon: '🎵', label: 'K-Pop' },
-    { id: 'particles',  icon: '🎯', label: 'Particles' },
-    { id: 'reading',    icon: '📚', label: 'Reading' },
-    { id: 'conjugation',icon: '📊', label: 'Conjugate' },
-  ];
-  return el('nav', { className: 'bottom-nav' },
-    ...navItems.map(({ id, icon, label }) =>
-      el('button', {
-        className: 'bottom-nav-item' + (state.view === id ? ' active' : ''),
-        onClick: () => { state.view = id; render(); },
-      },
-        el('span', { className: 'bn-icon' }, icon),
-        el('span', {}, label)
-      )
-    )
-  );
+const APP_VERSION = 'v1.5';
+
+const NAV_ITEMS = [
+  { id: 'home',        icon: '🏠', label: 'Home',       color: '#6c63ff' },
+  { id: 'hangul',      icon: '가', label: 'Hangul',     color: '#6c63ff' },
+  { id: 'flashcard',   icon: '📇', label: 'Flashcards', color: '#ff6584' },
+  { id: 'quiz',        icon: '✏️', label: 'Quiz',       color: '#43e97b' },
+  { id: 'sentences',   icon: '📝', label: 'Grammar',    color: '#ffa94d' },
+  { id: 'dialogue',    icon: '💬', label: 'Talk',       color: '#4ecdc4' },
+  { id: 'phrasebook',  icon: '📖', label: 'Phrases',    color: '#a29bfe' },
+  { id: 'kpop',        icon: '🎵', label: 'K-Pop',      color: '#fd79a8' },
+  { id: 'particles',   icon: '🎯', label: 'Particles',  color: '#fdcb6e' },
+  { id: 'reading',     icon: '📚', label: 'Reading',    color: '#55efc4' },
+  { id: 'conjugation', icon: '📊', label: 'Conjugate',  color: '#74b9ff' },
+];
+
+function toggleDrawer() {
+  state.drawerOpen = !state.drawerOpen;
+  if (state.drawerOpen) attachDrawer();
+  else removeDrawer();
+  // update hamburger icon
+  const btn = document.getElementById('menu-btn');
+  if (btn) btn.textContent = state.drawerOpen ? '✕' : '☰';
 }
 
-const APP_VERSION = 'v1.4';
+function attachDrawer() {
+  removeDrawer();
+  const overlay = document.createElement('div');
+  overlay.id = 'nav-overlay';
+  overlay.style.cssText = `
+    position:fixed;inset:0;z-index:300;
+    background:rgba(0,0,0,.5);
+    animation:fadeIn .2s ease;
+  `;
+  overlay.addEventListener('click', () => { state.drawerOpen = false; removeDrawer(); const btn=document.getElementById('menu-btn'); if(btn) btn.textContent='☰'; });
+
+  const drawer = document.createElement('div');
+  drawer.id = 'nav-drawer';
+  drawer.style.cssText = `
+    position:fixed;top:0;left:0;right:0;z-index:400;
+    background:#1a1a24;
+    border-bottom:1px solid #2e2e42;
+    border-radius:0 0 20px 20px;
+    padding:16px 16px 20px;
+    animation:slideDown .25s ease;
+    box-shadow:0 8px 32px rgba(0,0,0,.6);
+  `;
+
+  // Header row inside drawer
+  const drawerHead = document.createElement('div');
+  drawerHead.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;';
+  drawerHead.innerHTML = `
+    <span style="font-size:1rem;font-weight:700;color:#e8e8f0;">한 Navigate</span>
+    <button onclick="this.closest('#nav-overlay') && this.closest('#nav-overlay').click()"
+      style="background:transparent;border:1px solid #2e2e42;color:#7878a0;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:.85rem;"
+      id="close-drawer-btn">✕ Close</button>
+  `;
+  // Close button wired separately
+  drawer.appendChild(drawerHead);
+
+  // Grid of nav items
+  const grid = document.createElement('div');
+  grid.style.cssText = 'display:grid;grid-template-columns:repeat(3,1fr);gap:10px;';
+
+  NAV_ITEMS.forEach(({ id, icon, label, color }) => {
+    const isActive = state.view === id;
+    const btn = document.createElement('button');
+    btn.style.cssText = `
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:6px;padding:14px 8px;border-radius:12px;cursor:pointer;
+      background:${isActive ? color + '22' : '#22222f'};
+      border:2px solid ${isActive ? color : '#2e2e42'};
+      color:${isActive ? color : '#e8e8f0'};
+      font-size:.8rem;font-weight:${isActive ? '700' : '500'};
+      transition:all .15s;
+      -webkit-tap-highlight-color:transparent;
+    `;
+    btn.innerHTML = `<span style="font-size:1.6rem;line-height:1">${icon}</span><span>${label}</span>`;
+    btn.addEventListener('click', () => {
+      state.view = id;
+      state.drawerOpen = false;
+      removeDrawer();
+      render();
+    });
+    grid.appendChild(btn);
+  });
+
+  drawer.appendChild(grid);
+
+  // Version tag
+  const ver = document.createElement('div');
+  ver.style.cssText = 'text-align:center;margin-top:12px;font-size:.65rem;color:#7878a0;opacity:.6;';
+  ver.textContent = APP_VERSION;
+  drawer.appendChild(ver);
+
+  // Close button handler
+  const closeBtn = drawerHead.querySelector('#close-drawer-btn');
+  if (closeBtn) closeBtn.addEventListener('click', () => { state.drawerOpen = false; removeDrawer(); const b=document.getElementById('menu-btn'); if(b) b.textContent='☰'; });
+
+  document.body.appendChild(overlay);
+  document.body.appendChild(drawer);
+}
+
+function removeDrawer() {
+  document.getElementById('nav-overlay')?.remove();
+  document.getElementById('nav-drawer')?.remove();
+}
 
 function renderHeader() {
-  const navItems = [
-    { id: 'home',      label: '🏠 Home' },
-    { id: 'hangul',    label: '가 Hangul' },
-    { id: 'flashcard', label: '📇 Flashcards' },
-    { id: 'quiz',      label: '✏️ Quiz' },
-    { id: 'sentences', label: '📝 Sentences' },
-    { id: 'reading',   label: '📖 Reading' },
-    { id: 'dialogue',  label: '💬 Talk' },
-    { id: 'particles', label: '🎯 Particles' },
-    { id: 'phrasebook',label: '📖 Phrases' },
-    { id: 'kpop',      label: '🎵 K-Pop' },
-    { id: 'conjugation',label: '📊 Conjugation' },
-  ];
   const levelMeta = {
     beginner:     { emoji: '🌱', label: 'Beginner' },
     intermediate: { emoji: '📖', label: 'Intermediate' },
     expert:       { emoji: '🎓', label: 'Expert' },
   };
   const lm = levelMeta[state.level] || levelMeta.beginner;
-
   const streak = getStreak();
   const todayXP = getTodayXP();
+  const currentNav = NAV_ITEMS.find(n => n.id === state.view);
 
   return el('header', {},
-    el('div', { style: 'display:flex;align-items:center;gap:0' },
-      el('div', { className: 'logo', onClick: () => { state.view = 'home'; render(); } },
+    el('div', { style: 'display:flex;align-items:center;gap:6px;flex:1;min-width:0;' },
+      el('div', { className: 'logo', onClick: () => { state.view = 'home'; state.drawerOpen = false; removeDrawer(); render(); } },
         el('span', { className: 'logo-kr' }, '한'),
         el('span', {}, 'Learn Korean')
       ),
       el('span', { className: `level-badge ${state.level}` }, `${lm.emoji} ${lm.label}`),
-      streak > 0 ? el('span', { className: 'streak-badge', title: `${streak} day streak` }, `🔥 ${streak}`) : null,
-      todayXP > 0 ? el('span', { className: 'xp-badge', title: `${todayXP} XP today` }, `⚡ ${todayXP} XP`) : null,
-      el('span', { style: 'font-size:.6rem;color:var(--muted);margin-left:6px;opacity:.6;flex-shrink:0' }, APP_VERSION)
+      streak > 0 ? el('span', { className: 'streak-badge' }, `🔥 ${streak}`) : null,
+      todayXP > 0 ? el('span', { className: 'xp-badge' }, `⚡ ${todayXP} XP`) : null,
     ),
+    // Desktop nav (hidden on mobile via CSS)
     el('nav', {},
-      ...navItems.map(({ id, label }) =>
+      ...NAV_ITEMS.map(({ id, label }) =>
         el('button', {
           className: state.view === id ? 'active' : '',
           onClick: () => { state.view = id; render(); },
         }, label)
       )
-    )
+    ),
+    // Mobile menu button (hidden on desktop via CSS)
+    el('button', {
+      id: 'menu-btn',
+      className: 'mobile-menu-btn',
+      onClick: toggleDrawer,
+    }, state.drawerOpen ? '✕' : '☰')
   );
 }
 
