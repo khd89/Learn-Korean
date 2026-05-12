@@ -507,6 +507,102 @@
     .chat-speaker-label { font-size: .68rem; color: var(--muted); margin-bottom: 4px; }
     .chat-bubble-wrap.speaker-b .chat-speaker-label { text-align: right; }
     .chat-line-col { display: flex; flex-direction: column; }
+
+    /* ── Particle Drills ── */
+    .drill-wrap { max-width: 600px; margin: 0 auto; }
+    .drill-sentence-box {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 32px 28px; text-align: center; margin-bottom: 22px;
+    }
+    .drill-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); margin-bottom: 12px; }
+    .drill-sentence { font-size: 1.8rem; line-height: 1.6; margin-bottom: 10px; }
+    .drill-blank { display: inline-block; min-width: 56px; border-bottom: 3px solid var(--accent2); color: var(--accent2); font-weight: 800; padding: 0 6px; }
+    .drill-blank.answered { border-color: var(--accent3); color: var(--accent3); }
+    .drill-blank.wrong-ans { border-color: var(--accent2); }
+    .drill-hint { font-size: .78rem; color: var(--muted); margin-top: 8px; }
+    .drill-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+    .drill-opt {
+      background: var(--surface); border: 1px solid var(--border); color: var(--text);
+      padding: 16px; border-radius: 10px; cursor: pointer; font-size: 1.4rem;
+      font-weight: 700; text-align: center; transition: all .2s;
+    }
+    .drill-opt:hover:not(:disabled) { border-color: var(--accent); background: var(--surface2); transform: translateY(-1px); }
+    .drill-opt.correct { background: #1a3a2a; border-color: var(--accent3); color: var(--accent3); }
+    .drill-opt.wrong   { background: #3a1a2a; border-color: var(--accent2); color: var(--accent2); }
+    .drill-opt:disabled { cursor: not-allowed; }
+    .drill-explanation {
+      background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 18px; font-size: .875rem; line-height: 1.6; margin-bottom: 18px; color: var(--muted);
+    }
+    .drill-explanation strong { color: var(--text); }
+    .drill-progress-row { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+    .drill-score-badge { font-size: .8rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; background: rgba(108,99,255,.15); color: var(--accent); border: 1px solid rgba(108,99,255,.4); }
+
+    /* ── Phrasebook ── */
+    .phrase-filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .phrase-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 12px; }
+    .phrase-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 16px 18px; transition: border-color .2s;
+    }
+    .phrase-card:hover { border-color: var(--accent); }
+    .phrase-kr { font-size: 1.35rem; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+    .phrase-rom { font-size: .8rem; color: var(--accent); margin-bottom: 3px; font-style: italic; }
+    .phrase-eng { font-size: .875rem; color: var(--text); margin-bottom: 6px; }
+    .phrase-tip { font-size: .72rem; color: var(--muted); padding: 5px 10px; background: var(--surface2); border-radius: 6px; line-height: 1.5; }
+    .phrase-cat-tag { font-size: .65rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; background: var(--surface2); color: var(--muted); border: 1px solid var(--border); display: inline-block; margin-bottom: 8px; }
+
+    /* ── K-Pop / Drama Phrases ── */
+    .kpop-filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .kpop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px,1fr)); gap: 14px; }
+    .kpop-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 18px 20px; transition: all .25s; position: relative; overflow: hidden;
+    }
+    .kpop-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+    .kpop-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--accent); }
+    .kpop-emoji { font-size: 1.6rem; margin-bottom: 8px; }
+    .kpop-kr { font-size: 1.5rem; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+    .kpop-rom { font-size: .8rem; color: var(--accent); font-style: italic; margin-bottom: 4px; }
+    .kpop-eng { font-size: .9rem; font-weight: 600; margin-bottom: 8px; }
+    .kpop-context { font-size: .75rem; color: var(--muted); line-height: 1.5; padding: 6px 10px; background: var(--surface2); border-radius: 6px; }
+    .kpop-cat-badge { font-size: .65rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-bottom: 10px; display: inline-block; }
+    .kpop-cat-badge.songs   { background: rgba(108,99,255,.15); color: var(--accent); border: 1px solid rgba(108,99,255,.4); }
+    .kpop-cat-badge.dramas  { background: rgba(255,101,132,.15); color: var(--accent2); border: 1px solid rgba(255,101,132,.4); }
+    .kpop-cat-badge.fandom  { background: rgba(67,233,123,.15); color: #43e97b; border: 1px solid rgba(67,233,123,.4); }
+    .kpop-cat-badge.slang   { background: rgba(255,169,77,.15); color: #ffa94d; border: 1px solid rgba(255,169,77,.4); }
+
+    /* ── Conjugation Tables ── */
+    .conj-verb-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .conj-verb-btn {
+      background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
+      padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: .875rem; transition: all .2s;
+    }
+    .conj-verb-btn:hover { border-color: var(--accent); color: var(--text); }
+    .conj-verb-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .conj-header { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 20px; }
+    .conj-base { font-size: 2rem; font-weight: 800; margin-bottom: 4px; }
+    .conj-base-eng { font-size: .875rem; color: var(--muted); }
+    .conj-irreg-note { font-size: .72rem; color: #ffa94d; background: rgba(255,169,77,.1); border: 1px solid rgba(255,169,77,.3); padding: 3px 10px; border-radius: 6px; display: inline-block; margin-top: 6px; }
+    .conj-table-wrap { overflow-x: auto; margin-bottom: 20px; }
+    table.conj-table { width: 100%; border-collapse: collapse; }
+    table.conj-table th {
+      background: var(--surface2); color: var(--muted); font-size: .72rem;
+      text-transform: uppercase; letter-spacing: .07em; padding: 10px 14px;
+      border: 1px solid var(--border); text-align: center; font-weight: 600;
+    }
+    table.conj-table td {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 12px 14px; vertical-align: middle;
+    }
+    table.conj-table tr:hover td { background: var(--surface2); }
+    .conj-row-label { font-size: .78rem; color: var(--muted); font-weight: 600; min-width: 100px; }
+    .conj-cell { display: flex; align-items: center; gap: 8px; }
+    .conj-kr { font-size: 1.15rem; font-weight: 600; }
+    .conj-rom { font-size: .72rem; color: var(--accent); display: block; margin-top: 2px; }
+    .conj-col-formal   .conj-kr { color: var(--accent); }
+    .conj-col-polite   .conj-kr { color: var(--accent3); }
+    .conj-col-informal .conj-kr { color: var(--accent2); }
   </style>
 </head>
 <body>
@@ -1652,6 +1748,244 @@ const DIALOGUES = [
   },
 ];
 
+// ── Particle Drills ────────────────────────────────────────────────────────
+const PARTICLE_DRILLS = [
+  // ─── BEGINNER ───────────────────────────────────────────────────────────
+  { id:'pd1',  level:'beginner',     pre:'저',      blank:'___', post:' 학생이에요.',            answer:'는',    options:['는','은','가','이'],       hint:'Topic marker (vowel ending)',   explanation:'<strong>저</strong> ends in a vowel → use <strong>는</strong> (topic marker 은/는)' },
+  { id:'pd2',  level:'beginner',     pre:'오늘',    blank:'___', post:' 날씨가 좋아요.',          answer:'은',    options:['은','는','이','가'],       hint:'Topic marker (consonant ending)', explanation:'<strong>오늘</strong> ends in ㄹ → use <strong>은</strong> (topic marker 은/는)' },
+  { id:'pd3',  level:'beginner',     pre:'고양이',  blank:'___', post:' 귀여워요.',               answer:'가',    options:['가','이','는','은'],       hint:'Subject marker (vowel ending)',  explanation:'<strong>고양이</strong> ends in a vowel → use <strong>가</strong> (subject marker 이/가)' },
+  { id:'pd4',  level:'beginner',     pre:'책',      blank:'___', post:' 있어요.',                 answer:'이',    options:['이','가','은','는'],       hint:'Subject marker (consonant ending)', explanation:'<strong>책</strong> ends in ㄱ → use <strong>이</strong> (subject marker 이/가)' },
+  { id:'pd5',  level:'beginner',     pre:'저는 사과', blank:'___', post:' 먹어요.',              answer:'를',    options:['를','을','가','이'],       hint:'Object marker (vowel ending)',   explanation:'<strong>사과</strong> ends in a vowel → use <strong>를</strong> (object marker 을/를)' },
+  { id:'pd6',  level:'beginner',     pre:'저는 물', blank:'___', post:' 마셔요.',                 answer:'을',    options:['을','를','에','에서'],     hint:'Object marker (consonant ending)', explanation:'<strong>물</strong> ends in ㄹ → use <strong>을</strong> (object marker 을/를)' },
+  { id:'pd7',  level:'beginner',     pre:'학교',    blank:'___', post:' 가요.',                   answer:'에',    options:['에','에서','를','은'],     hint:'Direction/destination marker',  explanation:'<strong>에</strong> marks destination with movement verbs like 가다/오다' },
+  { id:'pd8',  level:'beginner',     pre:'집',      blank:'___', post:' 있어요.',                 answer:'에',    options:['에','에서','를','이'],     hint:'Static location marker',        explanation:'<strong>에</strong> marks static location with 있다/없다' },
+  { id:'pd9',  level:'beginner',     pre:'카페',    blank:'___', post:' 공부해요.',               answer:'에서',  options:['에서','에','를','이'],     hint:'Location where action happens', explanation:'<strong>에서</strong> marks where an action is performed' },
+  { id:'pd10', level:'beginner',     pre:'저는 한국어', blank:'___', post:' 공부해요.',           answer:'를',    options:['를','을','에','에서'],     hint:'Object marker (vowel ending)',   explanation:'<strong>한국어</strong> ends in 어 → use <strong>를</strong>' },
+  { id:'pd11', level:'beginner',     pre:'버스',    blank:'___', post:' 타요.',                   answer:'를',    options:['를','을','에','로'],       hint:'Object of the verb 타다',       explanation:'<strong>버스</strong> ends in a vowel → use <strong>를</strong>' },
+  { id:'pd12', level:'beginner',     pre:'식당',    blank:'___', post:' 밥을 먹어요.',             answer:'에서',  options:['에서','에','를','은'],     hint:'Where the eating happens',      explanation:'<strong>에서</strong> = where an action takes place; eating IS an action' },
+  { id:'pd13', level:'beginner',     pre:'친구',    blank:'___', post:' 보고 싶어요.',             answer:'가',    options:['가','이','는','를'],       hint:'Subject marker (vowel ending)', explanation:'<strong>친구</strong> ends in 구 (vowel) → use <strong>가</strong>' },
+  { id:'pd14', level:'beginner',     pre:'도서관',  blank:'___', post:' 책이 많아요.',             answer:'에',    options:['에','에서','이','가'],     hint:'Location of existence',         explanation:'<strong>에</strong> + 있다/없다/많다 = location of existence' },
+  { id:'pd15', level:'beginner',     pre:'저는 커피', blank:'___', post:' 좋아해요.',             answer:'를',    options:['를','을','이','가'],       hint:'Object of 좋아하다',           explanation:'<strong>커피</strong> ends in 피 (vowel) → use <strong>를</strong>' },
+  // ─── INTERMEDIATE ───────────────────────────────────────────────────────
+  { id:'pd16', level:'intermediate', pre:'지하철',  blank:'___', post:' 왔어요.',                 answer:'로',    options:['로','으로','에','에서'],   hint:'By subway (means of transport)', explanation:'<strong>지하철</strong> ends in ㄹ → <strong>로</strong> (not 으로; 으로 is only for consonants except ㄹ)' },
+  { id:'pd17', level:'intermediate', pre:'연필',    blank:'___', post:' 쓰세요.',                 answer:'로',    options:['로','으로','을','를'],     hint:'Use a pencil (instrument)',      explanation:'<strong>연필</strong> ends in ㄹ → <strong>로</strong>; 로/으로 marks the tool/instrument' },
+  { id:'pd18', level:'intermediate', pre:'오른쪽', blank:'___',  post:' 가세요.',                  answer:'으로',  options:['으로','로','에','에서'],   hint:'Turn right (direction)',        explanation:'<strong>오른쪽</strong> ends in ㄱ (consonant, not ㄹ) → <strong>으로</strong>' },
+  { id:'pd19', level:'intermediate', pre:'나무',    blank:'___', post:' 만들었어요.',              answer:'로',    options:['로','으로','에서','에'],   hint:'Made FROM/WITH wood (material)', explanation:'<strong>나무</strong> ends in 무 (vowel) → <strong>로</strong>; 로/으로 also marks material' },
+  { id:'pd20', level:'intermediate', pre:'엄마',    blank:'___', post:' 아빠 오셨어요.',           answer:'와',    options:['와','과','랑','도'],       hint:'Mom AND dad (formal, vowel)',    explanation:'<strong>엄마</strong> ends in 아 (vowel) → <strong>와</strong>; 와/과 = and/with (formal)' },
+  { id:'pd21', level:'intermediate', pre:'밥',      blank:'___', post:' 김치를 먹어요.',           answer:'과',    options:['과','와','이랑','만'],     hint:'Rice AND kimchi (formal, consonant)', explanation:'<strong>밥</strong> ends in ㅂ (consonant) → <strong>과</strong>' },
+  { id:'pd22', level:'intermediate', pre:'저',      blank:'___', post:' 갈 수 있어요.',            answer:'도',    options:['도','만','는','이'],       hint:'I can go TOO / ALSO',           explanation:'<strong>도</strong> = too/also; replaces 은/는/이/가' },
+  { id:'pd23', level:'intermediate', pre:'물',      blank:'___', post:' 마셔요. 주스는 안 마셔요.',  answer:'만',    options:['만','도','를','은'],       hint:'Drink ONLY water',             explanation:'<strong>만</strong> = only; shows exclusivity (everything else excluded)' },
+  { id:'pd24', level:'intermediate', pre:'미국',    blank:'___', post:' 왔어요.',                  answer:'에서',  options:['에서','에','로','이'],     hint:'Came FROM America (origin)',    explanation:'<strong>에서</strong> also marks origin/source of movement' },
+  { id:'pd25', level:'intermediate', pre:'서울',    blank:'___', post:' 부산까지 기차로 가요.',     answer:'에서',  options:['에서','에','로','부터'],   hint:'FROM Seoul to Busan',           explanation:'<strong>에서</strong>...까지 = from...to (place); marks starting point of movement' },
+  { id:'pd26', level:'intermediate', pre:'한국어',  blank:'___', post:' 말해요.',                  answer:'로',    options:['로','으로','를','이'],     hint:'Speak IN Korean (language)',    explanation:'<strong>한국어</strong> ends in 어 → <strong>로</strong>; 로/으로 marks the language/method' },
+  { id:'pd27', level:'intermediate', pre:'친구랑',  blank:'___', post:' 같이 밥 먹어요.',           answer:'이랑',  options:['이랑','랑','와','과'],     hint:'Friend AND me, together (casual)', explanation:'랑/이랑 = and/with (casual spoken); <strong>이랑</strong> after consonant, 랑 after vowel' },
+  { id:'pd28', level:'intermediate', pre:'한국',    blank:'___', post:' 일본은 가까워요.',          answer:'과',    options:['과','와','랑','이랑'],     hint:'Korea AND Japan (formal writing)', explanation:'<strong>한국</strong> ends in ㄱ (consonant) → <strong>과</strong> in formal/written Korean' },
+  { id:'pd29', level:'intermediate', pre:'공항',    blank:'___', post:' 버스로 가세요.',            answer:'까지',  options:['까지','에서','에','로'],   hint:'Go TO the airport (endpoint)',  explanation:'<strong>까지</strong> = until/up to; marks endpoint; "to the airport by bus"' },
+  { id:'pd30', level:'intermediate', pre:'저는 집', blank:'___', post:' 있고 싶어요.',              answer:'에',    options:['에','에서','를','이'],     hint:'Want to be AT home',            explanation:'<strong>에</strong> with 있다 = location of being/existence' },
+  // ─── EXPERT ─────────────────────────────────────────────────────────────
+  { id:'pd31', level:'expert',       pre:'아침',    blank:'___', post:' 저녁까지 일해요.',          answer:'부터',  options:['부터','에서','에','까지'], hint:'FROM morning to evening (time)', explanation:'<strong>부터</strong> = from (time); 부터...까지 = from...to for time ranges' },
+  { id:'pd32', level:'expert',       pre:'친구',    blank:'___', post:' 선물을 받았어요.',           answer:'한테서',options:['한테서','한테','에게','에서'], hint:'Received FROM a friend (spoken)', explanation:'<strong>한테서</strong> = from (a person); 에게서 in writing; 한테서 in speech' },
+  { id:'pd33', level:'expert',       pre:'강아지',  blank:'___', post:' 밥을 줘요.',                answer:'한테',  options:['한테','한테서','에게서','에서'], hint:'Give food TO the dog',      explanation:'<strong>한테</strong> = to (a person/animal) in spoken Korean; 에게 in writing' },
+  { id:'pd34', level:'expert',       pre:'선생님',  blank:'___', post:' 질문이 있어요.',             answer:'께',    options:['께','한테','에게','에'],   hint:'Question FOR teacher (honorific)', explanation:'<strong>께</strong> is the honorific form of 한테/에게; always use with 선생님, 부모님 etc.' },
+  { id:'pd35', level:'expert',       pre:'이 소식은 모두', blank:'___', post:' 알려야 해요.',        answer:'에게',  options:['에게','한테','께','에'],   hint:'Inform everyone (written/formal)', explanation:'<strong>에게</strong> = to (person) in written/formal; 한테 in spoken Korean' },
+  { id:'pd36', level:'expert',       pre:'어제',    blank:'___', post:' 오늘까지 비가 왔어요.',      answer:'부터',  options:['부터','에서','에','까지'], hint:'FROM yesterday to today (time)', explanation:'<strong>부터</strong> marks the start of a time period; 부터...까지 = from...to' },
+  { id:'pd37', level:'expert',       pre:'그 영화는 저', blank:'___', post:' 별로예요.',             answer:'한테',  options:['한테','에게서','에','로'], hint:'Not great FOR me (personal opinion)', explanation:'<strong>한테</strong> = to/for (person); shows personal stance or experience' },
+  { id:'pd38', level:'expert',       pre:'저는 서울대학교', blank:'___', post:' 입학했어요.',        answer:'에',    options:['에','에서','로','을'],     hint:'Entered Seoul National University', explanation:'<strong>에</strong> marks institutional entry points; 입학하다 takes 에' },
+  { id:'pd39', level:'expert',       pre:'이 책은 영어', blank:'___', post:' 쓰여졌어요.',           answer:'로',    options:['로','으로','에서','에'],   hint:'Written IN English (language/method)', explanation:'<strong>영어</strong> ends in 어 → <strong>로</strong>; marks the medium/language' },
+  { id:'pd40', level:'expert',       pre:'그는 선생님', blank:'___', post:' 학생들을 가르쳐요.',     answer:'으로서',options:['으로서','로서','에서','로'], hint:'AS a teacher (capacity/role)',  explanation:'<strong>으로서</strong> = as/in the capacity of; marks role or status (으로서 after consonant)' },
+];
+
+// ── Phrasebook ──────────────────────────────────────────────────────────────
+const PHRASEBOOK = [
+  // Travel
+  { id:'ph1',  cat:'Travel',      level:'beginner',     emoji:'✈️',  kr:'화장실이 어디예요?',      rom:'hwajangsiri eodiyeyo?',        eng:'Where is the bathroom?',           tip:'Essential phrase everywhere!' },
+  { id:'ph2',  cat:'Travel',      level:'beginner',     emoji:'✈️',  kr:'얼마예요?',              rom:'eolmayeyo?',                    eng:'How much is it?',                  tip:'Use in shops, taxis, markets' },
+  { id:'ph3',  cat:'Travel',      level:'beginner',     emoji:'✈️',  kr:'...주세요',              rom:'...juseyo',                     eng:'Please give me ... / I\'d like ...', tip:'Add any item before 주세요' },
+  { id:'ph4',  cat:'Travel',      level:'beginner',     emoji:'✈️',  kr:'택시 불러주세요',         rom:'taeksi bulleojuseyo',            eng:'Please call a taxi',               tip:'Say at hotel reception' },
+  { id:'ph5',  cat:'Travel',      level:'intermediate', emoji:'✈️',  kr:'...까지 얼마예요?',       rom:'...kkaji eolmayeyo?',            eng:'How much to ... (destination)?',   tip:'Use in taxis — say place + 까지 얼마예요' },
+  { id:'ph6',  cat:'Travel',      level:'intermediate', emoji:'✈️',  kr:'공항까지 가주세요',        rom:'gonghangkkaji gajuseyo',         eng:'Please take me to the airport',    tip:'Use in taxis' },
+  { id:'ph7',  cat:'Travel',      level:'intermediate', emoji:'✈️',  kr:'다음 정류장은 어디예요?',  rom:'daeum jeongnyujangeun eodiyeyo?',eng:'Where is the next stop?',          tip:'Ask on a bus' },
+  { id:'ph8',  cat:'Travel',      level:'expert',       emoji:'✈️',  kr:'길을 잃어버렸어요',        rom:'gireul ireobeoryeosseoyo',       eng:'I\'m lost',                        tip:'Literally "I lost the road"' },
+  // Food & Drink
+  { id:'ph9',  cat:'Food',        level:'beginner',     emoji:'🍜',  kr:'이거 주세요',             rom:'igeo juseyo',                   eng:'I\'ll have this / Give me this',   tip:'Point at menu and say this' },
+  { id:'ph10', cat:'Food',        level:'beginner',     emoji:'🍜',  kr:'맛있어요!',               rom:'massisseoyo!',                  eng:'It\'s delicious!',                 tip:'Compliment the chef — they\'ll love it' },
+  { id:'ph11', cat:'Food',        level:'beginner',     emoji:'🍜',  kr:'계산해주세요',             rom:'gyesanhaejuseyo',               eng:'Check please / Bill please',       tip:'Signal waiter or say this' },
+  { id:'ph12', cat:'Food',        level:'intermediate', emoji:'🍜',  kr:'맵지 않게 해주세요',       rom:'maepji ange haejuseyo',          eng:'Please make it not spicy',         tip:'맵다 = spicy; useful in Korean restaurants' },
+  { id:'ph13', cat:'Food',        level:'intermediate', emoji:'🍜',  kr:'포장해주세요',             rom:'pojanghae juseyo',              eng:'Please pack it to go',             tip:'포장 = packaging/takeaway' },
+  { id:'ph14', cat:'Food',        level:'intermediate', emoji:'🍜',  kr:'추천해주세요',             rom:'chucheonhaejuseyo',              eng:'Please recommend something',       tip:'Ask for the chef\'s recommendation' },
+  { id:'ph15', cat:'Food',        level:'expert',       emoji:'🍜',  kr:'알레르기가 있어요',         rom:'allereugi ga isseoyo',           eng:'I have allergies',                 tip:'Follow with the allergen: 견과류 (nuts), 유제품 (dairy)' },
+  // Shopping
+  { id:'ph16', cat:'Shopping',    level:'beginner',     emoji:'🛍️',  kr:'이거 얼마예요?',          rom:'igeo eolmayeyo?',               eng:'How much is this?',                tip:'Point at the item' },
+  { id:'ph17', cat:'Shopping',    level:'beginner',     emoji:'🛍️',  kr:'카드 돼요?',              rom:'kadeu dwaeyo?',                 eng:'Do you accept cards?',             tip:'Many small shops are cash-only' },
+  { id:'ph18', cat:'Shopping',    level:'intermediate', emoji:'🛍️',  kr:'다른 색깔 있어요?',        rom:'dareun saekkal isseoyo?',        eng:'Do you have other colors?',        tip:'색깔 = color' },
+  { id:'ph19', cat:'Shopping',    level:'intermediate', emoji:'🛍️',  kr:'입어봐도 돼요?',           rom:'ibeobbwado dwaeyo?',             eng:'May I try it on?',                 tip:'For clothes; 신어봐도 돼요 for shoes' },
+  { id:'ph20', cat:'Shopping',    level:'intermediate', emoji:'🛍️',  kr:'깎아주세요',              rom:'kkakkaajuseyo',                 eng:'Please give me a discount',        tip:'Works in markets; not in regular stores' },
+  { id:'ph21', cat:'Shopping',    level:'expert',       emoji:'🛍️',  kr:'영수증 주세요',            rom:'yeongsujeung juseyo',            eng:'Please give me a receipt',         tip:'영수증 = receipt' },
+  // Emergency
+  { id:'ph22', cat:'Emergency',   level:'beginner',     emoji:'🚨',  kr:'도와주세요!',              rom:'dowajuseyo!',                   eng:'Help me!',                         tip:'Shout loudly if in danger' },
+  { id:'ph23', cat:'Emergency',   level:'beginner',     emoji:'🚨',  kr:'경찰 불러주세요',          rom:'gyeongchal bulleojuseyo',        eng:'Please call the police',           tip:'Korean emergency: 112 (police), 119 (fire/ambulance)' },
+  { id:'ph24', cat:'Emergency',   level:'beginner',     emoji:'🚨',  kr:'아파요',                  rom:'apayo',                         eng:'I\'m in pain / I\'m sick',         tip:'아프다 = to be sick/in pain' },
+  { id:'ph25', cat:'Emergency',   level:'intermediate', emoji:'🚨',  kr:'지갑을 잃어버렸어요',       rom:'jigabeul ireobeoryeosseoyo',     eng:'I lost my wallet',                 tip:'지갑 = wallet; 잃어버리다 = to lose' },
+  { id:'ph26', cat:'Emergency',   level:'intermediate', emoji:'🚨',  kr:'병원이 어디예요?',          rom:'byeongwoni eodiyeyo?',           eng:'Where is the hospital?',           tip:'병원 = hospital/clinic' },
+  // Polite / Social
+  { id:'ph27', cat:'Social',      level:'beginner',     emoji:'🙏',  kr:'잘 먹겠습니다',            rom:'jal meokgetsseumnida',           eng:'I will eat well (said before eating)', tip:'Korean table etiquette — say before meals' },
+  { id:'ph28', cat:'Social',      level:'beginner',     emoji:'🙏',  kr:'잘 먹었습니다',            rom:'jal meogeotseumnida',            eng:'I ate well (said after eating)',   tip:'Say to the host/chef after finishing' },
+  { id:'ph29', cat:'Social',      level:'beginner',     emoji:'🙏',  kr:'화이팅!',                 rom:'hwaiting!',                     eng:'You can do it! / Fighting!',       tip:'Used to cheer someone on' },
+  { id:'ph30', cat:'Social',      level:'beginner',     emoji:'🙏',  kr:'축하해요!',               rom:'chukahaeyo!',                   eng:'Congratulations!',                 tip:'For birthdays, achievements, etc.' },
+  { id:'ph31', cat:'Social',      level:'intermediate', emoji:'🙏',  kr:'잠깐만요',               rom:'jamkkanmanyo',                   eng:'Just a moment / Hold on',          tip:'Polite way to ask someone to wait' },
+  { id:'ph32', cat:'Social',      level:'intermediate', emoji:'🙏',  kr:'다시 말씀해주세요',         rom:'dasi malsseum haejuseyo',         eng:'Please say it again',              tip:'Ask someone to repeat themselves' },
+  { id:'ph33', cat:'Social',      level:'intermediate', emoji:'🙏',  kr:'천천히 말해주세요',         rom:'cheoncheonhi malhaejuseyo',       eng:'Please speak slowly',             tip:'천천히 = slowly' },
+  { id:'ph34', cat:'Social',      level:'intermediate', emoji:'🙏',  kr:'건배!',                   rom:'geonbae!',                      eng:'Cheers! (toast)',                  tip:'Raise your glass and say 건배!' },
+  { id:'ph35', cat:'Social',      level:'expert',       emoji:'🙏',  kr:'폐를 끼쳐서 죄송합니다',    rom:'pyereul kkichyeoseo joesonghamnida', eng:'I\'m sorry for the inconvenience', tip:'Very polite/formal apology for causing trouble' },
+];
+
+// ── K-Pop & Drama Phrases ──────────────────────────────────────────────────
+const KPOP_PHRASES = [
+  // Songs
+  { id:'kp1',  cat:'songs',  level:'beginner',     emoji:'🎵', kr:'사랑해',         rom:'saranghae',          eng:'I love you',                   context:'Appears in countless K-pop songs; 사랑합니다 is the formal version' },
+  { id:'kp2',  cat:'songs',  level:'beginner',     emoji:'🎵', kr:'보고 싶어',       rom:'bogo sipeo',         eng:'I miss you',                   context:'보고 싶다 = lit. "I want to see (you)"; used just like "I miss you"' },
+  { id:'kp3',  cat:'songs',  level:'beginner',     emoji:'🎵', kr:'괜찮아',          rom:'gwaenchana',         eng:'It\'s okay / I\'m alright',     context:'BTS "Tomorrow" — comforting phrase; 괜찮아요 is polite form' },
+  { id:'kp4',  cat:'songs',  level:'intermediate', emoji:'🎵', kr:'꿈을 꿔',          rom:'kkeumuel kkwo',       eng:'Dream a dream',                context:'꿈 = dream (noun); 꾸다 = to dream; motivational phrase in many songs' },
+  { id:'kp5',  cat:'songs',  level:'intermediate', emoji:'🎵', kr:'영원히 함께',      rom:'yeongwonhi hamkke',  eng:'Together forever',             context:'영원히 = forever; 함께 = together; common theme in love songs' },
+  { id:'kp6',  cat:'songs',  level:'expert',       emoji:'🎵', kr:'운명처럼 만났죠',  rom:'unmyeongcheoreom mannajjyo', eng:'We met like fate',        context:'운명 = fate/destiny; 처럼 = like/as; 만나다 = to meet; from many ballads' },
+  // K-Drama
+  { id:'kp7',  cat:'dramas', level:'beginner',     emoji:'📺', kr:'나 너 좋아해',     rom:'na neo joahae',       eng:'I like you (informal)',         context:'Classic drama confession; 좋아하다 = to like; 나 = I (casual)' },
+  { id:'kp8',  cat:'dramas', level:'beginner',     emoji:'📺', kr:'밥 먹었어?',       rom:'bap meogeosseo?',     eng:'Did you eat? / Have you eaten?', context:'Korean expression of care — asking "did you eat" = "I care about you"' },
+  { id:'kp9',  cat:'dramas', level:'beginner',     emoji:'📺', kr:'제발',            rom:'jebal',               eng:'Please / I\'m begging you',     context:'Strong pleading; often used dramatically in K-dramas' },
+  { id:'kp10', cat:'dramas', level:'intermediate', emoji:'📺', kr:'믿어줘',           rom:'mideoJwo',            eng:'Believe me / Trust me',         context:'믿다 = to believe/trust; 줘 = give (me); common drama scene phrase' },
+  { id:'kp11', cat:'dramas', level:'intermediate', emoji:'📺', kr:'나한테 왜 이래?',  rom:'nahante wae irae?',   eng:'Why are you doing this to me?', context:'나한테 = to me; 왜 = why; 이러다 = to do/act this way; dramatic confrontation' },
+  { id:'kp12', cat:'dramas', level:'expert',       emoji:'📺', kr:'내가 다 책임질게',  rom:'naega da chaegimjilge', eng:'I\'ll take full responsibility',context:'내가 = I (emphatic); 다 = all; 책임지다 = to take responsibility; powerful drama line' },
+  // Fandom
+  { id:'kp13', cat:'fandom', level:'beginner',     emoji:'💜', kr:'화이팅! / 파이팅!', rom:'hwaiting! / paiting!', eng:'Fighting! / You can do it!',    context:'Korean cheer derived from English "fighting"; used everywhere' },
+  { id:'kp14', cat:'fandom', level:'beginner',     emoji:'💜', kr:'대박!',            rom:'daebak!',             eng:'Awesome! / No way! / Jackpot!', context:'대박 = jackpot; used as "amazing!" or surprised reaction; universal reaction word' },
+  { id:'kp15', cat:'fandom', level:'beginner',     emoji:'💜', kr:'오빠!',            rom:'oppa!',               eng:'Oppa! (older brother/male idol)', context:'Female fans call male idols 오빠; means "older brother" for women' },
+  { id:'kp16', cat:'fandom', level:'intermediate', emoji:'💜', kr:'최애',             rom:'choiae',              eng:'Absolute favorite / #1 bias',   context:'최 = most/best; 애 = love; your top bias is your 최애' },
+  { id:'kp17', cat:'fandom', level:'intermediate', emoji:'💜', kr:'입덕',             rom:'ipddeok',             eng:'Becoming a fan of a group',     context:'입 = enter; 덕 = fandom; 입덕하다 = to "fall into" a fandom' },
+  { id:'kp18', cat:'fandom', level:'expert',       emoji:'💜', kr:'덕질하다',          rom:'deokjilhada',         eng:'To engage in fandom activities', context:'덕후 (super-fan) + 질하다 (to do); binge watching, buying merch, attending events' },
+  // Slang
+  { id:'kp19', cat:'slang',  level:'beginner',     emoji:'🌐', kr:'ㅋㅋㅋ',            rom:'kkk',                 eng:'LOL / hahaha',                  context:'Korean texting laughter; ㅋ = "kk" sound; more ㅋs = funnier' },
+  { id:'kp20', cat:'slang',  level:'beginner',     emoji:'🌐', kr:'헐',               rom:'heol',                eng:'OMG / No way! / Whoa!',         context:'Expression of shock or surprise; equivalent to "OMG" or "seriously?!"' },
+  { id:'kp21', cat:'slang',  level:'beginner',     emoji:'🌐', kr:'완전',             rom:'wanjeon',             eng:'Totally / Completely / So...',   context:'Intensifier; 완전 맛있어 = "totally delicious"; used like "so" in English' },
+  { id:'kp22', cat:'slang',  level:'intermediate', emoji:'🌐', kr:'짱',               rom:'jjang',               eng:'The best / Amazing / #1',       context:'짱이야 = "It\'s the best!"; can use as adjective: 짱 맛있어 = "super delicious"' },
+  { id:'kp23', cat:'slang',  level:'intermediate', emoji:'🌐', kr:'셀카',             rom:'selka',               eng:'Selfie',                         context:'셀프(self) + 카메라(camera); 셀카 찍다 = to take a selfie' },
+  { id:'kp24', cat:'slang',  level:'expert',       emoji:'🌐', kr:'갑분싸',            rom:'gapbunssa',           eng:'Sudden awkward silence',         context:'갑자기 분위기 싸해짐 abbreviated; when a conversation suddenly goes awkward' },
+];
+
+// ── Conjugation Tables ──────────────────────────────────────────────────────
+const CONJ_VERBS = [
+  // ─── BEGINNER ───────────────────────────────────────────────────────────
+  { id:'hada',      level:'beginner',     base:'하다',    baseEng:'to do',         irregular:null,
+    forms:[
+      { tense:'Present', formal:'합니다 / hamnida',        polite:'해요 / haeyo',          informal:'해 / hae' },
+      { tense:'Past',    formal:'했습니다 / haetseumnida',  polite:'했어요 / haesseoyo',     informal:'했어 / haesseo' },
+      { tense:'Future',  formal:'할 겁니다 / hal geomnida', polite:'할 거예요 / hal geoyeyo', informal:'할 거야 / hal geoya' },
+      { tense:'Negative',formal:'하지 않습니다',            polite:'안 해요 / an haeyo',     informal:'안 해 / an hae' },
+      { tense:'Command', formal:'하십시오 / hasipsio',      polite:'하세요 / haseyo',        informal:'해 / hae' },
+    ]
+  },
+  { id:'gada',      level:'beginner',     base:'가다',    baseEng:'to go',         irregular:null,
+    forms:[
+      { tense:'Present', formal:'갑니다 / gamnida',        polite:'가요 / gayo',            informal:'가 / ga' },
+      { tense:'Past',    formal:'갔습니다 / gatseumnida',   polite:'갔어요 / gasseoyo',      informal:'갔어 / gasseo' },
+      { tense:'Future',  formal:'갈 겁니다 / gal geomnida', polite:'갈 거예요 / gal geoyeyo', informal:'갈 거야 / gal geoya' },
+      { tense:'Negative',formal:'가지 않습니다',            polite:'안 가요 / an gayo',      informal:'안 가 / an ga' },
+      { tense:'Command', formal:'가십시오 / gasipsio',      polite:'가세요 / gaseyo',        informal:'가 / ga' },
+    ]
+  },
+  { id:'meokda',    level:'beginner',     base:'먹다',    baseEng:'to eat',        irregular:null,
+    forms:[
+      { tense:'Present', formal:'먹습니다 / meokseumnida',  polite:'먹어요 / meogeoyo',      informal:'먹어 / meogeo' },
+      { tense:'Past',    formal:'먹었습니다 / meogeotsseumnida', polite:'먹었어요 / meogeotseoyo', informal:'먹었어 / meogeotseo' },
+      { tense:'Future',  formal:'먹을 겁니다',              polite:'먹을 거예요 / meogeul geoyeyo', informal:'먹을 거야' },
+      { tense:'Negative',formal:'먹지 않습니다',            polite:'안 먹어요 / an meogeoyo', informal:'안 먹어 / an meogeo' },
+      { tense:'Command', formal:'드십시오 / deusipsio',     polite:'드세요 / deuseyo',       informal:'먹어 / meogeo' },
+    ]
+  },
+  { id:'issda',     level:'beginner',     base:'있다',    baseEng:'to be / to have', irregular:null,
+    forms:[
+      { tense:'Present', formal:'있습니다 / itseumnida',    polite:'있어요 / isseoyo',       informal:'있어 / isseo' },
+      { tense:'Past',    formal:'있었습니다 / isseotsseumnida', polite:'있었어요 / isseosseoyo', informal:'있었어 / isseosseo' },
+      { tense:'Future',  formal:'있을 겁니다',              polite:'있을 거예요',             informal:'있을 거야' },
+      { tense:'Negative',formal:'없습니다 / eopseumnida',   polite:'없어요 / eopseoyo',      informal:'없어 / eopseo' },
+      { tense:'Command', formal:'—',                        polite:'있으세요 / isseuseyo',    informal:'있어 / isseo' },
+    ]
+  },
+  { id:'boda',      level:'beginner',     base:'보다',    baseEng:'to see / watch', irregular:null,
+    forms:[
+      { tense:'Present', formal:'봅니다 / bomnida',         polite:'봐요 / bwayo',           informal:'봐 / bwa' },
+      { tense:'Past',    formal:'봤습니다 / bwatseumnida',   polite:'봤어요 / bwasseoyo',     informal:'봤어 / bwasseo' },
+      { tense:'Future',  formal:'볼 겁니다 / bol geomnida',  polite:'볼 거예요 / bol geoyeyo', informal:'볼 거야 / bol geoya' },
+      { tense:'Negative',formal:'보지 않습니다',             polite:'안 봐요 / an bwayo',     informal:'안 봐 / an bwa' },
+      { tense:'Command', formal:'보십시오 / bosipsio',       polite:'보세요 / boseyo',        informal:'봐 / bwa' },
+    ]
+  },
+  // ─── INTERMEDIATE ───────────────────────────────────────────────────────
+  { id:'alda',      level:'intermediate', base:'알다',    baseEng:'to know',       irregular:'ㄹ-irregular',
+    forms:[
+      { tense:'Present', formal:'압니다 / amnida',          polite:'알아요 / arayo',         informal:'알아 / ara' },
+      { tense:'Past',    formal:'알았습니다 / aratseumnida', polite:'알았어요 / arasseoyo',   informal:'알았어 / arasseo' },
+      { tense:'Future',  formal:'알 겁니다 / al geomnida',   polite:'알 거예요 / al geoyeyo', informal:'알 거야 / al geoya' },
+      { tense:'Negative',formal:'모릅니다 / morumnida',     polite:'몰라요 / mollayo',       informal:'몰라 / molla' },
+      { tense:'Command', formal:'아십시오 / asipsio',        polite:'아세요 / aseyo',         informal:'알아 / ara' },
+    ]
+  },
+  { id:'malda',     level:'intermediate', base:'말하다',  baseEng:'to speak / say', irregular:null,
+    forms:[
+      { tense:'Present', formal:'말합니다 / malhamnida',    polite:'말해요 / malhaeyo',      informal:'말해 / malhae' },
+      { tense:'Past',    formal:'말했습니다 / malhaetseumnida', polite:'말했어요 / malhaesseoyo', informal:'말했어 / malhaesseo' },
+      { tense:'Future',  formal:'말할 겁니다',              polite:'말할 거예요',             informal:'말할 거야' },
+      { tense:'Negative',formal:'말하지 않습니다',           polite:'안 말해요 / an malhaeyo', informal:'안 말해 / an malhae' },
+      { tense:'Command', formal:'말씀하십시오',              polite:'말씀하세요 / malsseum haseyo', informal:'말해 / malhae' },
+    ]
+  },
+  { id:'deutda',    level:'intermediate', base:'듣다',    baseEng:'to listen / hear', irregular:'ㄷ-irregular',
+    forms:[
+      { tense:'Present', formal:'듣습니다 / deutseumnida',  polite:'들어요 / deureoyo',      informal:'들어 / deureo' },
+      { tense:'Past',    formal:'들었습니다 / deureotsseumnida', polite:'들었어요 / deureosseoyo', informal:'들었어 / deureosseo' },
+      { tense:'Future',  formal:'들을 겁니다',              polite:'들을 거예요',             informal:'들을 거야' },
+      { tense:'Negative',formal:'듣지 않습니다',            polite:'안 들어요 / an deureoyo', informal:'안 들어 / an deureo' },
+      { tense:'Command', formal:'들으십시오 / deureupsio',  polite:'들으세요 / deureusayo',   informal:'들어 / deureo' },
+    ]
+  },
+  { id:'joahada',   level:'intermediate', base:'좋아하다', baseEng:'to like',       irregular:null,
+    forms:[
+      { tense:'Present', formal:'좋아합니다 / joahamnida',  polite:'좋아해요 / joahaeyo',    informal:'좋아해 / joahae' },
+      { tense:'Past',    formal:'좋아했습니다',              polite:'좋아했어요 / joahaesseoyo', informal:'좋아했어 / joahaesseo' },
+      { tense:'Future',  formal:'좋아할 겁니다',             polite:'좋아할 거예요',           informal:'좋아할 거야' },
+      { tense:'Negative',formal:'좋아하지 않습니다',         polite:'안 좋아해요',             informal:'안 좋아해' },
+      { tense:'Command', formal:'좋아하십시오',              polite:'좋아하세요',              informal:'좋아해' },
+    ]
+  },
+  // ─── EXPERT ─────────────────────────────────────────────────────────────
+  { id:'ssuda',     level:'expert',       base:'쓰다',    baseEng:'to write / use', irregular:'으-irregular',
+    forms:[
+      { tense:'Present', formal:'씁니다 / seumnida',        polite:'써요 / sseoyo',          informal:'써 / sseo' },
+      { tense:'Past',    formal:'썼습니다 / sseotseumnida',  polite:'썼어요 / sseosseoyo',    informal:'썼어 / sseosseo' },
+      { tense:'Future',  formal:'쓸 겁니다 / sseul geomnida', polite:'쓸 거예요 / sseul geoyeyo', informal:'쓸 거야 / sseul geoya' },
+      { tense:'Negative',formal:'쓰지 않습니다',             polite:'안 써요 / an sseoyo',    informal:'안 써 / an sseo' },
+      { tense:'Command', formal:'쓰십시오 / sseusipsio',     polite:'쓰세요 / sseusayo',      informal:'써 / sseo' },
+    ]
+  },
+  { id:'mandulda',  level:'expert',       base:'만들다',  baseEng:'to make / create', irregular:'ㄹ-irregular',
+    forms:[
+      { tense:'Present', formal:'만듭니다 / mandeumnida',   polite:'만들어요 / mandeureoyo',  informal:'만들어 / mandeureo' },
+      { tense:'Past',    formal:'만들었습니다',              polite:'만들었어요 / mandeureotseoyo', informal:'만들었어 / mandureotseo' },
+      { tense:'Future',  formal:'만들 겁니다',               polite:'만들 거예요',             informal:'만들 거야' },
+      { tense:'Negative',formal:'만들지 않습니다',           polite:'안 만들어요',             informal:'안 만들어' },
+      { tense:'Command', formal:'만드십시오 / mandeusipsio', polite:'만드세요 / mandeuseyo',   informal:'만들어 / mandeureo' },
+    ]
+  },
+  { id:'saengakada',level:'expert',       base:'생각하다', baseEng:'to think',      irregular:null,
+    forms:[
+      { tense:'Present', formal:'생각합니다 / saenggakhamnida', polite:'생각해요 / saenggakhaeyo', informal:'생각해 / saenggakhae' },
+      { tense:'Past',    formal:'생각했습니다',                  polite:'생각했어요 / saenggakhaesseoyo', informal:'생각했어 / saenggakhaesseo' },
+      { tense:'Future',  formal:'생각할 겁니다',                 polite:'생각할 거예요',          informal:'생각할 거야' },
+      { tense:'Negative',formal:'생각하지 않습니다',             polite:'안 생각해요',            informal:'안 생각해' },
+      { tense:'Command', formal:'생각하십시오',                  polite:'생각하세요',             informal:'생각해' },
+    ]
+  },
+];
+
 </script>
 <script>
 /* ── Utilities ── */
@@ -1710,7 +2044,7 @@ const TTS = {
 
 // Helper: inline 🔊 button that speaks Korean text
 function mkSpeak(text, extraStyle = '') {
-  if (!TTS.supported()) return null;
+  if (!TTS.supported() || !text || text === '—') return null;
   return el('button', {
     className: 'speak-btn',
     title: 'Listen',
@@ -1890,6 +2224,14 @@ const state = {
   dialogueShowRom: true,
   dialogueShowEng: false,
   dqItems: [], dqIndex: 0, dqScore: 0, dqSelected: null, dqCorrect: null,
+  // particle drills
+  pdItems: [], pdIndex: 0, pdScore: 0, pdSelected: null, pdCorrect: null,
+  // phrasebook
+  pbCategory: 'All',
+  // kpop
+  kpCategory: 'All',
+  // conjugation
+  conjVerbId: null,
 };
 
 /* ── Render ── */
@@ -1908,6 +2250,10 @@ function renderHeader() {
     { id: 'sentences', label: '📝 Sentences' },
     { id: 'reading',   label: '📖 Reading' },
     { id: 'dialogue',  label: '💬 Talk' },
+    { id: 'particles', label: '🎯 Particles' },
+    { id: 'phrasebook',label: '📖 Phrases' },
+    { id: 'kpop',      label: '🎵 K-Pop' },
+    { id: 'conjugation',label: '📊 Conjugation' },
   ];
   const levelMeta = {
     beginner:     { emoji: '🌱', label: 'Beginner' },
@@ -1946,8 +2292,12 @@ function renderView() {
   if (state.view === 'flashcard') return renderFlashcard();
   if (state.view === 'quiz')      return renderQuiz();
   if (state.view === 'sentences') return renderSentences();
-  if (state.view === 'reading')   return renderReading();
-  if (state.view === 'dialogue')  return renderDialogue();
+  if (state.view === 'reading')     return renderReading();
+  if (state.view === 'dialogue')    return renderDialogue();
+  if (state.view === 'particles')   return renderParticles();
+  if (state.view === 'phrasebook')  return renderPhrasebook();
+  if (state.view === 'kpop')        return renderKpop();
+  if (state.view === 'conjugation') return renderConjugation();
 }
 
 /* ── Streak Widget ── */
@@ -2062,6 +2412,26 @@ function renderHome() {
     {
       id: 'dialogue', cls: 'c3', icon: '💬', title: 'Dialogue Practice',
       desc: `${DIALOGUES.filter(d => levelIncluded(d.level)).length} real-life conversations with chat bubbles, audio & comprehension quiz.`,
+      prog: null,
+    },
+    {
+      id: 'particles', cls: 'c1', icon: '🎯', title: 'Particle Drills',
+      desc: `${PARTICLE_DRILLS.filter(d => levelIncluded(d.level)).length} fill-in-the-blank drills for Korean particles (은/는, 이/가, 을/를 & more).`,
+      prog: null,
+    },
+    {
+      id: 'phrasebook', cls: 'c2', icon: '📖', title: 'Phrasebook',
+      desc: `${PHRASEBOOK.filter(p => levelIncluded(p.level)).length} practical phrases for travel, food, shopping, emergencies & social situations.`,
+      prog: null,
+    },
+    {
+      id: 'kpop', cls: 'c3', icon: '🎵', title: 'K-Pop & Drama Phrases',
+      desc: `${KPOP_PHRASES.length} popular phrases from K-pop songs, K-dramas, fandom culture & internet slang.`,
+      prog: null,
+    },
+    {
+      id: 'conjugation', cls: 'c1', icon: '📊', title: 'Conjugation Tables',
+      desc: `${CONJ_VERBS.filter(v => levelIncluded(v.level)).length} verbs with full conjugation tables — formal, polite & informal across all tenses.`,
       prog: null,
     },
   ];
@@ -3200,6 +3570,280 @@ function renderDialogueQuiz() {
     },
     onBack: () => { state.dialogueView = 'chat'; render(); },
   });
+}
+
+/* ── Particle Drills ── */
+function initParticledrills() {
+  const pool = shuffle(PARTICLE_DRILLS.filter(d => levelIncluded(d.level)));
+  state.pdItems    = pool;
+  state.pdIndex    = 0;
+  state.pdScore    = 0;
+  state.pdSelected = null;
+  state.pdCorrect  = null;
+}
+
+function renderParticles() {
+  if (!state.pdItems.length) initParticledrills();
+  const items = state.pdItems;
+  const total = items.length;
+
+  if (state.pdIndex >= total) {
+    // Results screen
+    const pct = Math.round((state.pdScore / total) * 100);
+    const msg = pct === 100 ? '🎉 Perfect!' : pct >= 80 ? '🌟 Excellent!' : pct >= 60 ? '👍 Good job!' : '📚 Keep practicing!';
+    return el('div', { style: 'max-width:540px;margin:0 auto;text-align:center;padding:32px 0' },
+      el('div', { className: 'section-title' }, '🎯 Particle Drills — Results'),
+      el('div', { className: 'score-circle', style: 'margin:28px auto' },
+        el('div', { className: 'score-num' }, `${state.pdScore}/${total}`),
+        el('div', { className: 'score-label' }, `${pct}%`)
+      ),
+      el('div', { className: 'score-msg' }, msg),
+      el('div', { className: 'score-sub' }, `You got ${state.pdScore} out of ${total} particles correct.`),
+      el('div', { className: 'result-actions', style: 'margin-top:24px' },
+        el('button', { className: 'btn-primary', onClick: () => { initParticledrills(); render(); } }, '↺ Try Again'),
+        el('button', { className: 'btn-secondary', onClick: () => { state.view = 'home'; render(); } }, '🏠 Home')
+      )
+    );
+  }
+
+  const drill = items[state.pdIndex];
+  const answered = state.pdSelected !== null;
+  const pct = Math.round((state.pdIndex / total) * 100);
+
+  const sentenceEl = el('div', { className: 'drill-sentence' },
+    drill.pre,
+    el('span', {
+      className: 'drill-blank' + (answered ? (state.pdCorrect ? ' answered' : ' wrong-ans') : '')
+    }, answered ? drill.answer : '___'),
+    drill.post
+  );
+
+  const opts = drill.options.map(opt => {
+    let cls = 'drill-opt';
+    if (answered) {
+      if (opt === drill.answer) cls += ' correct';
+      else if (opt === state.pdSelected && !state.pdCorrect) cls += ' wrong';
+    }
+    return el('button', {
+      className: cls,
+      disabled: answered,
+      onClick: () => {
+        state.pdSelected = opt;
+        state.pdCorrect  = opt === drill.answer;
+        if (state.pdCorrect) { state.pdScore++; addXP(1); }
+        render();
+      },
+    }, opt);
+  });
+
+  return el('div', {},
+    el('div', { className: 'section-title' }, '🎯 Particle Drills'),
+    el('div', { className: 'section-subtitle' }, 'Choose the correct particle to fill in the blank'),
+    el('div', { className: 'drill-progress-row' },
+      el('span', { style: 'font-size:.82rem;color:var(--muted)' }, `${state.pdIndex + 1} / ${total}`),
+      el('div', { className: 'drill-score-badge' }, `Score: ${state.pdScore}`),
+    ),
+    el('div', { className: 'prog-bar', style: 'margin-bottom:22px' },
+      el('div', { className: 'prog-fill c1', style: `width:${pct}%` })
+    ),
+    el('div', { className: 'drill-wrap' },
+      el('div', { className: 'drill-sentence-box' },
+        el('div', { className: 'drill-label' }, 'Fill in the blank'),
+        sentenceEl,
+        el('div', { className: 'drill-hint' }, `💡 ${drill.hint}`)
+      ),
+      el('div', { className: 'drill-options' }, ...opts),
+      answered ? (() => {
+        const expDiv = document.createElement('div');
+        expDiv.className = 'drill-explanation';
+        expDiv.innerHTML = state.pdCorrect
+          ? `✅ ${drill.explanation}`
+          : `❌ Correct answer: <strong>${drill.answer}</strong> — ${drill.explanation}`;
+        return expDiv;
+      })() : null,
+      answered ? el('div', { style: 'text-align:center' },
+        el('button', { className: 'btn-primary', onClick: () => {
+          state.pdIndex++;
+          state.pdSelected = null;
+          state.pdCorrect  = null;
+          render();
+        }}, state.pdIndex + 1 >= total ? 'See Results →' : 'Next →')
+      ) : null
+    )
+  );
+}
+
+/* ── Phrasebook ── */
+function renderPhrasebook() {
+  const cats = ['All', ...new Set(PHRASEBOOK.map(p => p.cat))];
+  const phrases = PHRASEBOOK.filter(p => levelIncluded(p.level) &&
+    (state.pbCategory === 'All' || p.cat === state.pbCategory));
+
+  const catEmoji = { Travel:'✈️', Food:'🍜', Shopping:'🛍️', Emergency:'🚨', Social:'🙏' };
+
+  const cards = phrases.map(p =>
+    el('div', { className: 'phrase-card' },
+      el('div', { className: 'phrase-cat-tag' }, `${catEmoji[p.cat] || '📌'} ${p.cat}`),
+      el('div', { className: 'phrase-kr' },
+        el('span', {}, p.kr),
+        mkSpeak(p.kr)
+      ),
+      el('div', { className: 'phrase-rom' }, p.rom),
+      el('div', { className: 'phrase-eng' }, p.eng),
+      p.tip ? el('div', { className: 'phrase-tip' }, `💡 ${p.tip}`) : null
+    )
+  );
+
+  return el('div', {},
+    el('div', { className: 'section-title' }, '📖 Phrasebook'),
+    el('div', { className: 'section-subtitle' }, 'Essential phrases for real-life Korean situations • Tap 🔊 to hear pronunciation'),
+    el('div', { className: 'phrase-filter-bar' },
+      ...cats.map(c =>
+        el('button', {
+          className: 'filter-btn' + (state.pbCategory === c ? ' active' : ''),
+          onClick: () => { state.pbCategory = c; render(); },
+        }, c === 'All' ? '🗂 All' : `${catEmoji[c] || ''} ${c}`)
+      )
+    ),
+    el('div', { className: 'level-filter-note' },
+      `Showing ${phrases.length} phrases at your level — change level on Home screen`
+    ),
+    el('div', { className: 'phrase-grid' }, ...cards)
+  );
+}
+
+/* ── K-Pop & Drama Phrases ── */
+function renderKpop() {
+  const catMeta = {
+    songs:  { label: '🎵 Songs',       badge: 'songs'  },
+    dramas: { label: '📺 K-Dramas',    badge: 'dramas' },
+    fandom: { label: '💜 Fandom',      badge: 'fandom' },
+    slang:  { label: '🌐 Slang',       badge: 'slang'  },
+  };
+  const cats = ['All', 'songs', 'dramas', 'fandom', 'slang'];
+  const phrases = KPOP_PHRASES.filter(p =>
+    state.kpCategory === 'All' || p.cat === state.kpCategory
+  );
+
+  const cards = phrases.map(p => {
+    const meta = catMeta[p.cat] || {};
+    return el('div', { className: 'kpop-card' },
+      el('span', { className: `kpop-cat-badge ${p.cat}` }, meta.label || p.cat),
+      el('div', { className: 'kpop-emoji' }, p.emoji),
+      el('div', { className: 'kpop-kr' },
+        el('span', {}, p.kr),
+        mkSpeak(p.kr)
+      ),
+      el('div', { className: 'kpop-rom' }, p.rom),
+      el('div', { className: 'kpop-eng' }, p.eng),
+      el('div', { className: 'kpop-context' }, p.context)
+    );
+  });
+
+  return el('div', {},
+    el('div', { className: 'section-title' }, '🎵 K-Pop & Drama Phrases'),
+    el('div', { className: 'section-subtitle' }, 'Learn Korean through pop culture — songs, dramas, fandom words & internet slang'),
+    el('div', { className: 'kpop-filter-bar' },
+      ...cats.map(c =>
+        el('button', {
+          className: 'filter-btn' + (state.kpCategory === c ? ' active' : ''),
+          onClick: () => { state.kpCategory = c; render(); },
+        }, c === 'All' ? '🗂 All' : catMeta[c].label)
+      )
+    ),
+    el('div', { className: 'kpop-grid' }, ...cards)
+  );
+}
+
+/* ── Conjugation Tables ── */
+function renderConjugation() {
+  const verbs = CONJ_VERBS.filter(v => levelIncluded(v.level));
+  if (!state.conjVerbId || !verbs.find(v => v.id === state.conjVerbId)) {
+    state.conjVerbId = verbs[0]?.id || null;
+  }
+  const verb = CONJ_VERBS.find(v => v.id === state.conjVerbId);
+
+  const verbBtns = verbs.map(v =>
+    el('button', {
+      className: 'conj-verb-btn' + (state.conjVerbId === v.id ? ' active' : ''),
+      onClick: () => { state.conjVerbId = v.id; render(); },
+    }, v.base)
+  );
+
+  if (!verb) {
+    return el('div', {},
+      el('div', { className: 'section-title' }, '📊 Conjugation Tables'),
+      el('div', { style: 'color:var(--muted);padding:32px 0;text-align:center' }, 'No verbs available at your level.')
+    );
+  }
+
+  const rows = verb.forms.map(f => {
+    const [fKr, fRom] = f.formal.split(' / ');
+    const [pKr, pRom] = f.polite.split(' / ');
+    const [iKr, iRom] = f.informal.split(' / ');
+    return el('tr', {},
+      el('td', { className: 'conj-row-label' }, f.tense),
+      el('td', { className: 'conj-col-formal' },
+        el('div', { className: 'conj-cell' },
+          el('div', {},
+            el('div', { className: 'conj-kr' }, fKr),
+            el('div', { className: 'conj-rom' }, fRom || '')
+          ),
+          mkSpeak(fKr && fKr !== '—' ? fKr : '')
+        )
+      ),
+      el('td', { className: 'conj-col-polite' },
+        el('div', { className: 'conj-cell' },
+          el('div', {},
+            el('div', { className: 'conj-kr' }, pKr),
+            el('div', { className: 'conj-rom' }, pRom || '')
+          ),
+          mkSpeak(pKr)
+        )
+      ),
+      el('td', { className: 'conj-col-informal' },
+        el('div', { className: 'conj-cell' },
+          el('div', {},
+            el('div', { className: 'conj-kr' }, iKr),
+            el('div', { className: 'conj-rom' }, iRom || '')
+          ),
+          mkSpeak(iKr)
+        )
+      )
+    );
+  });
+
+  return el('div', {},
+    el('div', { className: 'section-title' }, '📊 Conjugation Tables'),
+    el('div', { className: 'section-subtitle' }, 'Click a verb to see its full conjugation table • Tap 🔊 to hear any form'),
+    el('div', { className: 'conj-verb-list' }, ...verbBtns),
+    el('div', { className: 'conj-header' },
+      el('div', { style: 'display:flex;align-items:center;gap:12px' },
+        el('div', { className: 'conj-base' }, verb.base),
+        mkSpeak(verb.base, 'font-size:1.1rem')
+      ),
+      el('div', { className: 'conj-base-eng' }, verb.baseEng),
+      verb.irregular ? el('div', { className: 'conj-irreg-note' }, `⚠️ ${verb.irregular} verb — watch for stem changes`) : null
+    ),
+    el('div', { className: 'conj-table-wrap' },
+      el('table', { className: 'conj-table' },
+        el('thead', {},
+          el('tr', {},
+            el('th', {}, 'Tense'),
+            el('th', {}, '📜 Formal'),
+            el('th', {}, '😊 Polite'),
+            el('th', {}, '👫 Informal')
+          )
+        ),
+        el('tbody', {}, ...rows)
+      )
+    ),
+    el('div', { style: 'display:flex;gap:16px;flex-wrap:wrap;font-size:.78rem;color:var(--muted)' },
+      el('span', {}, '📜 Formal = -ㅂ/습니다 (presentations, formal speeches)'),
+      el('span', {}, '😊 Polite = -아/어요 (everyday polite speech)'),
+      el('span', {}, '👫 Informal = -아/어 (close friends, informal chat)')
+    )
+  );
 }
 
 /* ── Keyboard shortcuts ── */
